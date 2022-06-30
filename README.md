@@ -1,80 +1,16 @@
-# electron-vite-vue
+# Vue 3 + TypeScript + Vite
 
-🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-[![awesome-vite](https://awesome.re/mentioned-badge.svg)](https://github.com/vitejs/awesome-vite)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/ae3863e3-1aec-4eb1-8f9f-1890af56929d/deploy-status)](https://app.netlify.com/sites/electron-vite/deploys)
-![GitHub license](https://img.shields.io/github/license/caoxiemeihao/electron-vite-vue?style=flat)
-![GitHub stars](https://img.shields.io/github/stars/caoxiemeihao/electron-vite-vue?color=fa6470&style=flat)
-![GitHub forks](https://img.shields.io/github/forks/caoxiemeihao/electron-vite-vue?style=flat)
+## Recommended IDE Setup
 
-## Features
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
 
-📦 Out of the box  
-🎯 Based on the official [vue-ts](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-vue-ts) template, less invasive  
-🌱 Extensible, really simple directory structure  
-💪 Support using Node.js API in Electron-Renderer  
-🔩 Support C/C++ native addons  
-🖥 It's easy to implement multiple windows  
+## Type Support For `.vue` Imports in TS
 
-## Quick Start
+Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
 
-```sh
-npm create electron-vite
-```
+1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
+2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
-<!-- [![quick-start](https://asciinema.org/a/483731.svg)](https://asciinema.org/a/483731) -->
-
-![electron-vite-vue.gif](https://github.com/electron-vite/electron-vite-vue/blob/main/public/electron-vite-vue.gif?raw=true)
-
-## Debug
-
-![electron-vite-react-debug.gif](https://github.com/electron-vite/electron-vite-react/blob/main/public/electron-vite-react-debug.gif?raw=true)
-
-## Directory
-
-```diff
-+ ├─┬ electron
-+ │ ├─┬ main
-+ │ │ └── index.ts    entry of Electron-main
-+ │ └─┬ preload
-+ │   └── index.ts    entry of Electron-preload
-  ├─┬ src
-  │ └── main.ts       entry of Electron-renderer
-  ├── index.html
-  ├── package.json
-  └── vite.config.ts
-```
-
-## 🚨 `dependencies` vs `devDependencies`
-
-**Put Node.js packages in `dependencies`**
-
-🚨 e.g.
-
-- `electron-store`
-- `sqlite3`
-- `serilaport`
-- `mongodb`
-- ...others Node.js packages
-
-**Put Web packages in `devDependencies`**
-
-🚨 e.g.
-
-- `vue`
-- `vue-router`
-- `vuex`
-- `pinia`
-- `element-plus`
-- `ant-design-vue`
-- `axios`
-- ...others Web packages
-
-**TODO: ESM packages**
-
-- `node-fetch`
-- `execa`
-- ...others ESM packages
-
-See more 👉 [dependencies vs devDependencies](https://github.com/electron-vite/vite-plugin-electron-renderer#dependencies-vs-devdependencies)
+You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
