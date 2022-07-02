@@ -1,3 +1,5 @@
+import { contentBridge, contextBridge, ipcRenderer } from 'electron';
+
 function domReady(
   condition: DocumentReadyState[] = ["complete", "interactive"]
 ) {
@@ -81,6 +83,14 @@ function useLoading() {
     },
   };
 }
+
+/**
+ * dark mode
+ */
+contextBridge.exposeInMainWorld('darkMode', {
+  toggle: () => ipcRenderer.invoke('dark-mode:toggle'),
+  system: () => ipcRenderer.invoke('dark-mode:system')
+})
 
 // ----------------------------------------------------------------------
 

@@ -3,6 +3,7 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import { ref } from 'vue';
 import CopyItem from './components/CopyItem.vue'
+import DarkMode from './components/DarkMode.vue';
 
 const copylist = ref([
     { id: 0, text: '为众人抱薪者，不可使其冻毙于风雪。' },
@@ -14,6 +15,7 @@ const copylist = ref([
 </script>
 
 <template>
+    <DarkMode></DarkMode>
     <ul>
         <CopyItem v-for="item in copylist" :value="item" :key="item.id"></CopyItem>
     </ul>
