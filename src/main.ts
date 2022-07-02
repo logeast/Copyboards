@@ -1,10 +1,10 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue';
+import App from './App.vue';
 // import './samples/node-api'
-import "./index.css";
+import './index.css';
 
 createApp(App)
-  .mount("#app")
+  .mount('#app')
   .$nextTick(() => {
-    postMessage({ payload: "removeLoading" }, "*");
+    postMessage({ payload: 'removeLoading' }, '*');
   });
