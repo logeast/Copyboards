@@ -1,19 +1,39 @@
+/**
+ * @type {import('eslint').Linter.Config}
+ */
 module.exports = {
-  root: true,
-  env: { node: true },
-  // https://github.com/vuejs/vue-eslint-parser#parseroptionsparser
-  parser: "vue-eslint-parser",
-  parserOptions: {
-    parser: "@typescript-eslint/parser",
+  env: {
+    es2021: true,
+    browser: true,
+    node: true
   },
-  plugins: ["@typescript-eslint", "prettier"],
   extends: [
-    "plugin:@typescript-eslint/recommended",
-    // https://github.com/vuejs/eslint-plugin-vue/blob/44ff0e02cd0fd08b8cd7dee0127dbb5590446323/docs/user-guide/README.md#conflict-with-prettier
-    "plugin:vue/vue3-recommended",
-    "prettier",
+    'plugin:vue/essential',
+    'standard'
+  ],
+  globals: {
+    __static: true,
+    __windowUrls: true,
+    __preloads: true,
+    __workers: true,
+    NodeJS: true
+  },
+  parserOptions: {
+    ecmaVersion: 12,
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module'
+  },
+  plugins: [
+    'vue',
+    '@typescript-eslint'
   ],
   rules: {
-    "prettier/prettier": "warn",
+    'space-before-function-paren': 0,
+    'vue/no-multiple-template-root': 0,
+    'import/no-absolute-path': 0
   },
-};
+  ignorePatterns: [
+    'node_modules/**',
+    'dist/**'
+  ]
+}
