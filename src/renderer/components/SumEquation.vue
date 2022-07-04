@@ -9,21 +9,21 @@
 </template>
 
 <script lang=ts>
-import { defineComponent, ref } from 'vue'
-import { useSum } from '../composables'
+import { defineComponent, ref } from 'vue';
+import { useSum } from '../composables';
 
 export default defineComponent({
   setup() {
-    const one = ref(0)
-    const two = ref(0)
-    const sum = useSum(one, two)
+    const one = ref(0);
+    const two = ref(0);
+    const sum = useSum(one, two);
     return {
       one,
       two,
-      sum
-    }
-  }
-})
+      sum,
+    };
+  },
+});
 </script>
 
 <style>

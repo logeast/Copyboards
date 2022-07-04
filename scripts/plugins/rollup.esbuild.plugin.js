@@ -1,6 +1,6 @@
-import chalk from 'chalk'
-import { transform } from 'esbuild'
-import { extname } from 'path'
+import chalk from 'chalk';
+import { transform } from 'esbuild';
+import { extname } from 'path';
 
 /**
  * Wrap esbuild to build typescript
@@ -11,41 +11,41 @@ const createPlugin = () => {
     name: 'main:esbuild',
     async resolveId(id, importer) {
       if (/\?commonjs/.test(id) || id === 'commonjsHelpers.js' || id.endsWith('js')) {
-        return
+        return;
       }
       if (id.endsWith('.ts')) {
-        return
+        return;
       }
-      const tsResult = await this.resolve(`${id}.ts`, importer, { skipSelf: true })
+      const tsResult = await this.resolve(`${id}.ts`, importer, { skipSelf: true });
       if (tsResult) {
-        return tsResult
+        return tsResult;
       }
-      const indexTsResult = await this.resolve(`${id}/index.ts`, importer, { skipSelf: true })
+      const indexTsResult = await this.resolve(`${id}/index.ts`, importer, { skipSelf: true });
       if (indexTsResult) {
-        return indexTsResult
+        return indexTsResult;
       }
     },
     async transform(code, id) {
       if (id.endsWith('js') || id.endsWith('js?commonjs-proxy')) {
-        return
+        return;
       }
       if (!id.endsWith('.ts')) {
-        return
+        return;
       }
       function printMessage(m, code) {
-        console.error(chalk.yellow(m.text))
+        console.error(chalk.yellow(m.text));
         if (m.location) {
-          const lines = code.split(/\r?\n/g)
-          const line = Number(m.location.line)
-          const column = Number(m.location.column)
+          const lines = code.split(/\r?\n/g);
+          const line = Number(m.location.line);
+          const column = Number(m.location.column);
           const offset =
             lines
               .slice(0, line - 1)
               .map((l) => l.length)
-              .reduce((total, l) => total + l + 1, 0) + column
+              .reduce((total, l) => total + l + 1, 0) + column;
           console.error(
             require('@vue/compiler-dom').generateCodeFrame(code, offset, offset + 1)
-          )
+          );
         }
       }
       try {
@@ -54,43 +54,43 @@ const createPlugin = () => {
           loader: extname(id).slice(1),
           sourcemap: true,
           sourcefile: id,
-          target: 'es2020'
-        })
+          target: 'es2020',
+        });
         if (result.warnings.length) {
-          console.error(`[main] warnings while transforming ${id} with esbuild:`)
-          result.warnings.forEach((m) => printMessage(m, code))
+          console.error(`[main] warnings while transforming ${id} with esbuild:`);
+          result.warnings.forEach((m) => printMessage(m, code));
         }
         return {
           code: result.code,
-          map: result.map
-        }
+          map: result.map,
+        };
       } catch (e) {
         console.error(
           chalk.red(`[main] error while transforming ${id} with esbuild:`)
-        )
+        );
         if (e.errors) {
-          e.errors.forEach((m) => printMessage(m, code))
+          e.errors.forEach((m) => printMessage(m, code));
         } else {
-          console.error(e)
+          console.error(e);
         }
         return {
           code: '',
-          map: undefined
-        }
+          map: undefined,
+        };
       }
     },
     buildEnd(error) {
       // Stop the service early if there's error
       if (error && !this.meta.watchMode) {
-        console.log('esbuild service stop!')
+        console.log('esbuild service stop!');
       }
     },
     generateBundle() {
       if (!this.meta.watchMode) {
-        console.log('esbuild service stop!')
+        console.log('esbuild service stop!');
       }
-    }
-  })
-}
+    },
+  });
+};
 
-export default createPlugin
+export default createPlugin;

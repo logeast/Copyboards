@@ -1,5 +1,5 @@
-const { join } = require('path')
-const loadConfigFile = require('rollup/dist/loadConfigFile')
+const { join } = require('path');
+const loadConfigFile = require('rollup/dist/loadConfigFile');
 
 /**
  * Load rollup config
@@ -7,13 +7,13 @@ const loadConfigFile = require('rollup/dist/loadConfigFile')
  */
 async function loadRollupConfig() {
   const { options, warnings } = await loadConfigFile(join(__dirname, 'rollup.config.js'), {
-  })
+  });
 
-  warnings.flush()
+  warnings.flush();
 
-  return options
+  return options;
 }
 
 module.exports = {
-  loadRollupConfig
-}
+  loadRollupConfig,
+};

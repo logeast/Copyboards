@@ -1,4 +1,4 @@
-const baseConfig = require('./build.base.config')
+const baseConfig = require('./build.base.config');
 
 /**
  * @type {import('electron-builder').Configuration}
@@ -11,7 +11,7 @@ const config = {
     oneClick: false,
     allowToChangeInstallationDirectory: true,
     perMachine: true,
-    differentialPackage: true
+    differentialPackage: true,
   },
   dmg: {
     contents: [
@@ -19,25 +19,25 @@ const config = {
         x: 410,
         y: 150,
         type: 'link',
-        path: '/Applications'
+        path: '/Applications',
       },
       {
         x: 130,
         y: 150,
-        type: 'file'
+        type: 'file',
       }
-    ]
+    ],
   },
   mac: {
     icon: 'build/icons/icon.icns',
     target: [
       {
-        target: 'zip'
+        target: 'zip',
       },
       {
-        target: 'dmg'
+        target: 'dmg',
       }
-    ]
+    ],
   },
   win: {
     icon: 'build/icons/icon.ico',
@@ -57,32 +57,32 @@ const config = {
         target: 'zip',
         arch: [
           'x64'
-        ]
+        ],
       }
-    ]
+    ],
   },
   linux: {
     icon: 'build/icons',
     target: [
       {
-        target: 'deb'
+        target: 'deb',
       },
       {
-        target: 'rpm'
+        target: 'rpm',
       },
       {
-        target: 'AppImage'
+        target: 'AppImage',
       },
       {
-        target: 'snap'
+        target: 'snap',
       }
-    ]
+    ],
   },
   snap: {
     publish: [
       'github'
-    ]
-  }
-}
+    ],
+  },
+};
 
-module.exports = config
+module.exports = config;

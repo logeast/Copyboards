@@ -7,7 +7,7 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ["plugin:vue/essential", "standard"],
+  extends: ['plugin:vue/essential', 'standard'],
   globals: {
     __static: true,
     __windowUrls: true,
@@ -17,14 +17,16 @@ module.exports = {
   },
   parserOptions: {
     ecmaVersion: 12,
-    parser: "@typescript-eslint/parser",
-    sourceType: "module",
+    parser: '@typescript-eslint/parser',
+    sourceType: 'module',
   },
-  plugins: ["vue", "@typescript-eslint"],
+  plugins: ['vue', '@typescript-eslint'],
   rules: {
-    "space-before-function-paren": 0,
-    "vue/no-multiple-template-root": 0,
-    "import/no-absolute-path": 0,
+    'space-before-function-paren': 0,
+    'vue/no-multiple-template-root': 0,
+    'import/no-absolute-path': 0,
+    semi: [2, 'always'],
+    'comma-dangle': ['error', { objects: 'only-multiline' }],
   },
-  ignorePatterns: ["node_modules/**", "dist/**"],
+  ignorePatterns: ['node_modules/**', 'dist/**'],
 };

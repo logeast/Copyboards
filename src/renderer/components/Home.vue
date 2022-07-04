@@ -30,35 +30,35 @@
 </template>
 
 <script lang=ts>
-import { defineComponent, reactive, toRefs } from 'vue'
-import { useClipboard, useShell, useDialog, useCount } from '../composables'
-import SumEquation from './SumEquation.vue'
+import { defineComponent, reactive, toRefs } from 'vue';
+import { useClipboard, useShell, useDialog, useCount } from '../composables';
+import SumEquation from './SumEquation.vue';
 
 export default defineComponent({
   components: {
-    SumEquation
+    SumEquation,
   },
   setup(props, context) {
     const data = reactive({
       contentToCopy: 'hello, you will copy/paste this piece of text!',
-      filePath: ''
-    })
-    const { showItemInFolder } = useShell()
-    const { write } = useClipboard()
-    const { showOpenDialog } = useDialog()
-    const name = 'abc'
+      filePath: '',
+    });
+    const { showItemInFolder } = useShell();
+    const { write } = useClipboard();
+    const { showOpenDialog } = useDialog();
+    const name = 'abc';
     function copyToClipboard() {
-      write({ text: data.contentToCopy })
+      write({ text: data.contentToCopy });
     }
     async function pickItem() {
       const { filePaths } = await showOpenDialog({
         title: 'Pick the file to show',
-        properties: ['openFile']
-      })
-      data.filePath = filePaths[0] ?? ''
+        properties: ['openFile'],
+      });
+      data.filePath = filePaths[0] ?? '';
     }
     function showItem() {
-      showItemInFolder(data.filePath)
+      showItemInFolder(data.filePath);
     }
     return {
       ...toRefs(data),
@@ -66,8 +66,8 @@ export default defineComponent({
       name,
       copyToClipboard,
       showItem,
-      pickItem
-    }
-  }
-})
+      pickItem,
+    };
+  },
+});
 </script>

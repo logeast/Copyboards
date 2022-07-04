@@ -1,5 +1,5 @@
-import { Module } from 'vuex'
-import { RootState } from '..'
+import { Module } from 'vuex';
+import { RootState } from '..';
 
 export interface State {
   value: number;
@@ -9,14 +9,14 @@ export interface State {
 const mod: Module<State, RootState> = {
   state: {
     value: 0,
-    name: ''
+    name: '',
   },
   getters: {
-    valueAndName: state => state.name + ' ' + state.value
+    valueAndName: state => state.name + ' ' + state.value,
   },
   mutations: {
-    setValueAndName: (state, { name, value }) => { state.name = name; state.value = value }
-  }
-}
+    setValueAndName: (state, { name, value }) => { state.name = name; state.value = value; },
+  },
+};
 
-export default mod
+export default mod;

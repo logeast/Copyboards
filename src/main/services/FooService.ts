@@ -1,6 +1,6 @@
-import { BaseService } from './BaseService'
-import { Inject, Service } from './Service'
-import { add } from '/@shared/sharedLib'
+import { BaseService } from './BaseService';
+import { Inject, Service } from './Service';
+import { add } from '/@shared/sharedLib';
 
 export class FooService extends Service {
   @Inject('BaseService')
@@ -10,12 +10,12 @@ export class FooService extends Service {
    * Example for inject and shared lib
    */
   async foo() {
-    const result = await this.baseService.getBasicInformation()
-    const sum = add(1, 2)
-    this.log(`Call function imported from /shared folder! 1 + 2 = ${sum}`)
+    const result = await this.baseService.getBasicInformation();
+    const sum = add(1, 2);
+    this.log(`Call function imported from /shared folder! 1 + 2 = ${sum}`);
     return {
       ...result,
-      foo: 'bar'
-    }
+      foo: 'bar',
+    };
   }
 }
