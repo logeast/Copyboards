@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import { useClipboard } from '../composables';
 import { ref, onMounted } from 'vue';
+import { clipboard, nativeImage } from 'electron';
+
+let timer;
+const duration = ref(500);
+
+function textChange() {
+  return false;
+}
+
+function setTimer() {
+  timer = setInterval(() => {
+    if (textChange()) {
+      const { readText } = useClipboard();
+    }
+  }, duration.value);
+}
 
 const { readText } = useClipboard();
 
@@ -9,7 +25,7 @@ const clips = ref([
   { id: uuid++, text: '🎉 Congratulation!' }
 ]);
 
-function addClip() {
+function getCopiedText() {
   const text = readText();
   console.log(text, clips.value);
   if (clips.value[0].text !== text) {
@@ -17,7 +33,7 @@ function addClip() {
   }
 }
 
-onMounted(() => setInterval(addClip, 1000));
+onMounted(() => setInterval(getCopiedText, 1000));
 
 </script>
 
