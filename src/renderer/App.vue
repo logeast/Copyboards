@@ -4,8 +4,6 @@ import Copyboards from './components/Copyboards.vue';
 
 <template setup>
   <div class="app">
-    <!-- <navigator /> -->
-    <Copyboards />
-    <!-- <router-view> </router-view> -->
+    <Copyboards></Copyboards>
   </div>
 </template>
