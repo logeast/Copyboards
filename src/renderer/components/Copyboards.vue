@@ -1,66 +1,47 @@
 <script setup lang="ts">
 import { useClipboard } from '../composables';
-import { ref, onMounted } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
+const { readText } = useClipboard();
 
-let id = 10001;
+interface ClipType {
+  id: number;
+  text: string;
+  date: Date;
+};
 
-const newClip = ref('');
-
-const clips = ref([
-  { id: id++, text: '🍒 Select some text and press ctl/cmd + c', time: new Date() },
-  { id: id++, text: '🎉 Congratulation!', time: new Date() }
+let uuid = 1000;
+const clips = ref<ClipType[]>([
+  { id: uuid++, text: '🎉 Congratulate!', date: new Date() }
 ]);
 
+const search = ref('');
+
 function addClip() {
-  clips.value.push({ id: id++, text: newClip.value, time: new Date() });
-  newClip.value = '';
+  const text = readText();
+  if (text !== undefined && clips.value[0].text !== text) {
+    clips.value.unshift({ id: uuid++, text, date: new Date() });
+  }
 }
 
-function removeClip(clip: any) {
+function removeClip(clip: ClipType) {
   clips.value = clips.value.filter(c => c !== clip);
 }
 
-// let timer;
-// const duration = ref(500);
+const filteredClips = computed(() => clips.value.filter(
+  ({ id, text, date }) => [id, text, date].some(val => val.toString().includes(search.value))
+));
 
-// function textChange() {
-//   return false;
-// }
-
-// function setTimer() {
-//   timer = setInterval(() => {
-//     if (textChange()) {
-//       const { readText } = useClipboard();
-//     }
-//   }, duration.value);
-// }
-
-// const { readText } = useClipboard();
-
-// let uuid = 1000;
-// const clips = ref([
-//   { id: uuid++, text: '🎉 Congratulation!' }
-// ]);
-
-// function getCopiedText() {
-//   const text = readText();
-//   console.log(text, clips.value);
-//   if (clips.value[0].text !== text) {
-//     clips.value.unshift({ id: uuid++, text });
-//   }
-// }
-
-// onMounted(() => setInterval(getCopiedText, 1000));
+watchEffect(() => setInterval(addClip, 1000));
 
 </script>
 
 <template>
-  <ul class="text-black">
-    <li class="py-4 border-b border-green-400 bg-green-200 flex gap-4" v-for="clip in clips" :key="clip.id">
-      <span>{{ clip.id }}</span>
+  <input type="search" v-model.trim="search">
+  <ul>
+    <li v-for="clip in filteredClips" :key="clip.id">
       <span>{{ clip.text }}</span>
-      <span>{{ clip.time.getTime() }}</span>
-      <button class="text-red-600" @click="removeClip(clip)">X</button>
+      <span>{{ clip.date.getTime() }}</span>
+      <button @click="removeClip(clip)">x</button>
     </li>
   </ul>
 </template>
