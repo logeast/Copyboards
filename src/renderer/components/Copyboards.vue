@@ -28,7 +28,9 @@ function removeClip(clip: ClipType) {
 }
 
 const filteredClips = computed(() => clips.value.filter(
-  ({ id, text, date }) => [id, text, date].some(val => val.toString().includes(search.value))
+  ({ id, text, date }) => [id, text, date].some(
+    val => val.toString().toLocaleLowerCase().includes(search.value)
+  )
 ));
 
 watchEffect(() => setInterval(addClip, 1000));
