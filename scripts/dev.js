@@ -108,7 +108,7 @@ function reloadPreload() {
 }
 
 /**
- * Start vite dev server for renderer process and listen 8080 port
+ * Start vite dev server for renderer process and listen 9090 port
  */
 async function startRenderer() {
   const config = require('./vite.config');
@@ -116,7 +116,7 @@ async function startRenderer() {
   config.mode = process.env.NODE_ENV;
 
   const server = await createServer(config);
-  return server.listen(8080);
+  return server.listen(9090);
 }
 
 /**

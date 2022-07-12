@@ -23,7 +23,7 @@ export default function createRendererPlugin() {
         const clean = cleanUrl(id);
         if (this.meta.watchMode) {
           // devmode return dev server url
-          const url = JSON.stringify(`http://localhost:8080/${basename(clean)}`);
+          const url = JSON.stringify(`http://localhost:9090/${basename(clean)}`);
           return `export default ${url};`;
         } else {
           return `import { join } from 'path'; import { pathToFileURL } from 'url'; export default pathToFileURL(join(__dirname, 'renderer', ${JSON.stringify(basename(clean))})).toString();`;
