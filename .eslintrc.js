@@ -14,6 +14,10 @@ module.exports = {
     __preloads: true,
     __workers: true,
     NodeJS: true,
+    defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
+    withDefaults: 'readonly',
   },
   parserOptions: {
     ecmaVersion: 12,

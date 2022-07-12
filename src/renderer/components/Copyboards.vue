@@ -2,6 +2,7 @@
 import { useClipboard } from '../composables';
 import { ref, computed, watchEffect } from 'vue';
 import { nativeImage } from 'electron';
+import SearchBar from './searchbar.vue';
 const { readText, readImage } = useClipboard();
 
 interface Options {
@@ -130,7 +131,8 @@ watchEffect(() => setInterval(addClip, 1000));
 </script>
 
 <template>
-  <input type="search" v-model.trim="search">
+  <!-- <input type="search" v-model.trim="search"> -->
+  <SearchBar></SearchBar>
   <ul>
     <li v-for="clip in filteredClips" :key="clip.id">
       <span>{{ clip.text }}</span>

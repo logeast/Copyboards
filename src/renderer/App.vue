@@ -3,7 +3,5 @@ import Copyboards from './components/Copyboards.vue';
 </script>
 
 <template setup>
-  <div class="app">
-    <Copyboards></Copyboards>
-  </div>
+  <copyboards></copyboards>
 </template>
