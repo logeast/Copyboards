@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { InputHTMLAttributes } from 'vue';
 
-interface Props {
+interface SearchBarProps {
   placeholder?: InputHTMLAttributes['placeholder'];
 }
 
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<SearchBarProps>(), {
   placeholder: 'Copyboards Search',
 });
 </script>

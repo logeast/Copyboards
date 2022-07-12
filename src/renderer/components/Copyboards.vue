@@ -2,7 +2,9 @@
 import { useClipboard } from '../composables';
 import { ref, computed, watchEffect } from 'vue';
 import { nativeImage } from 'electron';
-import SearchBar from './searchbar.vue';
+import SearchBar from './SearchBar.vue';
+import List from './List.vue';
+import { ListItemProps } from './ListItem.vue';
 const { readText, readImage } = useClipboard();
 
 interface Options {
@@ -96,15 +98,9 @@ const clipboardObserver = new ClipboardObserver({
 
 clipboardObserver.start();
 
-interface ClipType {
-  id: number;
-  text: string;
-  date: Date;
-};
-
 let uuid = 1000;
-const clips = ref<ClipType[]>([
-  { id: uuid++, text: '🎉 Congratulate!', date: new Date() }
+const clips = ref<ListItemProps[]>([
+  { id: uuid++, text: '🎉 Congratulate!', date: new Date(), active: true }
 ]);
 
 const search = ref('');
@@ -116,13 +112,13 @@ function addClip() {
   }
 }
 
-function removeClip(clip: ClipType) {
+function removeClip(clip: ListItemProps) {
   clips.value = clips.value.filter(c => c !== clip);
 }
 
 const filteredClips = computed(() => clips.value.filter(
   ({ id, text, date }) => [id, text, date].some(
-    val => val.toString().toLocaleLowerCase().includes(search.value)
+    val => val?.toString().toLocaleLowerCase().includes(search.value)
   )
 ));
 
@@ -131,13 +127,13 @@ watchEffect(() => setInterval(addClip, 1000));
 </script>
 
 <template>
-  <!-- <input type="search" v-model.trim="search"> -->
-  <search-bar></search-bar>
-  <ul>
+  <SearchBar></SearchBar>
+  <list :data="filteredClips"></list>
+  <!-- <ul>
     <li v-for="clip in filteredClips" :key="clip.id">
       <span>{{ clip.text }}</span>
-      <span>{{ clip.date.getTime() }}</span>
+      <span>{{ clip?.date?.getTime() }}</span>
       <button @click="removeClip(clip)">x</button>
     </li>
-  </ul>
+  </ul> -->
 </template>
