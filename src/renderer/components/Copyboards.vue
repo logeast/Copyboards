@@ -132,7 +132,7 @@ watchEffect(() => setInterval(addClip, 1000));
 
 <template>
   <!-- <input type="search" v-model.trim="search"> -->
-  <SearchBar></SearchBar>
+  <search-bar></search-bar>
   <ul>
     <li v-for="clip in filteredClips" :key="clip.id">
       <span>{{ clip.text }}</span>
