@@ -129,11 +129,4 @@ watchEffect(() => setInterval(addClip, 1000));
 <template>
   <SearchBar></SearchBar>
   <list :data="filteredClips"></list>
-  <!-- <ul>
-    <li v-for="clip in filteredClips" :key="clip.id">
-      <span>{{ clip.text }}</span>
-      <span>{{ clip?.date?.getTime() }}</span>
-      <button @click="removeClip(clip)">x</button>
-    </li>
-  </ul> -->
 </template>
