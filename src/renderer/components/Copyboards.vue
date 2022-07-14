@@ -5,6 +5,7 @@ import { nativeImage } from 'electron';
 import SearchBar from './SearchBar.vue';
 import List from './List.vue';
 import { ListItemProps } from './ListItem.vue';
+import Preview from './Preview.vue';
 const { readText, readImage } = useClipboard();
 
 interface Options {
@@ -127,6 +128,15 @@ watchEffect(() => setInterval(addClip, 1000));
 </script>
 
 <template>
-  <SearchBar></SearchBar>
-  <list :data="filteredClips"></list>
+  <main>
+    <SearchBar></SearchBar>
+    <section class="flex h-96 border-b">
+      <div class="flex-1 overflow-y-auto">
+        <List :data="filteredClips"></List>
+      </div>
+      <div class="flex-none overflow-y-auto">
+        <Preview></Preview>
+      </div>
+    </section>
+  </main>
 </template>
