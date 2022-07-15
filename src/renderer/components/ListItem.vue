@@ -20,6 +20,6 @@ withDefaults(defineProps<ListItemProps>(), {
     <div class="flex items-center justify-center w-4 h-4 flex-none">
 
     </div>
-    <div class="flex-1 truncate">{{ text }}</div>
+    <div class="flex-1 truncate" :title="text">{{ text }}</div>
   </li>
 </template>
