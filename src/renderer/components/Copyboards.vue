@@ -6,6 +6,7 @@ import SearchBar from './SearchBar.vue';
 import List from './List.vue';
 import { ListItemProps } from './ListItem.vue';
 import Preview from './Preview.vue';
+import Combobox from './Combobox.vue';
 const { readText, readImage } = useClipboard();
 
 interface Options {
@@ -129,7 +130,8 @@ watchEffect(() => setInterval(addClip, 1000));
 
 <template>
   <main>
-    <SearchBar></SearchBar>
+    <Combobox></Combobox>
+    <!-- <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
         <List :data="filteredClips"></List>
@@ -137,6 +139,6 @@ watchEffect(() => setInterval(addClip, 1000));
       <div class="flex-none overflow-y-auto">
         <Preview></Preview>
       </div>
-    </section>
+    </section> -->
   </main>
 </template>
