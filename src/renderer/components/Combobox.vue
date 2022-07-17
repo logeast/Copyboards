@@ -35,7 +35,6 @@ let filteredPeople = computed(() =>
 );
 </script>
 
-
 <template>
   <div class="fixed top-16 w-72">
     <Combobox v-model="selected">
