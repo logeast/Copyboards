@@ -68,9 +68,9 @@ const filteredClips = computed(() =>
         val
           .toString()
           .toLocaleLowerCase()
-          .includes(query.value.toLocaleLowerCase().replace(/\s+/g, '')),
-      ),
-    ),
+          .includes(query.value.toLocaleLowerCase().replace(/\s+/g, ''))
+      )
+    )
 );
 </script>
 
