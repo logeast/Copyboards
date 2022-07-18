@@ -1,19 +1,19 @@
-import { nativeImage } from 'electron';
-import { useClipboard } from '../composables';
+import { NativeImage } from 'electron';
+import { useClipboard } from '.';
 
 export type ClipboardOptions = {
   duration?: number;
   textChange?: (text: string, beforeText: string) => void;
-  imageChange?: (image: nativeImage, beforeImage: nativeImage) => void;
+  imageChange?: (image: NativeImage, beforeImage: NativeImage) => void;
 };
 
-export default function ClipboardObserver(options: ClipboardOptions) {
+export default function clipboardObserve(options: ClipboardOptions) {
   const { duration = 500, textChange, imageChange } = options;
   const { readText, readImage } = useClipboard();
 
   let timer:ReturnType<typeof setTimeout>;
   let beforeText:string;
-  let beforeImage:nativeImage;
+  let beforeImage:NativeImage;
 
   /**
    * Judge the incoming callback and start the execution timer
@@ -98,8 +98,8 @@ export default function ClipboardObserver(options: ClipboardOptions) {
    * @param image current clipboard text
    * @returns result of the comparison
    */
-  function isDiffImage(beforeImage: nativeImage, image: nativeImage) {
-    return beforeImage.toDataURL() !== image.toDataURL();
+  function isDiffImage(beforeImage: NativeImage, image: NativeImage) {
+    // return image && !image.isEmpty() && beforeImage.toDataURL() !== image.toDataURL();
   }
 
   return {
