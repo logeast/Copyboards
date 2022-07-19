@@ -28,8 +28,10 @@ async function main() {
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
+    height: 430,
+    width: 680,
+    frame: false,
+    transparent: true,
     webPreferences: {
       preload: indexPreload,
       contextIsolation: true,

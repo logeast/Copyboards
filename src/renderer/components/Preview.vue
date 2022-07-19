@@ -37,7 +37,7 @@ withDefaults(defineProps<PreviewProps>(), {
     </div>
 
     <footer
-      class="sticky bottom-0 p-2 border-t z-10 bg-gray-50/80 backdrop-blur-2xl flex-none flex flex-col items-center justify-center gap-1">
+      class="sticky bottom-0 p-2 border-t z-10 bg-gray-50/75 backdrop-blur-xl flex-none flex flex-col items-center justify-center gap-1">
       <p class="text-xs text-gray-500">12 words; 128 chars</p>
       <p class="text-xs text-gray-500">Copied Today at 13:20</p>
     </footer>

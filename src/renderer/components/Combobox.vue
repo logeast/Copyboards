@@ -76,7 +76,7 @@ const filteredClips = computed(() =>
 
 <template>
   <Combobox v-model="selected">
-    <section class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-50/75 backdrop-blur-2xl"
+    <section class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-50/75 backdrop-blur-xl"
       style="height: 56px">
       <SearchIcon class="h-6 w-6"></SearchIcon>
       <ComboboxInput
@@ -94,7 +94,7 @@ const filteredClips = computed(() =>
       <ComboboxOption v-for="clip in filteredClips" as="template" :key="clip.id" :value="clip.text"
         v-slot="{ selected, active }">
         <li class="flex items-center justify-between px-2 gap-2 h-9 rounded-lg cursor-pointer" :class="{
-          'bg-blue-500 text-white': selected || active,
+          'bg-blue-500 text-white': active,
         }">
           <div class="flex items-center justify-center w-4 h-4 flex-none"></div>
 
