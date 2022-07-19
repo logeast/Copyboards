@@ -8,6 +8,10 @@ import {
 } from '@headlessui/vue';
 import { SearchIcon } from '@heroicons/vue/solid';
 import clipboardObserve from '../composables/clipboardObserve';
+import { db } from '../db';
+
+const status = ref('');
+const curText = ref('');
 
 let uuid = 1000;
 const clips = ref([
@@ -40,10 +44,22 @@ const clips = ref([
   { id: uuid++, text: '🎉 Congratulate!', date: new Date() },
 ]);
 
+async function addClips(params) {
+  try {
+    const id = await db.clips.add({
+      text: curText.value,
+      date: new Date(),
+    });
+    status.value = `Successfully add ${curText.value}. Got id ${id}`;
+  } catch (error) {
+
+  }
+}
+
 const observer = clipboardObserve({
   duration: 1000,
   textChange: (text, beforeText) => {
-    console.log({ text, beforeText });
+    curText.value = text;
     clips.value.unshift({
       id: uuid++,
       text,

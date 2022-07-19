@@ -18,6 +18,7 @@ specifiers:
   builtin-modules: ^3.1.0
   chalk: ^4.1.0
   cross-env: ^7.0.2
+  dexie: ^3.2.2
   electron: ^13.1.2
   electron-builder: ^22.11.7
   electron-updater: ^4.3.5
@@ -46,6 +47,7 @@ specifiers:
 dependencies:
   '@headlessui/vue': 1.6.7_vue@3.2.37
   '@heroicons/vue': 1.0.6_vue@3.2.37
+  dexie: 3.2.2
   electron-updater: 4.6.5
   vue: 3.2.37
   vue-router: 4.0.16_vue@3.2.37
@@ -1376,6 +1378,11 @@ packages:
       defined: 1.0.0
       minimist: 1.2.6
     dev: true
+
+  /dexie/3.2.2:
+    resolution: {integrity: sha512-q5dC3HPmir2DERlX+toCBbHQXW5MsyrFqPFcovkH9N2S/UW/H3H5AWAB6iEOExeraAu+j+zRDG+zg/D7YhH0qg==}
+    engines: {node: '>=6.0'}
+    dev: false
 
   /didyoumean/1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
