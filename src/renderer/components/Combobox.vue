@@ -10,6 +10,8 @@ import { SearchIcon } from '@heroicons/vue/solid';
 import clipboardObserve from '../composables/clipboardObserve';
 import { db } from '../db';
 
+import { liveQuery } from 'dexie';
+
 const status = ref('');
 const curText = ref('');
 
@@ -44,7 +46,10 @@ const clips = ref([
   { id: uuid++, text: '🎉 Congratulate!', date: new Date() },
 ]);
 
-async function addClips(params) {
+/**
+ * Add clips to database
+ */
+async function addClips() {
   try {
     const id = await db.clips.add({
       text: curText.value,
@@ -52,14 +57,20 @@ async function addClips(params) {
     });
     status.value = `Successfully add ${curText.value}. Got id ${id}`;
   } catch (error) {
-
+    status.value = `Failed to add ${curText.value}: ${error}`;
   }
+}
+
+async function queryClips() {
+  console.log('x', db.clips.toArray());
 }
 
 const observer = clipboardObserve({
   duration: 1000,
   textChange: (text, beforeText) => {
     curText.value = text;
+    addClips();
+    // queryClips();
     clips.value.unshift({
       id: uuid++,
       text,
@@ -91,6 +102,7 @@ const filteredClips = computed(() =>
 </script>
 
 <template>
+  <button @click="queryClips">queryClips</button>
   <Combobox v-model="selected">
     <section class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-50/75 backdrop-blur-xl"
       style="height: 56px">
