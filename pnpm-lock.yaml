@@ -34,6 +34,7 @@ specifiers:
   fs-extra: ^9.0.1
   got: ^9.6.0
   magic-string: ^0.25.7
+  mitt: ^3.0.0
   postcss: ^8.4.14
   rollup: ^2.38.5
   tailwindcss: ^3.1.4
@@ -49,6 +50,7 @@ dependencies:
   '@heroicons/vue': 1.0.6_vue@3.2.37
   dexie: 3.2.2
   electron-updater: 4.6.5
+  mitt: 3.0.0
   vue: 3.2.37
   vue-router: 4.0.16_vue@3.2.37
   vuex: 4.0.2_vue@3.2.37
@@ -3090,6 +3092,10 @@ packages:
 
   /minimist/1.2.6:
     resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
+
+  /mitt/3.0.0:
+    resolution: {integrity: sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==}
+    dev: false
 
   /mkdirp/0.5.6:
     resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
