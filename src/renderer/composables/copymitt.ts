@@ -29,6 +29,7 @@ export default function copymitt() {
 
         // Listen text change and emit it.
         if (isDiffText(previousText, text)) {
+          console.log('tx', previousText, text);
           previousText = text;
           emitter.emit('textChange');
         }

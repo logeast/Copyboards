@@ -9,9 +9,11 @@ import {
 import { SearchIcon } from '@heroicons/vue/solid';
 import clipboardObserve from '../composables/clipboardObserve';
 import { db } from '../db';
+import copymitt from '../composables/copymitt';
 
 import { liveQuery } from 'dexie';
 
+const copymitter = copymitt();
 const status = ref('');
 const curText = ref('');
 
@@ -82,7 +84,11 @@ const observer = clipboardObserve({
   },
 });
 
-watchEffect(() => observer.start());
+watchEffect(() => {
+  observer.start();
+  copymitter.start();
+  copymitter.on('textChange', e => console.log('e', e));
+});
 observer.stop();
 const selected = ref(clips.value[0]);
 const query = ref('');
