@@ -84,12 +84,12 @@ const observer = clipboardObserve({
   },
 });
 
-watchEffect(() => {
-  observer.start();
-  copymitter.start();
-  copymitter.on('textChange', e => console.log('e', e));
-});
-observer.stop();
+// watchEffect(() => {
+//   observer.start();
+//   copymitter.start();
+//   copymitter.on('textChange', e => console.log('e', e));
+// });
+// observer.stop();
 const selected = ref(clips.value[0]);
 const query = ref('');
 
