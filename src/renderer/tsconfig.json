@@ -8,27 +8,16 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "/@shared/*": [
-        "../shared/*"
-      ],
-      "/@/*": [
-        "./*"
-      ],
-      "/@main/*": [
-        "../main/*"
-      ],
+      "/@shared/*": ["../shared/*"],
+      "/@/*": ["./*"],
+      "/@main/*": ["../main/*"]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve"
   },
-  "include": [
-    "./**/*",
-    "./renderer.d.ts",
-    "../shared/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./**/*", "./renderer.d.ts", "../shared/**/*"],
+  "exclude": ["node_modules"]
 }

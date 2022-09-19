@@ -2,7 +2,7 @@
 import { } from 'vue';
 
 export interface ListItemProps {
-  id: string | number;
+  id?: string | number;
   icon?: HTMLElement;
   text?: string;
   active?: boolean;

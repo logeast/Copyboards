@@ -15,7 +15,7 @@ const active = ref(false);
 
 <template>
   <ul class="px-3 py-2">
-    <ListItem v-for="(item) in data" :key="item.id" :text="item.text" :active="item?.active">
-    </ListItem>
+    <list-item v-for="(item) in data" :key="item.id" :text="item.text" :active="item?.active">
+    </list-item>
   </ul>
 </template>

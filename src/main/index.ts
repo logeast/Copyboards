@@ -15,9 +15,9 @@ async function main() {
   initialize(logger);
   app.whenReady().then(() => {
     const main = createWindow();
-    const [x, y] = main.getPosition();
-    const side = createSecondWindow();
-    side.setPosition(x + 800 + 5, y);
+    // const [x, y] = main.getPosition();
+    // const side = createSecondWindow();
+    // side.setPosition(x + 800 + 5, y);
   });
   // thread_worker example
   createBaseWorker({ workerData: 'worker world' }).on('message', (message) => {
@@ -44,20 +44,20 @@ function createWindow() {
   return mainWindow;
 }
 
-function createSecondWindow() {
-  const sideWindow = new BrowserWindow({
-    height: 600,
-    width: 300,
-    webPreferences: {
-      preload: anotherPreload,
-      contextIsolation: true,
-      nodeIntegration: false,
-    },
-  });
+// function createSecondWindow() {
+//   const sideWindow = new BrowserWindow({
+//     height: 600,
+//     width: 300,
+//     webPreferences: {
+//       preload: anotherPreload,
+//       contextIsolation: true,
+//       nodeIntegration: false,
+//     },
+//   });
 
-  sideWindow.loadURL(sideHtmlUrl);
-  return sideWindow;
-}
+//   sideWindow.loadURL(sideHtmlUrl);
+//   return sideWindow;
+// }
 
 // ensure app start as single instance
 if (!app.requestSingleInstanceLock()) {

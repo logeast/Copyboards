@@ -95,7 +95,7 @@ const clipboardObserver = new ClipboardObserver({
   },
   imageChange: (image: nativeImage, beforeImage: nativeImage) => {
     console.log('image', image);
-  }
+  },
 });
 
 clipboardObserver.start();
@@ -130,8 +130,8 @@ watchEffect(() => setInterval(addClip, 1000));
 
 <template>
   <main>
-    <Combobox></Combobox>
-    <!-- <SearchBar></SearchBar>
+    <!-- <Combobox></Combobox> -->
+    <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
         <List :data="filteredClips"></List>
@@ -139,6 +139,6 @@ watchEffect(() => setInterval(addClip, 1000));
       <div class="flex-none overflow-y-auto">
         <Preview></Preview>
       </div>
-    </section> -->
+    </section>
   </main>
 </template>
