@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { useClipboard } from '../composables';
-import { ref, computed, watchEffect } from 'vue';
-import { nativeImage } from 'electron';
-import SearchBar from './SearchBar.vue';
-import List from './List.vue';
-import { ListItemProps } from './ListItem.vue';
-import Preview from './Preview.vue';
-import Combobox from './Combobox.vue';
+import { useClipboard } from "../composables";
+import { ref, computed, watchEffect } from "vue";
+import { nativeImage } from "electron";
+import SearchBar from "./SearchBar.vue";
+import List from "./List.vue";
+import { ListItemProps } from "./ListItem.vue";
+import Preview from "./Preview.vue";
+
+import { Listbox, ListBoxOption, ListBoxOptions } from "./@headless/listbox";
+
 const { readText, readImage } = useClipboard();
 
 interface Options {
@@ -91,10 +93,10 @@ class ClipboardObserver {
 
 const clipboardObserver = new ClipboardObserver({
   textChange: (text: string, beforeText: string) => {
-    console.log('text', text);
+    console.log("text", text);
   },
   imageChange: (image: nativeImage, beforeImage: nativeImage) => {
-    console.log('image', image);
+    console.log("image", image);
   },
 });
 
@@ -102,10 +104,10 @@ clipboardObserver.start();
 
 let uuid = 1000;
 const clips = ref<ListItemProps[]>([
-  { id: uuid++, text: '🎉 Congratulate!', date: new Date(), active: true }
+  { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true }
 ]);
 
-const search = ref('');
+const search = ref("");
 
 function addClip() {
   const text = readText();
@@ -130,10 +132,15 @@ watchEffect(() => setInterval(addClip, 1000));
 
 <template>
   <main>
-    <!-- <Combobox></Combobox> -->
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
+        <Listbox as="div" class="outline-red-600">
+          <ListBoxOptions>
+            <ListBoxOption>good2</ListBoxOption>
+            <ListBoxOption>good1</ListBoxOption>
+          </ListBoxOptions>
+        </Listbox>
         <List :data="filteredClips"></List>
       </div>
       <div class="flex-none overflow-y-auto">
