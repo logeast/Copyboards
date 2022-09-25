@@ -137,7 +137,7 @@ watchEffect(() => setInterval(addClip, 1000));
       <div class="flex-1 overflow-y-auto">
         <Listbox as="div" class="outline-red-600">
           <ListBoxOptions>
-            <ListBoxOption>good2</ListBoxOption>
+            <ListBoxOption>Good2</ListBoxOption>
             <ListBoxOption>good1</ListBoxOption>
           </ListBoxOptions>
         </Listbox>

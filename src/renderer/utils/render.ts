@@ -88,3 +88,14 @@ function mergeProps(...listOfProps: Record<any, any>[]) {
   }
   return target;
 }
+
+export function omit<T extends Record<any, any>, Keys extends keyof T>(
+  object: T,
+  keysToOmit: readonly Keys[] = []
+) {
+  const clone = Object.assign({}, object);
+  for (const key of keysToOmit) {
+    if (key in clone) delete clone[key];
+  }
+  return clone as Omit<T, Keys>;
+}

@@ -2,7 +2,7 @@ import { computed, defineComponent, onMounted, ref } from "vue";
 import { useListboxContext, ListboxOptionData } from "./type";
 import { useId } from "/@/hooks/use-id";
 import { dom } from "/@/utils/dom";
-import { render } from "/@/utils/render";
+import { omit, render } from "/@/utils/render";
 
 /**
  * Used to wrap each item within your Listbox.
@@ -12,15 +12,24 @@ export const ListBoxOption = defineComponent({
   props: {
     as: { type: [Object, String], default: "li" },
     value: { type: [Object, String, Number, Boolean] },
-    disabled: { type: Boolean, default: false },
   },
   setup(props, { slots, attrs, expose }) {
+    /**
+     * Get global api from listbox.
+     */
     const api = useListboxContext("ListBoxOption");
-    const id = `headless-listbox-option-${useId()}`;
-    const internalOptionRef = ref<HTMLElement | null>(null);
 
+    const id = `headless-listbox-option-${useId()}`;
+
+    /**
+     * Define internal optionRef and expose public properties (Function).
+     */
+    const internalOptionRef = ref<HTMLElement | null>(null);
     expose({ el: internalOptionRef, $el: internalOptionRef });
 
+    /**
+     * Compute if the listbox option is selected.
+     */
     const selected = computed(() => {
       console.log("api", api);
 
@@ -30,40 +39,56 @@ export const ListBoxOption = defineComponent({
       //   : false;
     });
 
-    /** Define data of the listbox option */
+    /**
+     * Define data of the listbox option.
+     */
     const dataRef = computed<ListboxOptionData>(() => ({
-      disabled: props.disabled,
       value: props.value,
       textValue: "",
       domRef: internalOptionRef,
     }));
 
     onMounted(() => {
-      /** get textValue from domRef */
+      /**
+       * Get textValue from domRef.
+       * TODO: why should transform text to lower case?
+       */
       const textValue = dom(internalOptionRef)
         ?.textContent?.toLowerCase()
         .trim();
+
       if (textValue !== undefined) {
         dataRef.value.textValue = textValue;
       }
     });
 
-    return () => {
-      const { disabled } = props;
+    function handleClick() {
+      api.select(props.value);
+    }
 
-      const slot = { selected: selected.value, disabled };
+    function handleFocus() {}
+
+    function handleMove() {}
+
+    function handleLeave() {}
+
+    return () => {
+      const slot = { selected: selected.value };
 
       const ourPorps = {
         id,
         ref: internalOptionRef,
         role: "option",
-        tabIndex: disabled === true ? undefined : -1,
-        "aria-disabled": disabled === true ? true : undefined,
+        "aria-selected": selected.value,
+        onClick: handleClick,
+        onFocus: handleFocus,
+        onMousemove: handleMove,
+        onMouseleave: handleLeave,
       };
 
       return render({
-        theirProps: props,
         ourPorps,
+        theirProps: omit(props, ["value"]),
         slots,
         slot,
         name: "ListBoxOption",

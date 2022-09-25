@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { StateDefinition, ListboxContext } from "./type";
 import { useControllable } from "/@/hooks/use-controllable";
+import { calculateActiveIndex, Focus } from "/@/utils/calculate-active-index";
 import { dom } from "/@/utils/dom";
 import { sortByDomNode } from "/@/utils/focus-management";
 import { render } from "/@/utils/render";
@@ -27,7 +28,6 @@ export const Listbox = defineComponent({
       default: undefined,
     },
     name: { type: String, optional: true },
-    disabled: { type: Boolean, optional: true },
   },
   inheritAttrs: false,
   setup(props, { slots, attrs, emit }) {
@@ -73,15 +73,34 @@ export const Listbox = defineComponent({
 
     const ourPorps = {};
 
-    function goToOption(focus: any, id?: string, trigger?: any) {}
+    function goToOption(focus: any, id?: string, trigger?: any) {
+      const adjustedState = adjusetOrderedState();
+      const nextActiveOptionIndex = calculateActiveIndex(
+        focus === Focus.Specific
+          ? { focus: Focus.Specific, id: id! }
+          : { focus: focus as Exclude<Focus, Focus.Specific> },
+        {
+          resolveItems: () => adjustedState.options,
+          resolveActiveIndex: () => adjustedState.activeOptionIndex,
+          resolveId: (option) => option.id,
+          resolveDisabled: () => false,
+        }
+      );
 
-    function select(value: unknown) {}
+      activeOptionIndex.value = nextActiveOptionIndex;
+      options.value = adjustedState.options;
+    }
+
+    function select(value: unknown) {
+      theirOnChange(value);
+    }
 
     const api = {
       value,
       optionsRef,
       options,
       goToOption,
+      select,
     };
 
     provide(ListboxContext, api);

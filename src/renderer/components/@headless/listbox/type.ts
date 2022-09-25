@@ -5,13 +5,12 @@ import { Ref, ComputedRef, inject, InjectionKey } from "vue";
  */
 export type ListboxOptionData = {
   textValue: string;
-  disabled: boolean;
   value: unknown;
   domRef: Ref<HTMLElement | null>;
 };
 
 /**
- * Define Listbox component's global api.
+ * Define listbox component's global api.
  */
 export type StateDefinition = {
   value: ComputedRef<unknown>;
@@ -20,7 +19,6 @@ export type StateDefinition = {
 
   optionsRef: Ref<HTMLDivElement | null>;
 
-  disabled: Ref<boolean>;
   options: Ref<{ id: string; dataRef: ComputedRef<ListboxOptionData> }[]>;
   activeOptionIndex: Ref<number | null>;
 
