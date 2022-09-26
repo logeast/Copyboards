@@ -8,6 +8,7 @@ import { ListItemProps } from "./ListItem.vue";
 import Preview from "./Preview.vue";
 
 import { Listbox, ListBoxOption, ListBoxOptions } from "./@headless/listbox";
+import Demo from "./demo.vue";
 
 const { readText, readImage } = useClipboard();
 
@@ -135,12 +136,7 @@ watchEffect(() => setInterval(addClip, 1000));
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
-        <Listbox as="div" class="outline-red-600">
-          <ListBoxOptions>
-            <ListBoxOption>Good2</ListBoxOption>
-            <ListBoxOption>good1</ListBoxOption>
-          </ListBoxOptions>
-        </Listbox>
+        <Demo></Demo>
         <List :data="filteredClips"></List>
       </div>
       <div class="flex-none overflow-y-auto">

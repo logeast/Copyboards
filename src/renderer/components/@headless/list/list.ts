@@ -1,4 +1,4 @@
-import { defineComponent, Fragment, h } from "vue";
+import { defineComponent, h } from "vue";
 
 /**
  * The main list component.

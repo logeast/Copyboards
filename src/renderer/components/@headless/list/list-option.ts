@@ -3,7 +3,7 @@ import { defineComponent, h, ref } from "vue";
 /**
  * Used to wrap each item within your List.
  */
-export const ListOptions = defineComponent({
+export const ListOption = defineComponent({
   name: "ListOption",
   props: {
     /**
