@@ -1,18 +1,21 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { List, ListOptions, ListOption } from "/@/components/@headless/list";
 
 const people = [
-  { name: "Wade Cooper" },
-  { name: "Arlene Mccoy" },
-  { name: "Devon Webb" },
-  { name: "Tom Cook" },
-  { name: "Tanya Fox" },
-  { name: "Hellen Schmidt" },
+  { id: 1, name: "Durward Reynolds", unavailable: false },
+  { id: 2, name: "Kenton Towne", unavailable: false },
+  { id: 3, name: "Therese Wunsch", unavailable: false },
+  { id: 4, name: "Benedict Kessler", unavailable: true },
+  { id: 5, name: "Katelyn Rohan", unavailable: false },
 ];
+
+const selectedPerson = ref(people[0]);
 </script>
 
 <template>
-  <List as="div">
+  <List as="div" v-model="selectedPerson">
+    <div class="text-red-500">selected: {{ selectedPerson.name }}</div>
     <ListOptions>
       <ListOption
         v-slot="{ selected }"

@@ -13,7 +13,7 @@ export const ListOption = defineComponent({
     /**
      * The option value.
      */
-    value: { type: [Object, String, Number, Boolean] },
+    value: { type: [Object, String, Number, Boolean], default: 1 },
   },
   setup(props, { slots, expose }) {
     return () => {
