@@ -1,4 +1,5 @@
-import { defineComponent, h } from "vue";
+import { defineComponent, h, provide, ref } from "vue";
+import { ListContext, StateDefinition } from "./type";
 
 /**
  * The main list component.
@@ -11,6 +12,15 @@ export const List = defineComponent({
      * The element or component the `List` should render as.
      */
     as: { type: [Object, String], default: "template" },
+
+    /**
+     * Use this to compare objects by a particular field.
+     * Or pass your own comparison function for cumplete control over how objects are compared.
+     */
+    by: {
+      type: [String, Function],
+      default: <T>(a: T, z: T) => a === z,
+    },
     /**
      * The selected value, the `List` supports `update:modelValue` emit.
      * Usually use `v-model` to get and set the value.
@@ -25,6 +35,42 @@ export const List = defineComponent({
     },
   },
   setup(props, { slots }) {
+    const optionsRef = ref<StateDefinition["optionsRef"]["value"]>(null);
+    const options = ref<StateDefinition["options"]["value"]>([]);
+    const selectedOptionIndex =
+      ref<StateDefinition["selectedOptionIndex"]["value"]>(null);
+
+    // TOOD: Compose controlled value and default value.
+    const value = ref(props.defaultValue);
+
+    function compare(a: any, z: any) {
+      if (typeof props.by === "string") {
+        const property = props.by;
+        return a?.[property] === z?.[property];
+      }
+      return props.by(a, z);
+    }
+
+    function goToOption(id?: string) {
+      const nextSelectedOptionIndex = 0; // TODO: calcluateActiveIndex
+
+      selectedOptionIndex.value = nextSelectedOptionIndex;
+    }
+
+    function select() {}
+
+    const api = {
+      value,
+      optionsRef,
+      options,
+      selectedOptionIndex,
+      compare,
+      goToOption,
+      select,
+    };
+
+    provide(ListContext, api);
+
     return () => {
       const { as, ...incomingProps } = props;
 

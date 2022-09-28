@@ -13,17 +13,43 @@ export type ListOptionData = {
  * Define list component's global api.
  */
 export type StateDefinition = {
+  /**
+   * The reactive value of current selected option.
+   */
   value: ComputedRef<unknown>;
 
-  compare: (a: unknown, z: unknown) => boolean;
+  /**
+   * Compare two values for equality.
+   */
+  compare: <T>(a: T, z: T) => boolean;
 
+  /**
+   * expose options component's ref.
+   */
   optionsRef: Ref<HTMLDivElement | null>;
 
+  /**
+   * List options with id and datas.
+   */
   options: Ref<{ id: string; dataRef: ComputedRef<ListOptionData> }[]>;
-  activeOptionIndex: Ref<number | null>;
+
+  /**
+   * Current selected option index.
+   */
+  selectedOptionIndex: Ref<number | null>;
 
   // state mutators
-  goToOption(focus: any, id?: string, trigger?: any): void;
+  // goToOption(focus: any, id?: string, trigger?: any): void;
+  /**
+   * Go to specific option.
+   * @param id - option id
+   */
+  goToOption(id?: string): void;
+
+  /**
+   * Select the specific value.
+   * @param value
+   */
   select(value: unknown): void;
 };
 
