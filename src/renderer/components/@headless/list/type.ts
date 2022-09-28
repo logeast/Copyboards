@@ -21,7 +21,7 @@ export type StateDefinition = {
   /**
    * Compare two values for equality.
    */
-  compare: <T>(a: T, z: T) => boolean;
+  compare: (a: any, z: any) => boolean;
 
   /**
    * expose options component's ref.
@@ -45,6 +45,11 @@ export type StateDefinition = {
    * @param id - option id
    */
   goToOption(id: string): void;
+
+  /**
+   * Register option's id and data.
+   */
+  registerOption(id: string, dataRef: ComputedRef<ListOptionData>): void;
 
   /**
    * Select the specific value.

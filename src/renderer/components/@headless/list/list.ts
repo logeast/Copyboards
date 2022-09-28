@@ -1,7 +1,18 @@
-import { emit } from "process";
-import { computed, defineComponent, h, provide, ref } from "vue";
-import { ListContext, StateDefinition } from "./type";
+import {
+  computed,
+  ComputedRef,
+  defineComponent,
+  h,
+  provide,
+  ref,
+  UnwrapNestedRefs,
+} from "vue";
+import { ListContext, ListOptionData, StateDefinition } from "./type";
 import { useControllable } from "/@/hooks/use-controllable";
+
+function defaultComparator<T>(a: T, z: T): boolean {
+  return a === z;
+}
 
 /**
  * The main list component.
@@ -21,7 +32,7 @@ export const List = defineComponent({
      */
     by: {
       type: [String, Function],
-      default: <T>(a: T, z: T) => a === z,
+      default: () => defaultComparator,
     },
     /**
      * The selected value, the `List` supports `update:modelValue` emit.
@@ -36,13 +47,12 @@ export const List = defineComponent({
       default: undefined,
     },
   },
-  setup(props, { slots }) {
+  setup(props, { slots, emit }) {
     const optionsRef = ref<StateDefinition["optionsRef"]["value"]>(null);
     const options = ref<StateDefinition["options"]["value"]>([]);
     const selectedOptionIndex =
       ref<StateDefinition["selectedOptionIndex"]["value"]>(null);
 
-    // TOOD: Compose controlled value and default value.
     const [value, theirOnChange] = useControllable(
       computed(() => props.modelValue),
       (value: unknown) => emit("update:modelValue", value),
@@ -53,15 +63,54 @@ export const List = defineComponent({
       if (typeof props.by === "string") {
         const property = props.by;
         return a?.[property] === z?.[property];
+      } else {
+        return props.by(a, z);
       }
-      return props.by(a, z);
+    }
+
+    function adjustOrderedState(
+      adjustment: (
+        options: UnwrapNestedRefs<StateDefinition["options"]["value"]>
+      ) => UnwrapNestedRefs<StateDefinition["options"]["value"]> = (i) => i
+    ) {
+      const currentSelectedOption =
+        selectedOptionIndex.value !== null
+          ? options.value[selectedOptionIndex.value]
+          : null;
+      const sortedOptions = adjustment(options.value.slice());
+
+      let adjustedSelectedOptionIndex = currentSelectedOption
+        ? sortedOptions.indexOf(currentSelectedOption)
+        : null;
+
+      if (adjustedSelectedOptionIndex === -1) {
+        adjustedSelectedOptionIndex = null;
+      }
+
+      return {
+        options: sortedOptions,
+        selectedOptionIndex: adjustedSelectedOptionIndex,
+      };
     }
 
     function goToOption(id: string) {
-      const nextSelectedOptionIndex = options.value.findIndex(
-        (item) => item.id === id
-      );
+      console.log("options.value", options.value);
+      const adjustedState = adjustOrderedState();
+
+      const nextSelectedOptionIndex = options.value.findIndex((item) => {
+        console.log("item", item);
+        return item.id === id;
+      });
       selectedOptionIndex.value = nextSelectedOptionIndex;
+      options.value = adjustedState.options;
+    }
+
+    function registerOption(id: string, dataRef: ComputedRef<ListOptionData>) {
+      const adjustedState = adjustOrderedState((options) => {
+        return [...options, { id, dataRef }];
+      });
+      options.value = adjustedState.options;
+      selectedOptionIndex.value = adjustedState.selectedOptionIndex;
     }
 
     function select(value: unknown) {
@@ -75,6 +124,7 @@ export const List = defineComponent({
       selectedOptionIndex,
       compare,
       goToOption,
+      registerOption,
       select,
     };
 
