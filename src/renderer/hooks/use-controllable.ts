@@ -1,4 +1,4 @@
-import { computed, ComputedRef, ref, UnwrapRef } from "vue";
+import { computed, ComputedRef, UnwrapRef, ref } from "vue";
 
 export function useControllable<T>(
   controlledValue: ComputedRef<T | undefined>,
@@ -20,5 +20,5 @@ export function useControllable<T>(
         return onChange?.(value as T);
       }
     },
-  ];
+  ] as const;
 }

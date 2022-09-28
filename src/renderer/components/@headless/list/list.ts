@@ -1,5 +1,7 @@
-import { defineComponent, h, provide, ref } from "vue";
+import { emit } from "process";
+import { computed, defineComponent, h, provide, ref } from "vue";
 import { ListContext, StateDefinition } from "./type";
+import { useControllable } from "/@/hooks/use-controllable";
 
 /**
  * The main list component.
@@ -41,7 +43,11 @@ export const List = defineComponent({
       ref<StateDefinition["selectedOptionIndex"]["value"]>(null);
 
     // TOOD: Compose controlled value and default value.
-    const value = ref(props.defaultValue);
+    const [value, theirOnChange] = useControllable(
+      computed(() => props.modelValue),
+      (value: unknown) => emit("update:modelValue", value),
+      computed(() => props.defaultValue)
+    );
 
     function compare(a: any, z: any) {
       if (typeof props.by === "string") {
@@ -58,7 +64,9 @@ export const List = defineComponent({
       selectedOptionIndex.value = nextSelectedOptionIndex;
     }
 
-    function select() {}
+    function select(value: unknown) {
+      theirOnChange(value);
+    }
 
     const api = {
       value,
