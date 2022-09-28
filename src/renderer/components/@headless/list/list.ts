@@ -51,9 +51,10 @@ export const List = defineComponent({
       return props.by(a, z);
     }
 
-    function goToOption(id?: string) {
-      const nextSelectedOptionIndex = 0; // TODO: calcluateActiveIndex
-
+    function goToOption(id: string) {
+      const nextSelectedOptionIndex = options.value.findIndex(
+        (item) => item.id === id
+      );
       selectedOptionIndex.value = nextSelectedOptionIndex;
     }
 

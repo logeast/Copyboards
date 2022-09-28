@@ -44,7 +44,7 @@ export type StateDefinition = {
    * Go to specific option.
    * @param id - option id
    */
-  goToOption(id?: string): void;
+  goToOption(id: string): void;
 
   /**
    * Select the specific value.
