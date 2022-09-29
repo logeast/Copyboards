@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { ListContext, ListOptionData, StateDefinition } from "./type";
 import { useControllable } from "/@/hooks/use-controllable";
+import { omit } from "/@/utils/render";
 
 function defaultComparator<T>(a: T, z: T): boolean {
   return a === z;
@@ -20,6 +21,7 @@ function defaultComparator<T>(a: T, z: T): boolean {
 export const List = defineComponent({
   name: "List",
   emits: { "update:modelValue": (_value: any) => true },
+  inheritAttrs: false,
   props: {
     /**
      * The element or component the `List` should render as.
@@ -68,6 +70,9 @@ export const List = defineComponent({
       }
     }
 
+    /**
+     * https://github.com/tailwindlabs/headlessui/blob/main/packages/%40headlessui-vue/src/components/listbox/listbox.ts#L140
+     */
     function adjustOrderedState(
       adjustment: (
         options: UnwrapNestedRefs<StateDefinition["options"]["value"]>
@@ -98,7 +103,6 @@ export const List = defineComponent({
       const adjustedState = adjustOrderedState();
 
       const nextSelectedOptionIndex = options.value.findIndex((item) => {
-        console.log("item", item);
         return item.id === id;
       });
       selectedOptionIndex.value = nextSelectedOptionIndex;
@@ -131,15 +135,19 @@ export const List = defineComponent({
     provide(ListContext, api);
 
     return () => {
-      const { as, ...incomingProps } = props;
+      const { as } = props;
 
       /**
        * The slot props.
        */
-      const slot = {};
+      const slot = { value: value.value };
+
+      const ourProps = {};
+
+      const theirProps = omit(props, ["defaultValue"]);
 
       const children = slots.default?.(slot);
-      return h(as, Object.assign({}, incomingProps), children);
+      return h(as, Object.assign({}, ourProps, theirProps), children);
     };
   },
 });
