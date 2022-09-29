@@ -9,6 +9,7 @@ import {
 } from "vue";
 import { ListOptionData, useListContext } from "./type";
 import { useId } from "/@/hooks/use-id";
+import { omit } from "/@/utils/render";
 
 /**
  * Used to wrap each item within your List.
@@ -68,7 +69,7 @@ export const ListOption = defineComponent({
     }
 
     return () => {
-      const { as, ...incomingProps } = props;
+      const { as } = props;
 
       /**
        * The slot props.
@@ -84,14 +85,18 @@ export const ListOption = defineComponent({
         id,
         ref: internalOptionRef,
         role: "option",
+        tabIndex: -1,
+        "aria-selected": selected.value,
         onClick: handleClick,
         onMousemove: handleMove,
         onPointermove: handleMove,
       };
 
+      const theirProps = omit(props, ["value"]);
+
       const children = slots.default?.(slot);
 
-      return h(as, Object.assign({}, incomingProps, ourPorps), children);
+      return h(as, Object.assign({}, theirProps, ourPorps), children);
     };
   },
 });
