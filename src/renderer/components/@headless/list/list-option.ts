@@ -77,7 +77,7 @@ export const ListOption = defineComponent({
         /**
          * whether or not the option is the selected option.
          */
-        selected: false, // TODO: Pass in the real value.
+        selected: selected.value,
       };
 
       const ourPorps = {
