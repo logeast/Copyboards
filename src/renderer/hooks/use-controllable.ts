@@ -1,5 +1,15 @@
 import { computed, ComputedRef, UnwrapRef, ref } from "vue";
 
+/**
+ * Manage controlled and uncontrolled values.
+ *
+ * @see https://github.com/tailwindlabs/headlessui/blob/main/packages/%40headlessui-vue/src/hooks/use-controllable.ts
+ *
+ * @param controlledValue
+ * @param onChange
+ * @param defaultValue
+ * @returns
+ */
 export function useControllable<T>(
   controlledValue: ComputedRef<T | undefined>,
   onChange?: (value: T) => void,
