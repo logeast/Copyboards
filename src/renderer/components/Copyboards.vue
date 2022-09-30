@@ -15,7 +15,7 @@ const { readText, readImage } = useClipboard();
 interface Options {
   duration?: number;
   textChange?: (text: string, beforeText: string) => void;
-  imageChange?: (image: nativeImage, beforeImage: nativeImage) => void
+  imageChange?: (image: nativeImage, beforeImage: nativeImage) => void;
 }
 
 class ClipboardObserver {
@@ -39,9 +39,7 @@ class ClipboardObserver {
     }
   }
 
-  start(): void {
-
-  }
+  start(): void {}
 
   stop(): void {
     this.setTimer();
@@ -88,7 +86,11 @@ class ClipboardObserver {
   }
 
   isDiffImage(beforeImage: nativeImage, afterImage: nativeImage): boolean {
-    return Boolean(afterImage) && !afterImage.isEmpty() && beforeImage.toDataURL() !== afterImage.toDataURL();
+    return (
+      Boolean(afterImage) &&
+      !afterImage.isEmpty() &&
+      beforeImage.toDataURL() !== afterImage.toDataURL()
+    );
   }
 }
 
@@ -105,7 +107,7 @@ clipboardObserver.start();
 
 let uuid = 1000;
 const clips = ref<ListItemProps[]>([
-  { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true }
+  { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
 ]);
 
 const search = ref("");
@@ -118,17 +120,18 @@ function addClip() {
 }
 
 function removeClip(clip: ListItemProps) {
-  clips.value = clips.value.filter(c => c !== clip);
+  clips.value = clips.value.filter((c) => c !== clip);
 }
 
-const filteredClips = computed(() => clips.value.filter(
-  ({ id, text, date }) => [id, text, date].some(
-    val => val?.toString().toLocaleLowerCase().includes(search.value)
+const filteredClips = computed(() =>
+  clips.value.filter(({ id, text, date }) =>
+    [id, text, date].some((val) =>
+      val?.toString().toLocaleLowerCase().includes(search.value)
+    )
   )
-));
+);
 
 watchEffect(() => setInterval(addClip, 1000));
-
 </script>
 
 <template>

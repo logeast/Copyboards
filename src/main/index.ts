@@ -1,17 +1,17 @@
-import { app, BrowserWindow } from 'electron';
-import './dialog';
-import { Logger } from './logger';
-import { initialize } from './services';
-import createBaseWorker from './workers/index?worker';
-import indexPreload from '/@preload/index';
-import anotherPreload from '/@preload/another';
-import indexHtmlUrl from '/@renderer/index.html';
-import sideHtmlUrl from '/@renderer/side.html';
-import logoUrl from '/@static/logo.png';
+import { app, BrowserWindow } from "electron";
+import "./dialog";
+import { Logger } from "./logger";
+import { initialize } from "./services";
+import createBaseWorker from "./workers/index?worker";
+import indexPreload from "/@preload/index";
+import anotherPreload from "/@preload/another";
+import indexHtmlUrl from "/@renderer/index.html";
+import sideHtmlUrl from "/@renderer/side.html";
+import logoUrl from "/@static/logo.png";
 
 async function main() {
   const logger = new Logger();
-  logger.initialize(app.getPath('userData'));
+  logger.initialize(app.getPath("userData"));
   initialize(logger);
   app.whenReady().then(() => {
     const main = createWindow();
@@ -20,16 +20,20 @@ async function main() {
     // side.setPosition(x + 800 + 5, y);
   });
   // thread_worker example
-  createBaseWorker({ workerData: 'worker world' }).on('message', (message) => {
-    logger.log(`Message from worker: ${message}`);
-  }).postMessage('');
+  createBaseWorker({ workerData: "worker world" })
+    .on("message", (message) => {
+      logger.log(`Message from worker: ${message}`);
+    })
+    .postMessage("");
 }
 
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 430,
-    width: 680,
+    // height: 430,
+    // width: 680,
+    height: 800,
+    width: 1000,
     frame: false,
     transparent: true,
     webPreferences: {
@@ -64,8 +68,8 @@ if (!app.requestSingleInstanceLock()) {
   app.quit();
 }
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
     app.quit();
   }
 });

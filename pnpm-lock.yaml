@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@headlessui/vue': ^1.6.7
   '@heroicons/vue': ^1.0.6
   '@rollup/plugin-alias': ^3.1.2
   '@rollup/plugin-commonjs': ^19.0.0
@@ -46,7 +45,6 @@ specifiers:
   vuex: ^4.0.2
 
 dependencies:
-  '@headlessui/vue': 1.6.7_vue@3.2.37
   '@heroicons/vue': 1.0.6_vue@3.2.37
   dexie: 3.2.2
   electron-updater: 4.6.5
@@ -191,15 +189,6 @@ packages:
       - supports-color
     dev: false
     optional: true
-
-  /@headlessui/vue/1.6.7_vue@3.2.37:
-    resolution: {integrity: sha512-5sTCBpkUoFE7zhANn/6Z+pf3PUA7MD6BBaTsJcQybq9E4fnNiMM9agOJI9meXbtcawE6Dm8EeB5A8HAJEnZCbQ==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      vue: 3.2.37
-    dev: false
 
   /@heroicons/vue/1.0.6_vue@3.2.37:
     resolution: {integrity: sha512-ng2YcCQrdoQWEFpw+ipFl2rZo8mZ56v0T5+MyfQQvNqfKChwgP6DMloZLW+rl17GEcHkE3H82UTAMKBKZr4+WA==}

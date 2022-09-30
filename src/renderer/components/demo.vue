@@ -17,11 +17,18 @@ const selectedPerson = ref(people[0]);
   <List as="div" v-model="selectedPerson">
     <div class="text-red-500">selected: {{ selectedPerson.name }}</div>
     <ListOptions>
-      <ListOption v-slot="{ selected }" v-for="person in people" :key="person.name" :value="person" as="template">
-        <li :class="[
-          selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-          'relative cursor-default select-none py-2 pl-10 pr-4',
-        ]">
+      <ListOption
+        v-slot="{ selected }"
+        v-for="person in people"
+        :key="person.name"
+        :value="person"
+      >
+        <li
+          :class="[
+            selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
+            'relative cursor-default select-none py-2 pl-10 pr-4',
+          ]"
+        >
           <span v-if="selected">✅</span>
           <span>{{ person.name }}</span>
         </li>

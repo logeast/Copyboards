@@ -1,7 +1,7 @@
-<script setup lang=ts>
-import Copyboards from './components/Copyboards.vue';
+<script setup lang="ts">
+import Panel from "./widgets/Panel.vue";
 </script>
 
-<template setup>
-  <copyboards></copyboards>
+<template>
+  <Panel />
 </template>
