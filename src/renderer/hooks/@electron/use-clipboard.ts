@@ -1,6 +1,6 @@
 import type Electron from "electron";
 
-const { clipboard } = (window as any).Electron as typeof Electron;
+const { clipboard } = (window as any).electron as typeof Electron;
 
 /**
  * Perform copy and paste operations on the system clipbaord.
@@ -8,6 +8,6 @@ const { clipboard } = (window as any).Electron as typeof Electron;
  * @see https://www.electronjs.org/docs/latest/api/clipboard
  * @returns
  */
-export function useClipbaord() {
+export function useClipboard() {
   return clipboard;
 }

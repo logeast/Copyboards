@@ -7,103 +7,20 @@ import List from "./List.vue";
 import { ListItemProps } from "./ListItem.vue";
 import Preview from "./Preview.vue";
 
-import { Listbox, ListBoxOption, ListBoxOptions } from "./@headless/listbox";
-import Demo from "./demo.vue";
+import { useClipboardObserve } from "/@/hooks/@electron/use-clipboard-observe";
 
-const { readText, readImage } = useClipboard();
+const { readText } = useClipboard();
 
-interface Options {
-  duration?: number;
-  textChange?: (text: string, beforeText: string) => void;
-  imageChange?: (image: nativeImage, beforeImage: nativeImage) => void;
-}
-
-class ClipboardObserver {
-  timer: any;
-  beforeText: string;
-  beforeImage: string;
-
-  duration = 500;
-  textChange: (text: string, beforeText: string) => void;
-  imageChange: (image: nativeImage, beforeImage: nativeImage) => void;
-
-  constructor(options: Options) {
-    const { duration, textChange, imageChange } = options;
-
-    this.duration = duration;
-    this.textChange = textChange;
-    this.imageChange = imageChange;
-
-    if (this.textChange || this.imageChange) {
-      this.start();
-    }
-  }
-
-  start(): void {}
-
-  stop(): void {
-    this.setTimer();
-  }
-
-  clearTimer(): void {
-    clearInterval(this.timer);
-  }
-
-  setClipboardDefaultValue(): void {
-    if (this.textChange) {
-      this.beforeText = readText();
-    }
-    if (this.imageChange) {
-      this.beforeImage = readImage();
-    }
-  }
-
-  setTimer(): void {
-    const callback = () => {
-      if (this.textChange) {
-        const text = readText();
-        if (this.isDiffText(this.beforeText, text)) {
-          this.textChange(text, this.beforeText);
-          this.beforeText = text;
-        }
-      }
-
-      if (this.imageChange) {
-        const image = readImage();
-
-        if (this.isDiffImage(this.beforeImage, image)) {
-          this.imageChange(image, this.beforeImage);
-          this.beforeImage = image;
-        }
-      }
-    };
-
-    this.timer = setInterval(callback, this.duration);
-  }
-
-  isDiffText(beforeText: string, afterText: string): boolean {
-    return Boolean(afterText) && beforeText !== afterText;
-  }
-
-  isDiffImage(beforeImage: nativeImage, afterImage: nativeImage): boolean {
-    return (
-      Boolean(afterImage) &&
-      !afterImage.isEmpty() &&
-      beforeImage.toDataURL() !== afterImage.toDataURL()
-    );
-  }
-}
-
-const clipboardObserver = new ClipboardObserver({
-  textChange: (text: string, beforeText: string) => {
+const clipboardObserver = useClipboardObserve({
+  textChange: (text: string) => {
     console.log("text", text);
   },
-  imageChange: (image: nativeImage, beforeImage: nativeImage) => {
+  imageChange: (image: nativeImage) => {
     console.log("image", image);
   },
 });
 
-clipboardObserver.start();
+// clipboardObserver.start();
 
 let uuid = 1000;
 const clips = ref<ListItemProps[]>([
@@ -119,10 +36,6 @@ function addClip() {
   }
 }
 
-function removeClip(clip: ListItemProps) {
-  clips.value = clips.value.filter((c) => c !== clip);
-}
-
 const filteredClips = computed(() =>
   clips.value.filter(({ id, text, date }) =>
     [id, text, date].some((val) =>
@@ -132,6 +45,7 @@ const filteredClips = computed(() =>
 );
 
 watchEffect(() => setInterval(addClip, 1000));
+// watchEffect(() => clipboardObserver.start());
 </script>
 
 <template>
@@ -139,7 +53,6 @@ watchEffect(() => setInterval(addClip, 1000));
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
-        <Demo></Demo>
         <List :data="filteredClips"></List>
       </div>
       <div class="flex-none overflow-y-auto">
