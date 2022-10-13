@@ -24,7 +24,7 @@ export interface useClipboardListenerReturn {
 }
 
 /**
- * Extended electron clipboard with more event listener.
+ * This hook extended electron clipboard with more event listener.
  */
 export function useClipboardListener(): useClipboardListenerReturn {
   function on(type: keyof ClipboardEventMap, listener: Listener) {
