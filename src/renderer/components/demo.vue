@@ -11,6 +11,7 @@ const people = [
 ];
 
 const selectedPerson = ref(people[0]);
+
 </script>
 
 <template>
