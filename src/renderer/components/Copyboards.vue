@@ -26,17 +26,24 @@ watchEffect(() => {
     clipboardListener.stopListening();
   });
 
-  clipboardListener.startListening().on("text", (e) => {
-    const text = clipboard.readText();
-    if (text !== undefined && clips.value[0].text !== text) {
-      clips.value.unshift({ id: uuid++, text, date: new Date() });
-    }
-  }).on("image", (e) => {
-    const image = clipboard.readImage();
-    if (image) {
-      clips.value.unshift({ id: uuid++, text: image.toDataURL(), date: new Date() });
-    }
-  });
+  clipboardListener
+    .startListening()
+    .on("text", (e) => {
+      const text = clipboard.readText();
+      if (text !== undefined && clips.value[0].text !== text) {
+        clips.value.unshift({ id: uuid++, text, date: new Date() });
+      }
+    })
+    .on("image", (e) => {
+      const image = clipboard.readImage();
+      if (image) {
+        clips.value.unshift({
+          id: uuid++,
+          text: image.toDataURL(),
+          date: new Date(),
+        });
+      }
+    });
 });
 
 const filteredClips = computed(() =>
