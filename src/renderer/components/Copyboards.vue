@@ -1,24 +1,16 @@
 <script setup lang="ts">
-import { useClipboard } from "../composables";
-import { ref, computed, watchEffect } from "vue";
-import { nativeImage } from "electron";
+import { ref, computed, watchEffect, onMounted } from "vue";
 import SearchBar from "./SearchBar.vue";
 import List from "./List.vue";
 import { ListItemProps } from "./ListItem.vue";
 import Preview from "./Preview.vue";
+import { useClipboard } from "/@/hooks/@electron/use-clipboard";
 
-import { useClipboardObserve } from "/@/hooks/@electron/use-clipboard-observe";
+import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
 
-const { readText } = useClipboard();
+const clipboardListener = useClipboardListener();
 
-const clipboardObserver = useClipboardObserve({
-  textChange: (text: string) => {
-    console.log("text", text);
-  },
-  imageChange: (image: nativeImage) => {
-    console.log("image", image);
-  },
-});
+const clipboard = useClipboard();
 
 // clipboardObserver.start();
 
@@ -29,12 +21,23 @@ const clips = ref<ListItemProps[]>([
 
 const search = ref("");
 
-function addClip() {
-  const text = readText();
-  if (text !== undefined && clips.value[0].text !== text) {
-    clips.value.unshift({ id: uuid++, text, date: new Date() });
-  }
-}
+watchEffect(() => {
+  document.addEventListener("click", (e) => {
+    clipboardListener.stopListening();
+  });
+
+  clipboardListener.startListening().on("text", (e) => {
+    const text = clipboard.readText();
+    if (text !== undefined && clips.value[0].text !== text) {
+      clips.value.unshift({ id: uuid++, text, date: new Date() });
+    }
+  }).on("image", (e) => {
+    const image = clipboard.readImage();
+    if (image) {
+      clips.value.unshift({ id: uuid++, text: image.toDataURL(), date: new Date() });
+    }
+  });
+});
 
 const filteredClips = computed(() =>
   clips.value.filter(({ id, text, date }) =>
@@ -44,8 +47,7 @@ const filteredClips = computed(() =>
   )
 );
 
-watchEffect(() => setInterval(addClip, 1000));
-// watchEffect(() => clipboardObserver.start());
+// watchEffect(addClip);
 </script>
 
 <template>
