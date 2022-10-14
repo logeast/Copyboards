@@ -11,7 +11,7 @@ withDefaults(defineProps<PreviewProps>(), {
   type: "color",
   text: "This section describes major releases and their improvements. For a detailed list of changes please refer to the change log.",
   img: "https://interactive-examples.mdn.mozilla.net/media/cc0-images/elephant-660-480.jpg",
-  color: "#3B82F6",
+  color: "#000000",
 });
 
 </script>

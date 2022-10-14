@@ -21,7 +21,7 @@ const search = ref("");
 
 watchEffect(() => {
   document.addEventListener("click", (e) => {
-    clipboardListener.stopListening();
+    // clipboardListener.stopListening();
   });
 
   clipboardListener
