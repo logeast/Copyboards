@@ -7,7 +7,7 @@ export function sortByDomNode<T>(
     const a = resolveKey(aItem);
     const z = resolveKey(zItem);
 
-    if ((a === null) | (z === null)) {
+    if (a === null || z === null) {
       return 0;
     }
 
