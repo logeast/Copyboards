@@ -28,8 +28,7 @@
     "electron-updater": "^4.3.5",
     "mitt": "^3.0.0",
     "vue": "^3.0.6",
-    "vue-router": "^4.0.10",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.10"
   },
   "external": [
     "electron-updater",
