@@ -1,4 +1,5 @@
 import type { NativeImage } from "electron";
+
 import { useClipboard } from "./use-clipboard";
 import mitt from "mitt";
 
@@ -89,8 +90,8 @@ export function compareText(a: string, z: string): boolean {
  * Compare two native image's values for not equality.
  */
 export function compareImage(a: NativeImage, z: NativeImage) {
-  if (!a || !z) {
+  if (!a || !z || a.isEmpty() || z.isEmpty()) {
     return false;
   }
-  return !z.isEmpty() && a.toDataURL() !== z.toDataURL();
+  return a.toDataURL() !== z.toDataURL();
 }
