@@ -12,8 +12,6 @@ const clipboardListener = useClipboardListener();
 
 const clipboard = useClipboard();
 
-// clipboardObserver.start();
-
 let uuid = 1000;
 const clips = ref<ListItemProps[]>([
   { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
@@ -54,7 +52,6 @@ const filteredClips = computed(() =>
   )
 );
 
-// watchEffect(addClip);
 </script>
 
 <template>
