@@ -5,5 +5,5 @@ import Copyboards from "./components/Copyboards.vue";
 
 <template>
   <Copyboards></Copyboards>
-  <Panel />
+  <!-- <Panel /> -->
 </template>

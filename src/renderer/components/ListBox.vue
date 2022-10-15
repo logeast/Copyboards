@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import ListItem, { ListItemProps } from "./ListItem.vue";
 
-export interface ItemProps {
+import { List, ListOptions, ListOption } from "./@headless/list";
+
+export interface ListBoxItemProps {
   id?: string | number;
   icon?: HTMLElement;
   text?: string;
@@ -11,43 +12,38 @@ export interface ItemProps {
 }
 
 interface Props {
-  data: ItemProps[];
+  data: ListBoxItemProps[];
 }
 
 withDefaults(defineProps<Props>(), {});
 
-const active = ref(0);
-
-const people = [
-  { id: 1, name: "Durward Reynolds", unavailable: false },
-  { id: 2, name: "Kenton Towne", unavailable: false },
-  { id: 3, name: "Therese Wunsch", unavailable: false },
-  { id: 4, name: "Benedict Kessler", unavailable: true },
-  { id: 5, name: "Katelyn Rohan", unavailable: false },
-];
-
-const selectedItem = ref(data[0]);
-
+const selectedItem = ref();
 </script>
 
 <template>
-  <ul class="px-3 py-2">
-    <list-item v-for="item in data" :key="item.id" :text="item.text" :active="active === item.id">
-    </list-item>
-  </ul>
-
-  <List as="div" v-model="selectedItem">
-    <div class="text-red-500">selected: {{ selectedItem.text }}</div>
-    <ListOptions>
-      <ListOption v-slot="{ selected }" v-for="person in data" :key="person.text" :value="person">
-        <li :class="[
-          selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-          'relative cursor-default select-none py-2 pl-10 pr-4',
-        ]">
-          <span v-if="selected">✅</span>
-          <span>{{ person.text }}</span>
-        </li>
-      </ListOption>
-    </ListOptions>
-  </List>
+  <div class="px-3">
+    <List as="div" v-model="selectedItem">
+      <div class="text-red-500 text-ellipsis overflow-hidden whitespace-nowrap">
+        selected: {{ selectedItem?.text }}
+      </div>
+      <ListOptions>
+        <ListOption
+          v-slot="{ selected }"
+          v-for="item in data"
+          :key="item.text"
+          :value="item"
+        >
+          <li
+            :class="[
+              { 'text-white bg-blue-500': selected },
+              'flex items-center justify-between px-2 gap-2 h-9 rounded-lg cursor-pointer',
+            ]"
+          >
+            <span class="flex-none" v-if="selected">✅</span>
+            <span class="flex-1 truncate">{{ item.text }}</span>
+          </li>
+        </ListOption>
+      </ListOptions>
+    </List>
+  </div>
 </template>

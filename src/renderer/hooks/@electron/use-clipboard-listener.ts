@@ -83,6 +83,9 @@ export function useClipboardListener(): useClipboardListenerReturn {
  * Compare two text's values for not equality.
  */
 export function compareText(a: string, z: string): boolean {
+  if (!a || !z) {
+    return false;
+  }
   return a !== z;
 }
 

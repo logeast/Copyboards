@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect, onMounted } from "vue";
+import { ref, computed, watchEffect } from "vue";
 import SearchBar from "./SearchBar.vue";
-import List from "./List.vue";
-import { ListItemProps } from "./ListItem.vue";
 import Preview from "./Preview.vue";
 import { useClipboard } from "/@/hooks/@electron/use-clipboard";
+import ListBox, { ListBoxItemProps } from "./ListBox.vue";
 
 import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
 
@@ -13,7 +12,7 @@ const clipboardListener = useClipboardListener();
 const clipboard = useClipboard();
 
 let uuid = 1000;
-const clips = ref<ListItemProps[]>([
+const clips = ref<ListBoxItemProps[]>([
   { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
 ]);
 
@@ -51,7 +50,6 @@ const filteredClips = computed(() =>
     )
   )
 );
-
 </script>
 
 <template>
@@ -59,7 +57,7 @@ const filteredClips = computed(() =>
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
-        <List :data="filteredClips"></List>
+        <ListBox :data="filteredClips"></ListBox>
       </div>
       <div class="flex-none overflow-y-auto">
         <Preview></Preview>
