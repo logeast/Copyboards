@@ -34,6 +34,7 @@ specifiers:
   got: ^9.6.0
   magic-string: ^0.25.7
   mitt: ^3.0.0
+  pinia: ^2.0.23
   postcss: ^8.4.14
   rollup: ^2.38.5
   tailwindcss: ^3.1.4
@@ -49,6 +50,7 @@ dependencies:
   electron-store: 8.1.0
   electron-updater: 4.6.5
   mitt: 3.0.0
+  pinia: 2.0.23_j6bzmzd4ujpabbp5objtwxyjp4
   validate-color: 2.2.1
   vue: 3.2.37
   vue-router: 4.0.16_vue@3.2.37
@@ -605,6 +607,10 @@ packages:
 
   /@vue/devtools-api/6.2.0:
     resolution: {integrity: sha512-pF1G4wky+hkifDiZSWn8xfuLOJI1ZXtuambpBEYaf7Xaf6zC/pM29rvAGpd3qaGXnr4BAXU1Pxz/VfvBGwexGA==}
+    dev: false
+
+  /@vue/devtools-api/6.4.4:
+    resolution: {integrity: sha512-Ku31WzpOV/8cruFaXaEZKF81WkNnvCSlBY4eOGtz5WMSdJvX1v1WWlSMGZeqUwPtQ27ZZz7B62erEMq8JDjcXw==}
     dev: false
 
   /@vue/reactivity-transform/3.2.37:
@@ -3387,6 +3393,24 @@ packages:
     dev: true
     optional: true
 
+  /pinia/2.0.23_j6bzmzd4ujpabbp5objtwxyjp4:
+    resolution: {integrity: sha512-N15hFf4o5STrxpNrib1IEb1GOArvPYf1zPvQVRGOO1G1d74Ak0J0lVyalX/SmrzdT4Q0nlEFjbURsmBmIGUR5Q==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.4.4
+      typescript: 4.7.4
+      vue: 3.2.37
+      vue-demi: 0.13.11_vue@3.2.37
+    dev: false
+
   /pkg-up/3.1.0:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
     engines: {node: '>=8'}
@@ -4155,6 +4179,21 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /vue-demi/0.13.11_vue@3.2.37:
+    resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.2.37
+    dev: false
 
   /vue-eslint-parser/7.11.0_eslint@7.32.0:
     resolution: {integrity: sha512-qh3VhDLeh773wjgNTl7ss0VejY9bMMa0GoDG2fQVyDzRFdiU3L7fw74tWZDHNQXdZqxO3EveQroa9ct39D2nqg==}
