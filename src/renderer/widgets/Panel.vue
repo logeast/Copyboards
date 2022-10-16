@@ -1,18 +1,53 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { List, ListOptions, ListOption } from "/@/components/@headless/list";
+import { ref, computed, watchEffect } from "vue";
 import SearchBar from "/@/components/SearchBar.vue";
 import Preview from "/@/components/Preview.vue";
+import { useClipboard } from "/@/hooks/@electron/use-clipboard";
+import ListBox, { ListBoxItemProps } from "/@/components/ListBox.vue";
 
-const people = [
-  { id: 1, name: "Durward Reynolds", unavailable: false },
-  { id: 2, name: "Kenton Towne", unavailable: false },
-  { id: 3, name: "Therese Wunsch", unavailable: false },
-  { id: 4, name: "Benedict Kessler", unavailable: true },
-  { id: 5, name: "Katelyn Rohan", unavailable: false },
-];
+import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
 
-const selectedPerson = ref(people[0]);
+const clipboardListener = useClipboardListener();
+
+const clipboard = useClipboard();
+
+let uuid = 1000;
+const clips = ref<ListBoxItemProps[]>([
+  { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
+]);
+
+const search = ref("");
+
+watchEffect(() => {
+  document.addEventListener("click", (e) => {
+    // clipboardListener.stopListening();
+  });
+
+  clipboardListener.startListening().on("text", (e) => {
+    const text = clipboard.readText();
+    if (text !== undefined && clips.value[0].text !== text) {
+      clips.value.unshift({ id: uuid++, text, date: new Date() });
+    }
+  });
+  // .on("image", (e) => {
+  //   const image = clipboard.readImage();
+  //   if (image) {
+  //     clips.value.unshift({
+  //       id: uuid++,
+  //       text: image.toDataURL(),
+  //       date: new Date(),
+  //     });
+  //   }
+  // });
+});
+
+const filteredClips = computed(() =>
+  clips.value.filter(({ id, text, date }) =>
+    [id, text, date].some((val) =>
+      val?.toString().toLocaleLowerCase().includes(search.value)
+    )
+  )
+);
 </script>
 
 <template>
@@ -20,27 +55,7 @@ const selectedPerson = ref(people[0]);
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
       <div class="flex-1 overflow-y-auto">
-        <List as="div" v-model="selectedPerson">
-          <div class="text-red-500">selected: {{ selectedPerson.name }}</div>
-          <ListOptions>
-            <ListOption
-              v-slot="{ selected }"
-              v-for="person in people"
-              :key="person.name"
-              :value="person"
-            >
-              <li
-                :class="[
-                  selected ? 'bg-amber-100 text-amber-900' : 'text-gray-900',
-                  'relative cursor-default select-none py-2 pl-10 pr-4',
-                ]"
-              >
-                <span v-if="selected">✅</span>
-                <span>{{ person.name }}</span>
-              </li>
-            </ListOption>
-          </ListOptions>
-        </List>
+        <ListBox :data="filteredClips"></ListBox>
       </div>
       <div class="flex-none overflow-y-auto">
         <Preview></Preview>

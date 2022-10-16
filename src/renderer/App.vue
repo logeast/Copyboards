@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import Panel from "./widgets/Panel.vue";
-import Copyboards from "./components/Copyboards.vue";
+import Panel from "/@/widgets/Panel.vue";
 </script>
 
 <template>
-  <Copyboards></Copyboards>
-  <!-- <Panel /> -->
+  <Panel></Panel>
 </template>
