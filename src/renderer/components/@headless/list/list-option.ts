@@ -9,7 +9,7 @@ import {
 } from "vue";
 import { ListOptionData, useListContext } from "./type";
 import { useId } from "/@/hooks/use-id";
-import { omit } from "/@/utils/render";
+import { omit } from "../utils/render";
 
 /**
  * Used to wrap each item within your List.

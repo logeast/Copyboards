@@ -3,7 +3,8 @@ import { ref, computed, watchEffect } from "vue";
 import SearchBar from "/@/components/SearchBar.vue";
 import Preview from "/@/components/Preview.vue";
 import { useClipboard } from "/@/hooks/@electron/use-clipboard";
-import ListBox, { ListBoxItemProps } from "/@/components/ListBox.vue";
+import ListBox from "/@/components/Listbox.vue";
+import { ListboxItemProps } from "/@/components/share-types";
 
 import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
 
@@ -12,7 +13,7 @@ const clipboardListener = useClipboardListener();
 const clipboard = useClipboard();
 
 let uuid = 1000;
-const clips = ref<ListBoxItemProps[]>([
+const clips = ref<ListboxItemProps[]>([
   { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
 ]);
 
