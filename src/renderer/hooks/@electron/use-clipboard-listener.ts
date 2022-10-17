@@ -44,7 +44,7 @@ export function useClipboardListener(): useClipboardListenerReturn {
     return useClipboardListener();
   }
 
-  function startListening(ms: number = 1000): useClipboardListenerReturn {
+  function startListening(ms: number = 500): useClipboardListenerReturn {
     if (!listenerId) {
       listenerId = setInterval(() => {
         /** Conpare two recent text, if they are not equality means a new text copied. */

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { List, ListOptions, ListOption } from "./@headless/list";
-import { useListStore } from "/@/stores/use-list-store";
+import { useListStore } from "/@/stores/list-store";
 
 const listStore = useListStore();
 </script>

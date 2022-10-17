@@ -6,7 +6,7 @@ import { useClipboard } from "/@/hooks/@electron/use-clipboard";
 import ListBox from "/@/components/Listbox.vue";
 
 import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
-import { useListStore } from "/@/stores/use-list-store";
+import { useListStore } from "/@/stores/list-store";
 import { useValidateColor } from "../hooks/use-validate-color";
 
 const clipboardListener = useClipboardListener();
@@ -47,9 +47,6 @@ watchEffect(() => {
   //     });
   //   }
   // });
-  // #ff0000
-  // 296bef
-  // #000
 });
 
 const filteredClips = computed(() =>
@@ -70,11 +67,7 @@ const filteredClips = computed(() =>
         <ListBox :data="filteredClips"></ListBox>
       </div>
       <div class="flex-none overflow-y-auto">
-        <Preview
-          :type="listStore.selectedItem.type"
-          :text="listStore.selectedItem?.textInfo?.metadata"
-          :color="listStore.selectedItem?.textInfo?.color"
-        ></Preview>
+        <Preview></Preview>
       </div>
     </section>
   </main>
