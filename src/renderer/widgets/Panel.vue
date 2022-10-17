@@ -23,30 +23,33 @@ watchEffect(() => {
     // clipboardListener.stopListening();
   });
 
-  clipboardListener.startListening().on("text", (e) => {
-    const text = clipboard.readText();
-    if (
-      text !== undefined &&
-      listStore.datalist[0]?.textInfo?.metadata !== text
-    ) {
-      listStore.datalist.unshift({
-        id: uuid++,
-        type: useValidateColor(text).isColor ? "color" : "text",
-        textInfo: { metadata: text, color: useValidateColor(text).color },
-        datetime: new Date(),
-      });
-    }
-  });
-  // .on("image", (e) => {
-  //   const image = clipboard.readImage();
-  //   if (image) {
-  //     clips.value.unshift({
-  //       id: uuid++,
-  //       text: image.toDataURL(),
-  //       date: new Date(),
-  //     });
-  //   }
-  // });
+  clipboardListener
+    .startListening()
+    .on("text", (e) => {
+      const text = clipboard.readText();
+      if (
+        text !== undefined &&
+        listStore.datalist[0]?.textInfo?.metadata !== text
+      ) {
+        listStore.datalist.unshift({
+          id: uuid++,
+          type: useValidateColor(text).isColor ? "color" : "text",
+          textInfo: { metadata: text, color: useValidateColor(text).color },
+          datetime: new Date(),
+        });
+      }
+    })
+    .on("image", (e) => {
+      const image = clipboard.readImage();
+      if (image) {
+        listStore.datalist.unshift({
+          id: uuid++,
+          type: "image",
+          imageInfo: { metadata: image.toDataURL() },
+          datetime: new Date(),
+        });
+      }
+    });
 });
 
 const filteredClips = computed(() =>

@@ -52,11 +52,11 @@ export function useClipboardListener(): useClipboardListenerReturn {
           emitter.emit("text" as keyof ClipboardEventMap);
         }
 
-        // if (
-        //   compareImage(previousImage, (previousImage = clipboard.readImage()))
-        // ) {
-        //   emitter.emit("image" as keyof ClipboardEventMap);
-        // }
+        if (
+          compareImage(previousImage, (previousImage = clipboard.readImage()))
+        ) {
+          emitter.emit("image" as keyof ClipboardEventMap);
+        }
       }, ms);
       console.log("🎉 Clipboard event listener started success!");
     }
