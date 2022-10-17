@@ -32,5 +32,5 @@ export interface ListboxItemProps {
   active?: boolean;
 
   /** The copide message created datetime. */
-  datetime?: Date;
+  datetime?: string;
 }

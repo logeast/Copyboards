@@ -47,15 +47,15 @@ const listStore = useListStore();
     </div>
 
     <footer
-      class="sticky bottom-0 p-2 border-t z-10 bg-gray-50/75 backdrop-blur-xl flex-none flex flex-col items-center justify-center gap-1"
+      class="sticky bottom-0 p-2 border-t z-10 bg-gray-100/90 backdrop-blur-xl flex-none flex flex-col items-center justify-center gap-1"
     >
       <p class="text-xs text-gray-500">
         {{ listStore.selectedItem.textInfo?.metadata?.split(" ").length }}
         words; {{ listStore.selectedItem.textInfo?.metadata?.length }} chars
       </p>
       <p class="text-xs text-gray-500">
-        Copied {{ useDay(listStore.selectedItem.datetime).date }} at
-        {{ useDay(listStore.selectedItem.datetime).time }}
+        Copied {{ useDay(listStore.selectedItem.datetime || "").date }} at
+        {{ useDay(listStore.selectedItem.datetime || "").time }}
       </p>
     </footer>
   </section>

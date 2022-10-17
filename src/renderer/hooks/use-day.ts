@@ -2,7 +2,7 @@
  * Parse and displays dates and time.
  */
 
-export function useDay(date: Date) {
+export function useDay(date: string) {
   const now = new Date();
   const datetime = new Date(date || now);
 

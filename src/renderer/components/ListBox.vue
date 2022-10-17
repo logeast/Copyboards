@@ -6,11 +6,11 @@ const listStore = useListStore();
 </script>
 
 <template>
-  <div class="px-3">
+  <div class="px-3 py-2">
     <List as="div" v-model="listStore.selectedItem">
-      <div class="text-red-500 text-ellipsis overflow-hidden whitespace-nowrap">
+      <!-- <div class="text-red-500 text-ellipsis overflow-hidden whitespace-nowrap">
         selected: {{ listStore.selectedItem?.textInfo?.metadata }}
-      </div>
+      </div> -->
       <ListOptions>
         <ListOption
           v-slot="{ selected }"
@@ -21,7 +21,7 @@ const listStore = useListStore();
           <li
             :class="[
               { 'text-white bg-blue-500': selected },
-              'flex items-center justify-between px-2 gap-2 h-9 rounded-lg cursor-pointer',
+              'flex items-center justify-between px-2 gap-2 h-9 rounded-lg cursor-default',
             ]"
           >
             <span class="flex-none" v-if="selected">✅</span>

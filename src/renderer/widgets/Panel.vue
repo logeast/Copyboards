@@ -35,7 +35,7 @@ watchEffect(() => {
           id: uuid++,
           type: useValidateColor(text).isColor ? "color" : "text",
           textInfo: { metadata: text, color: useValidateColor(text).color },
-          datetime: new Date(),
+          datetime: new Date().getTime().toString(),
         });
       }
     })
@@ -46,7 +46,7 @@ watchEffect(() => {
           id: uuid++,
           type: "image",
           imageInfo: { metadata: image.toDataURL() },
-          datetime: new Date(),
+          datetime: new Date().getTime().toString(),
         });
       }
     });
@@ -66,7 +66,9 @@ const filteredClips = computed(() =>
   <main>
     <SearchBar></SearchBar>
     <section class="flex h-96 border-b">
-      <div class="flex-1 overflow-y-auto">
+      <div
+        class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
+      >
         <ListBox :data="filteredClips"></ListBox>
       </div>
       <div class="flex-none overflow-y-auto">

@@ -5,7 +5,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ci010/electron-vue-next.git"
+    "url": "https://github.com/logeast/copyboards.git"
   },
   "scripts": {
     "dev:docs": "node scripts/dev.docs.js",
@@ -19,16 +19,16 @@
     "postinstall": "node ./scripts/dev.install.js"
   },
   "author": {
-    "email": "example@email.com",
-    "name": "example"
+    "email": "logeast@outlook.com",
+    "name": "logeast"
   },
   "license": "MIT",
   "dependencies": {
-    "@heroicons/vue": "^1.0.6",
     "electron-store": "^8.1.0",
     "electron-updater": "^4.3.5",
     "mitt": "^3.0.0",
     "pinia": "^2.0.23",
+    "tailwind-scrollbar": "^1.3.1",
     "validate-color": "^2.2.1",
     "vue": "^3.0.6",
     "vue-router": "^4.0.10"
