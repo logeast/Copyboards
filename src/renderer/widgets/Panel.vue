@@ -4,18 +4,17 @@ import SearchBar from "/@/components/SearchBar.vue";
 import Preview from "/@/components/Preview.vue";
 import { useClipboard } from "/@/hooks/@electron/use-clipboard";
 import ListBox from "/@/components/Listbox.vue";
-import { ListboxItemProps } from "/@/components/share-types";
 
 import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
+import { useListStore } from "/@/stores/use-list-store";
+import { useValidateColor } from "../hooks/use-validate-color";
 
 const clipboardListener = useClipboardListener();
+const listStore = useListStore();
 
 const clipboard = useClipboard();
 
 let uuid = 1000;
-const clips = ref<ListboxItemProps[]>([
-  { id: uuid++, text: "🎉 Congratulate!", date: new Date(), active: true },
-]);
 
 const search = ref("");
 
@@ -26,8 +25,16 @@ watchEffect(() => {
 
   clipboardListener.startListening().on("text", (e) => {
     const text = clipboard.readText();
-    if (text !== undefined && clips.value[0].text !== text) {
-      clips.value.unshift({ id: uuid++, text, date: new Date() });
+    if (
+      text !== undefined &&
+      listStore.datalist[0]?.textInfo?.metadata !== text
+    ) {
+      listStore.datalist.unshift({
+        id: uuid++,
+        type: useValidateColor(text).isColor ? "color" : "text",
+        textInfo: { metadata: text, color: useValidateColor(text).color },
+        datetime: new Date(),
+      });
     }
   });
   // .on("image", (e) => {
@@ -40,14 +47,18 @@ watchEffect(() => {
   //     });
   //   }
   // });
+  // #ff0000
+  // 296bef
+  // #000
 });
 
 const filteredClips = computed(() =>
-  clips.value.filter(({ id, text, date }) =>
-    [id, text, date].some((val) =>
+  listStore.datalist.filter(({ id, textInfo, datetime }) => {
+    const metadata = textInfo?.metadata;
+    [id, metadata, datetime].some((val) =>
       val?.toString().toLocaleLowerCase().includes(search.value)
-    )
-  )
+    );
+  })
 );
 </script>
 
@@ -59,7 +70,11 @@ const filteredClips = computed(() =>
         <ListBox :data="filteredClips"></ListBox>
       </div>
       <div class="flex-none overflow-y-auto">
-        <Preview></Preview>
+        <Preview
+          :type="listStore.selectedItem.type"
+          :text="listStore.selectedItem?.textInfo?.metadata"
+          :color="listStore.selectedItem?.textInfo?.color"
+        ></Preview>
       </div>
     </section>
   </main>

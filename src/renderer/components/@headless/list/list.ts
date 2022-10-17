@@ -99,7 +99,6 @@ export const List = defineComponent({
     }
 
     function goToOption(id: string) {
-      console.log("options.value", options.value);
       const adjustedState = adjustOrderedState();
 
       const nextSelectedOptionIndex = options.value.findIndex((item) => {

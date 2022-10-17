@@ -1,8 +1,8 @@
 /** Listbox item text info props for copied message. */
 export interface ItemTextInfoProps {
   metadata?: string;
-  /** Wheather the copied message is a color text. */
-  color?: boolean;
+  /** If the copied message is a color text, take out it along. */
+  color?: string;
 }
 
 /** Listbox item image info props for copied message. */
@@ -18,6 +18,9 @@ export interface ListboxItemProps {
 
   /** The icon of the app where the copied message comes from. */
   icon?: HTMLElement;
+
+  /** The type of copied message. */
+  type: "text" | "image" | "color";
 
   /** Listbox item text info props for copied message. */
   textInfo?: ItemTextInfoProps;
