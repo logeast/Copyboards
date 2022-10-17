@@ -31,8 +31,6 @@ export const ListOption = defineComponent({
 
     const id = `headless-list-option-${useId()}`;
 
-    console.log("api", api);
-
     /**
      * Exporse the internal option ref.
      */
@@ -58,8 +56,6 @@ export const ListOption = defineComponent({
     });
 
     function handleClick(e: MouseEvent) {
-      console.log("e", e);
-
       api.select(props.value);
     }
 

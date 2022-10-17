@@ -20,8 +20,6 @@ export function render({
   const children = slots.default?.(slot);
 
   const dataAttributes: Record<string, string> = {};
-  console.log("props", as, children, slot, name);
-
   if (slot) {
     let exposeState = false;
     const states = [];
