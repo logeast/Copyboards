@@ -1,6 +1,6 @@
-import { Logger, LoggerFacade } from '/@main/logger';
+import { Logger, LoggerFacade } from "/@main/logger";
 
-export const INJECTIONS_SYMBOL = Symbol('__injections__');
+export const INJECTIONS_SYMBOL = Symbol("__injections__");
 
 export function Inject(type: string) {
   return function (target: any, propertyKey: string) {

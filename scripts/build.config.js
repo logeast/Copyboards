@@ -1,4 +1,4 @@
-const baseConfig = require('./build.base.config');
+const baseConfig = require("./build.base.config");
 
 /**
  * @type {import('electron-builder').Configuration}
@@ -7,7 +7,7 @@ const config = {
   ...baseConfig,
   nsis: {
     // eslint-disable-next-line no-template-curly-in-string
-    artifactName: '${productName}-Setup-${version}.${ext}',
+    artifactName: "${productName}-Setup-${version}.${ext}",
     oneClick: false,
     allowToChangeInstallationDirectory: true,
     perMachine: true,
@@ -18,33 +18,33 @@ const config = {
       {
         x: 410,
         y: 150,
-        type: 'link',
-        path: '/Applications',
+        type: "link",
+        path: "/Applications",
       },
       {
         x: 130,
         y: 150,
-        type: 'file',
-      }
+        type: "file",
+      },
     ],
   },
   mac: {
-    icon: 'build/icons/icon.icns',
+    icon: "build/icons/icon.icns",
     target: [
       {
-        target: 'zip',
+        target: "zip",
       },
       {
-        target: 'dmg',
-      }
+        target: "dmg",
+      },
     ],
   },
   win: {
-    icon: 'build/icons/icon.ico',
+    icon: "build/icons/icon.ico",
     target: [
       // disable build for x32 by default
       // 'nsis:ia32',
-      'nsis:x64',
+      "nsis:x64",
       // uncomment to generate web installer
       // electron-builder can use either web or offline installer to auto update
       // {
@@ -54,34 +54,30 @@ const config = {
       //   ]
       // },
       {
-        target: 'zip',
-        arch: [
-          'x64'
-        ],
-      }
+        target: "zip",
+        arch: ["x64"],
+      },
     ],
   },
   linux: {
-    icon: 'build/icons',
+    icon: "build/icons",
     target: [
       {
-        target: 'deb',
+        target: "deb",
       },
       {
-        target: 'rpm',
+        target: "rpm",
       },
       {
-        target: 'AppImage',
+        target: "AppImage",
       },
       {
-        target: 'snap',
-      }
+        target: "snap",
+      },
     ],
   },
   snap: {
-    publish: [
-      'github'
-    ],
+    publish: ["github"],
   },
 };
 

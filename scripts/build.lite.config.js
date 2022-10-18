@@ -1,4 +1,4 @@
-const baseConfig = require('./build.base.config');
+const baseConfig = require("./build.base.config");
 
 /**
  * @type {import('electron-builder').Configuration}
@@ -6,11 +6,11 @@ const baseConfig = require('./build.base.config');
 const config = {
   ...baseConfig,
   mac: {
-    icon: 'build/icons/icon.icns',
+    icon: "build/icons/icon.icns",
     target: [
       {
-        target: 'zip',
-      }
+        target: "zip",
+      },
     ],
     files: [
       // 'node_modules/7zip-bin/**/*',
@@ -19,15 +19,12 @@ const config = {
     ],
   },
   win: {
-    icon: 'build/icons/icon.ico',
+    icon: "build/icons/icon.ico",
     target: [
       {
-        target: 'zip',
-        arch: [
-          'x64',
-          'ia32'
-        ],
-      }
+        target: "zip",
+        arch: ["x64", "ia32"],
+      },
     ],
     files: [
       // 'node_modules/7zip-bin/**/*',
@@ -36,11 +33,11 @@ const config = {
     ],
   },
   linux: {
-    icon: 'build/icons',
+    icon: "build/icons",
     target: [
       {
-        target: 'tar.gz',
-      }
+        target: "tar.gz",
+      },
     ],
     files: [
       // 'node_modules/7zip-bin/**/*',

@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join } from "path";
 
 /**
  * Provide vue-devtool extension virtual import.
@@ -6,15 +6,15 @@ import { join } from 'path';
  */
 export default function createVueDevtoolsPlugin() {
   return {
-    name: 'electron:devtools',
+    name: "electron:devtools",
     async resolveId(id) {
-      if (id === 'vue-devtools') {
+      if (id === "vue-devtools") {
         return id;
       }
     },
     async load(id) {
-      if (id === 'vue-devtools') {
-        const path = join(__dirname, '../extensions');
+      if (id === "vue-devtools") {
+        const path = join(__dirname, "../extensions");
         return `export default ${JSON.stringify(path)}`;
       }
     },

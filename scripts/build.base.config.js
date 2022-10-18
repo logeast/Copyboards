@@ -1,15 +1,14 @@
-
 /**
  * @type {import('electron-builder').Configuration}
  */
 const config = {
-  productName: '',
-  appId: '',
+  productName: "",
+  appId: "",
   electronVersion: process.env.ELECTRON_VERSION, // only used for development debugging
   directories: {
-    output: 'build',
-    buildResources: 'build',
-    app: 'dist',
+    output: "build",
+    buildResources: "build",
+    app: "dist",
   },
   // assign publish for auto-updater
   // set this to your own repo!

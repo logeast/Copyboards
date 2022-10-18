@@ -1,6 +1,6 @@
-import { shell, clipboard, ipcRenderer, contextBridge, Dialog, IpcRenderer } from 'electron';
+import { shell, clipboard, ipcRenderer, contextBridge, Dialog, IpcRenderer } from "electron";
 
-console.log('hello world 1st preload!');
+console.log("hello world 1st preload!");
 
 /**
  * Wrapper of ipc renderer.
@@ -67,25 +67,25 @@ const api = {
   ipcRenderer: _ipcRenderer,
   dialog: {
     showCertificateTrustDialog(...options: any[]) {
-      return ipcRenderer.invoke('dialog:showCertificateTrustDialog', ...options);
+      return ipcRenderer.invoke("dialog:showCertificateTrustDialog", ...options);
     },
     showErrorBox(...options: any[]) {
-      return ipcRenderer.invoke('dialog:showErrorBox', ...options);
+      return ipcRenderer.invoke("dialog:showErrorBox", ...options);
     },
     showMessageBox(...options: any[]) {
-      return ipcRenderer.invoke('dialog:showMessageBox', ...options);
+      return ipcRenderer.invoke("dialog:showMessageBox", ...options);
     },
     showOpenDialog(...options: any[]) {
-      return ipcRenderer.invoke('dialog:showOpenDialog', ...options);
+      return ipcRenderer.invoke("dialog:showOpenDialog", ...options);
     },
     showSaveDialog(...options: any[]) {
-      return ipcRenderer.invoke('dialog:showSaveDialog', ...options);
+      return ipcRenderer.invoke("dialog:showSaveDialog", ...options);
     },
-  } as Pick<Dialog, 'showCertificateTrustDialog' | 'showErrorBox' | 'showMessageBox' | 'showOpenDialog' | 'showSaveDialog'>,
+  } as Pick<Dialog, "showCertificateTrustDialog" | "showErrorBox" | "showMessageBox" | "showOpenDialog" | "showSaveDialog">,
 };
 
 try {
-  contextBridge.exposeInMainWorld('electron', api);
+  contextBridge.exposeInMainWorld("electron", api);
 } catch {
   (window as any).electron = api;
 }

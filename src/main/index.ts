@@ -30,10 +30,10 @@ async function main() {
 function createWindow() {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    // height: 430,
-    // width: 680,
-    height: 800,
-    width: 1000,
+    height: 430,
+    width: 680,
+    // height: 800,
+    // width: 1000,
     frame: false,
     transparent: true,
     webPreferences: {

@@ -65,7 +65,7 @@ const filteredClips = computed(() =>
 <template>
   <main>
     <SearchBar></SearchBar>
-    <section class="flex h-96 border-b" v-if="listStore.datalist">
+    <section class="flex h-96 border-b" v-if="listStore.datalist.length > 0">
       <div
         class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
       >
@@ -80,7 +80,7 @@ const filteredClips = computed(() =>
       v-else
     >
       <img src="../assets/empty-box.png" class="w-48" alt="" />
-      <p class="text-gray-400">There is empty here.</p>
+      <p class="text-gray-400">It is empty here.</p>
     </section>
   </main>
 </template>

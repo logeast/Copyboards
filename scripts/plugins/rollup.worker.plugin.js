@@ -1,5 +1,5 @@
-import { basename, extname } from 'path';
-import { cleanUrl, parseRequest } from './util';
+import { basename, extname } from "path";
+import { cleanUrl, parseRequest } from "./util";
 
 /**
  * Resolve ?worker import to the function creating the worker object
@@ -7,22 +7,22 @@ import { cleanUrl, parseRequest } from './util';
  */
 export default function createWorkerPlugin() {
   return {
-    name: 'electron:worker',
+    name: "electron:worker",
 
     resolveId(id, importer) {
       const query = parseRequest(id);
-      if (typeof query.worker === 'string') {
+      if (typeof query.worker === "string") {
         return id + `&importer=${importer}`;
       }
     },
     load(id) {
       const { worker, importer } = parseRequest(id);
-      if (typeof worker === 'string' && typeof importer === 'string') {
+      if (typeof worker === "string" && typeof importer === "string") {
         // emit as separate chunk
         const cleanPath = cleanUrl(id);
         const ext = extname(cleanPath);
         const hash = this.emitFile({
-          type: 'chunk',
+          type: "chunk",
           id: cleanPath,
           fileName: `${basename(cleanPath, ext)}.worker.js`,
           importer: importer,

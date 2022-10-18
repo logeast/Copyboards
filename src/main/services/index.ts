@@ -1,8 +1,8 @@
-import { ipcMain } from 'electron';
-import { Logger } from '../logger';
-import { BaseService } from './BaseService';
-import { FooService } from './FooService';
-import { INJECTIONS_SYMBOL } from './Service';
+import { ipcMain } from "electron";
+import { Logger } from "../logger";
+import { BaseService } from "./BaseService";
+import { FooService } from "./FooService";
+import { INJECTIONS_SYMBOL } from "./Service";
 
 /**
  * All services definition
@@ -33,7 +33,7 @@ export function initialize(logger: Logger) {
  */
 function _initialize(services: Services) {
   if (_services) {
-    throw new Error('Should not initialize the services multiple time!');
+    throw new Error("Should not initialize the services multiple time!");
   }
   _services = services;
   for (const serv of Object.values(services)) {
@@ -63,9 +63,9 @@ export class ServiceMethodNotFoundError extends Error {
   }
 }
 
-ipcMain.handle('service:call', (event, name: string, method: string, ...payloads: any[]) => {
+ipcMain.handle("service:call", (event, name: string, method: string, ...payloads: any[]) => {
   if (!_services) {
-    throw new Error('Cannot call any service until the services are ready!');
+    throw new Error("Cannot call any service until the services are ready!");
   }
   const service = (_services as any)[name];
   if (!service) {

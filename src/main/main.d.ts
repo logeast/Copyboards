@@ -2,15 +2,15 @@
 
 // declare electron static for static file serving
 
-declare module '*?worker' {
-  import { Worker, WorkerOptions } from 'worker_threads';
+declare module "*?worker" {
+  import { Worker, WorkerOptions } from "worker_threads";
   /**
    * The helper to create the worker
    */
   export default function (options: WorkerOptions): Worker;
 }
 
-declare module '/@renderer/*.html' {
+declare module "/@renderer/*.html" {
   /**
    * The url of the page
    */
@@ -18,12 +18,12 @@ declare module '/@renderer/*.html' {
   export default url;
 }
 
-declare module '/@renderer/*' {
+declare module "/@renderer/*" {
   const noop: never;
   export default noop;
 }
 
-declare module '/@static/*' {
+declare module "/@static/*" {
   /**
    * The path of the static file
    */
@@ -31,7 +31,7 @@ declare module '/@static/*' {
   export default path;
 }
 
-declare module '/@preload/*' {
+declare module "/@preload/*" {
   /**
    * The path of the preload file
    */

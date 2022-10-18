@@ -1,9 +1,9 @@
-import { BaseService } from './BaseService';
-import { Inject, Service } from './Service';
-import { add } from '/@shared/sharedLib';
+import { BaseService } from "./BaseService";
+import { Inject, Service } from "./Service";
+import { add } from "/@shared/sharedLib";
 
 export class FooService extends Service {
-  @Inject('BaseService')
+  @Inject("BaseService")
   private baseService!: BaseService
 
   /**
@@ -15,7 +15,7 @@ export class FooService extends Service {
     this.log(`Call function imported from /shared folder! 1 + 2 = ${sum}`);
     return {
       ...result,
-      foo: 'bar',
+      foo: "bar",
     };
   }
 }
