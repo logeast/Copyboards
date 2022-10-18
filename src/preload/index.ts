@@ -1,4 +1,11 @@
-import { shell, clipboard, ipcRenderer, contextBridge, Dialog, IpcRenderer } from "electron";
+import type { Dialog, IpcRenderer } from "electron";
+import {
+  shell,
+  clipboard,
+  ipcRenderer,
+  contextBridge,
+  NativeImage,
+} from "electron";
 
 console.log("hello world 1st preload!");
 
@@ -6,7 +13,7 @@ console.log("hello world 1st preload!");
  * Wrapper of ipc renderer.
  *
  * So the `contextIsolation: true` won't prevent you to use method inherit from EventEmitter,
- * lile `ipcRenderer.on`
+ * like `ipcRenderer.on`
  */
 const _ipcRenderer: IpcRenderer = {
   invoke: (channel, ...args) => ipcRenderer.invoke(channel, ...args),
@@ -18,7 +25,8 @@ const _ipcRenderer: IpcRenderer = {
     ipcRenderer.once(channel, listener);
     return _ipcRenderer;
   },
-  postMessage: (channel, message, transfers) => ipcRenderer.postMessage(channel, message, transfers),
+  postMessage: (channel, message, transfers) =>
+    ipcRenderer.postMessage(channel, message, transfers),
   removeAllListeners: (channel) => {
     ipcRenderer.removeAllListeners(channel);
     return _ipcRenderer;
@@ -61,13 +69,30 @@ const _ipcRenderer: IpcRenderer = {
   eventNames: () => ipcRenderer.eventNames(),
 };
 
+/**
+ * Wrapper of Nodejs process versions.
+ */
+const packedVersions = {
+  node: () => process.versions.node,
+  chorme: () => process.versions.chrome,
+  electron: () => process.versions.electron,
+};
+
 const api = {
+  // types
+  NativeImage,
+
   shell,
   clipboard,
   ipcRenderer: _ipcRenderer,
+
+  versions: packedVersions,
   dialog: {
     showCertificateTrustDialog(...options: any[]) {
-      return ipcRenderer.invoke("dialog:showCertificateTrustDialog", ...options);
+      return ipcRenderer.invoke(
+        "dialog:showCertificateTrustDialog",
+        ...options
+      );
     },
     showErrorBox(...options: any[]) {
       return ipcRenderer.invoke("dialog:showErrorBox", ...options);
@@ -81,7 +106,14 @@ const api = {
     showSaveDialog(...options: any[]) {
       return ipcRenderer.invoke("dialog:showSaveDialog", ...options);
     },
-  } as Pick<Dialog, "showCertificateTrustDialog" | "showErrorBox" | "showMessageBox" | "showOpenDialog" | "showSaveDialog">,
+  } as Pick<
+    Dialog,
+    | "showCertificateTrustDialog"
+    | "showErrorBox"
+    | "showMessageBox"
+    | "showOpenDialog"
+    | "showSaveDialog"
+  >,
 };
 
 try {
