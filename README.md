@@ -1,6 +1,5 @@
 # Copyboards
 
-![GitHub Repo stars](https://img.shields.io/github/stars/logeast/Copyboards?style=social)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
 ![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
 ![GitHub](https://img.shields.io/github/license/logeast/Copyboards)
