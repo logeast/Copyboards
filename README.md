@@ -1,8 +1,10 @@
-# <img src="./website/public/copyboards-mini.svg" height="30px" style="margin-bottom: -4px" />&nbsp;&nbsp;Copyboards
+# Copyboards
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
 ![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
 ![GitHub](https://img.shields.io/github/license/logeast/Copyboards)
+
+![Copyboards Logo](./website/public/copyboards-mini.svg)
 
 A searchable clipboard history application for copy and paste, inspired by [Alfred Clipboard History](https://www.alfredapp.com/help/features/clipboard), build with [Electron](https://www.electronjs.org/), [Vue.js 3](https://vuejs.org/) and [tailwindcss](https://tailwindcss.com/).
 
