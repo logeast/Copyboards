@@ -1,8 +1,10 @@
 # Copyboards
 
-An incredibly useful application to help you manage the clipboard history.
+A Searchable Clipboard History Application for Copy and Paste.
 
 With Copyboards, you don't worry about text, images and file links you've copied but forget to paste earlier. It's all there in your searchable history.
+
+![Copyboards Sample](./static/CopyboardsSample.png)
 
 ## Documentation
 
