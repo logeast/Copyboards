@@ -1,4 +1,4 @@
-# Copyboards
+# <img src="./website/public/copyboards-mini.svg" height="30px" />&nbsp;&nbsp;Copyboards
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
 ![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
@@ -8,7 +8,7 @@ A searchable clipboard history application for copy and paste, inspired by [Alfr
 
 With Copyboards, you don't worry about text, images and file links you've copied but forget to paste earlier. It's all there in your searchable history.
 
-![Copyboards Sample](./static/CopyboardsSample.png)
+![Copyboards Sample](./website/public/copyboards-sample.png)
 
 ## Documentation
 
@@ -36,4 +36,4 @@ If you like this project, please consider fund me to help the maintenance.
 
 ## License
 
-MIT License Copyright (c) 2022 Logeast.
+[MIT License](./LICENSE) Copyright (c) 2022 Logeast.
