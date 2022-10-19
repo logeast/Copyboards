@@ -1,4 +1,4 @@
-# <img src="./website/public/copyboards-mini.svg" height="30px" />&nbsp;&nbsp;Copyboards
+# <img src="./website/public/copyboards-mini.svg" height="30px" style="margin-bottom: -4px" />&nbsp;&nbsp;Copyboards
 
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
 ![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
