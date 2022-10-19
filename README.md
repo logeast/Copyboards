@@ -1,6 +1,11 @@
 # Copyboards
 
-A Searchable Clipboard History Application for Copy and Paste.
+![GitHub Repo stars](https://img.shields.io/github/stars/logeast/Copyboards?style=social)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
+![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
+![GitHub](https://img.shields.io/github/license/logeast/Copyboards)
+
+A searchable clipboard history application for copy and paste, inspired by [Alfred Clipboard History](https://www.alfredapp.com/help/features/clipboard), build with [Electron](https://www.electronjs.org/), [Vue.js 3](https://vuejs.org/) and [tailwindcss](https://tailwindcss.com/).
 
 With Copyboards, you don't worry about text, images and file links you've copied but forget to paste earlier. It's all there in your searchable history.
 
@@ -18,7 +23,7 @@ You can alse check [milestones](https://github.com/logeast/copyboards/milestones
 
 ## Community
 
-Welcome to join our Discord community.
+Welcome to join our [Discussions](https://github.com/logeast/Copyboards/discussions).
 
 ## Contributing
 
