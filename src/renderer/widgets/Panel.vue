@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
-import DataStore from "electron-store";
 
 import SearchBar from "/@/components/SearchBar.vue";
 import Preview from "/@/components/Preview.vue";
@@ -14,9 +13,6 @@ import { useValidateColor } from "../hooks/use-validate-color";
 const clipboardListener = useClipboardListener();
 const listStore = useListStore();
 const clipboard = useClipboard();
-
-/** Store user data into a json file */
-const dataStore = new DataStore();
 
 let uuid = 1000;
 
@@ -41,8 +37,6 @@ watchEffect(() => {
           textInfo: { metadata: text, color: useValidateColor(text).color },
           datetime: new Date().getTime().toString(),
         });
-        dataStore.set("datalist", listStore.datalist);
-        console.log("datalist in store", dataStore.get("datalist"));
       }
     })
     .on("image", (e) => {
