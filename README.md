@@ -6,15 +6,22 @@
 
 ![Copyboards Logo](./website/public/copyboards-mini.svg)
 
-A searchable clipboard history application for copy and paste, inspired by [Alfred Clipboard History](https://www.alfredapp.com/help/features/clipboard), build with [Electron](https://www.electronjs.org/), [Vue.js 3](https://vuejs.org/) and [tailwindcss](https://tailwindcss.com/).
+Copyboards is a searchable clipboard history application for copy and paste. It is inspired by [Alfred Clipboard History](https://www.alfredapp.com/help/features/clipboard) and written in [Electron](https://www.electronjs.org/), [Vue.js 3](https://vuejs.org/) and [tailwindcss](https://tailwindcss.com/).
 
 With Copyboards, you don't worry about text, images and file links you've copied but forget to paste earlier. It's all there in your searchable history.
 
 ![Copyboards Sample](./website/public/copyboards-sample.png)
 
-## Documentation
+## Where can I get it
 
-For more information, please check our official documentations.
+Download the official installer for your operating system:
+
+- macOS
+- macOS (Apple silicon)
+- Windows
+- Windows machine-wide install
+
+You can install this alongside
 
 ## What's Next
 
