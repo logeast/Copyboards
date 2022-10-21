@@ -15,7 +15,7 @@ export abstract class BaseDatabase extends Dexie {
   private schemaVersion: number | undefined;
 
   /**
-   * Initiaaize a new copylist database.
+   * Initialize a new copylist database.
    * @param name - The name of the database.
    * @param schemaVersion - The version of the schema to use. If not provided, the database will be created with the latest version.
    */
@@ -41,6 +41,12 @@ export abstract class BaseDatabase extends Dexie {
       return null;
     }
 
+    /**
+     * Use it to define th schema and any upgrader function fot that specfic version.
+     *
+     * @see  [Dexie.version()](https://dexie.org/docs/Dexie/Dexie.version())
+     * @see [Version.stores()](https://dexie.org/docs/Version/Version.stores())
+     */
     const dexieVersion = this.version(version).stores(schema);
 
     if (upgrade != null) {

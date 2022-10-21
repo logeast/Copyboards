@@ -3,7 +3,7 @@ import { BaseDatabase } from "./base-database";
 
 export interface ICopyItem {
   /** The unique identify for copied message. */
-  id: number;
+  readonly id: number;
 
   /** The icon of the application where the clipboard content comes from. */
   icon?: string;
@@ -34,13 +34,18 @@ export class CopylistDatabase extends BaseDatabase {
   public declare copylist: Dexie.Table<ICopyItem, number>;
 
   /**
-   * Initiaaize a new copylist database.
-   * @param name - The name of the database.
-   * @param schemaVersion - The version of the schema to use. If not provided, the database will be created with the latest version.
+   * Initialize a new copylist database.
    */
   public constructor(name: string, schemaVersion?: number) {
     super(name, schemaVersion);
 
-    this.conditionalVersion(1, {});
+    this.conditionalVersion(1, {
+      copylist: "++id",
+    });
+  }
+
+  /** Get all items in copylist. */
+  public async getAllItemsInCopylist() {
+    await this.copylist.toArray();
   }
 }
