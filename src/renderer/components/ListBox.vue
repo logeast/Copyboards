@@ -1,20 +1,17 @@
 <script setup lang="ts">
 import { List, ListOptions, ListOption } from "./@headless/list";
-import { useListStore } from "/@/stores/list-store";
+import { useCopylistStore } from "../stores/copylist-store";
 
-const listStore = useListStore();
+const copylistStore = useCopylistStore();
 </script>
 
 <template>
   <div class="px-3 py-2">
-    <List as="div" v-model="listStore.selectedItem">
-      <!-- <div class="text-red-500 text-ellipsis overflow-hidden whitespace-nowrap">
-        selected: {{ listStore.selectedItem?.textInfo?.metadata }}
-      </div> -->
+    <List as="div" v-model="copylistStore.selectedItem">
       <ListOptions>
         <ListOption
           v-slot="{ selected }"
-          v-for="item in listStore.datalist"
+          v-for="item in copylistStore.datalist"
           :key="item.id"
           :value="item"
         >

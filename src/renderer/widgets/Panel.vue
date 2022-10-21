@@ -7,11 +7,11 @@ import { useClipboard } from "/@/hooks/@electron/use-clipboard";
 import Listbox from "/@/components/Listbox.vue";
 
 import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
-import { useListStore } from "/@/stores/list-store";
+import { useCopylistStore } from "../stores/copylist-store";
 import { useValidateColor } from "../hooks/use-validate-color";
 
 const clipboardListener = useClipboardListener();
-const listStore = useListStore();
+const copylistStore = useCopylistStore();
 const clipboard = useClipboard();
 
 let uuid = 1000;
@@ -29,9 +29,9 @@ watchEffect(() => {
       const text = clipboard.readText();
       if (
         text !== undefined &&
-        listStore.datalist[0]?.textInfo?.metadata !== text
+        copylistStore.datalist[0]?.textInfo?.metadata !== text
       ) {
-        listStore.datalist.unshift({
+        copylistStore.datalist.unshift({
           id: uuid++,
           type: useValidateColor(text).isColor ? "color" : "text",
           textInfo: { metadata: text, color: useValidateColor(text).color },
@@ -42,7 +42,7 @@ watchEffect(() => {
     .on("image", (e) => {
       const image = clipboard.readImage();
       if (image) {
-        listStore.datalist.unshift({
+        copylistStore.datalist.unshift({
           id: uuid++,
           type: "image",
           imageInfo: { metadata: image.toDataURL() },
@@ -53,7 +53,7 @@ watchEffect(() => {
 });
 
 const filteredClips = computed(() =>
-  listStore.datalist.filter(({ id, textInfo, datetime }) => {
+  copylistStore.datalist.filter(({ id, textInfo, datetime }) => {
     const metadata = textInfo?.metadata;
     [id, metadata, datetime].some((val) =>
       val?.toString().toLocaleLowerCase().includes(search.value)
@@ -65,7 +65,7 @@ const filteredClips = computed(() =>
 <template>
   <main>
     <SearchBar></SearchBar>
-    <section class="flex h-96 border-b" v-if="listStore.datalist.length > 0">
+    <section class="flex h-96 border-b" v-if="copylistStore.datalist.length > 0">
       <div
         class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
       >
