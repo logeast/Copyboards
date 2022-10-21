@@ -2,7 +2,10 @@ import Dexie from "dexie";
 import { BaseDatabase } from "./base-database";
 
 export interface ICopyItem {
-  /** The unique identify for copied message. */
+  /**
+   * The unique identify for copied message.
+   * It will increment automatic.
+   */
   readonly id: number;
 
   /** The icon of the application where the clipboard content comes from. */
@@ -11,17 +14,7 @@ export interface ICopyItem {
   /** The type of clipboard content. */
   type?: "text" | "html" | "image" | "rtf";
 
-  /** The content in the clipboard as plain text. */
-  text?: string;
-
-  /** The content in the clipboard as markup. */
-  html?: string;
-
-  /** The image content in the clipboard. */
-  image?: string;
-
-  /** The content in the clipboard as RTF(Rich Text Format). */
-  rtf?: string;
+  content?: string;
 
   createdAt: string;
 }
