@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 
-import { ListboxItemProps } from "/@/components/share-types";
+import { IAPICopylistItem } from "../api";
 
 export const useCopylistStore = defineStore("pannel-store", {
   state: () => ({
-    datalist: [] as ListboxItemProps[],
-    selectedItem: {} as ListboxItemProps,
+    datalist: [] as IAPICopylistItem[],
+    selectedItem: {} as IAPICopylistItem,
   }),
   actions: {
     increment() {},
