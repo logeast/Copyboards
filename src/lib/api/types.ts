@@ -32,7 +32,7 @@ export interface IAPICopylistItem {
   type: CopylistItemExtendTypeType;
 
   /** The origin clipboard content */
-  context: string;
+  context: any;
 
   /** The icon of the app where the clipboard contennt comes from. */
   icon?: HTMLElement;

@@ -8,19 +8,10 @@ export const useCopylistStore = defineStore("pannel-store", () => {
   /** Initial database */
   const db = new CopylistDatabase("CopylistDatabase");
 
-  const copylist = ref<IAPICopylistItem[]>();
+  const emitQueeued = ref(false);
+
+  const copylist = ref<IAPICopylistItem[]>([]);
   const selectedItem = ref<IAPICopylistItem>();
-
-  /**
-   * Insert or update the copylist database record.
-   */
-  function upsertCopylistItem(apiCopylistItem: IAPICopylistItem) {
-    const _upsertCopylistItem = async (apiCopylistItem: IAPICopylistItem) => {};
-
-    return db.transaction("rw", db.copylistTable, () =>
-      _upsertCopylistItem(apiCopylistItem)
-    );
-  }
 
   /**
    * Add a new copylist item into coyplist database.
@@ -34,6 +25,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
       return { id, ...dbItem };
     });
 
+    updatedCopylist();
     return item;
   }
 
@@ -57,13 +49,34 @@ export const useCopylistStore = defineStore("pannel-store", () => {
    */
   async function findCopylistItemByContent(content: string) {}
 
+  /**
+   * Insert or update the copylist database record.
+   */
+  function upsertCopylistItem(apiCopylistItem: IAPICopylistItem) {
+    const _upsertCopylistItem = async (apiCopylistItem: IAPICopylistItem) => {};
+
+    return db.transaction("rw", db.copylistTable, () =>
+      _upsertCopylistItem(apiCopylistItem)
+    );
+  }
+
+  function updatedCopylist() {
+    if (!emitQueeued.value) {
+      getAll()
+        .then((data) => (copylist.value = [...data]))
+        .catch((e) => console.error("Failed emitting update", e))
+        .finally(() => (emitQueeued.value = false));
+      emitQueeued.value = true;
+    }
+  }
+
   return {
     copylist,
     selectedItem,
 
-    upsertCopylistItem,
     addCopylistItem,
     getAll,
     findCopylistItemByContent,
+    upsertCopylistItem,
   };
 });
