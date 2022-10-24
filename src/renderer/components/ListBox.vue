@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { List, ListOptions, ListOption } from "./@headless/list";
-import { useCopylistStore } from "../stores/copylist-store";
+import { useCopylistStore } from "../../lib/stores/copylist-store";
 
 const copylistStore = useCopylistStore();
 </script>
@@ -11,7 +11,7 @@ const copylistStore = useCopylistStore();
       <ListOptions>
         <ListOption
           v-slot="{ selected }"
-          v-for="item in copylistStore.datalist"
+          v-for="item in copylistStore.copylist"
           :key="item.id"
           :value="item"
         >

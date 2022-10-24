@@ -23,7 +23,7 @@ watchEffect(() => {
   clipboardListener.startListening().on("text", async () => {
     const context = clipboard.readText();
     if (context != null) {
-      const res = await copylistStore.addCopylistItem({
+      await copylistStore.addCopylistItem({
         type: useValidateColor(context).isColor ? "color" : "text",
         context: context,
         textInfo: {
@@ -32,8 +32,7 @@ watchEffect(() => {
         },
         createdAt: new Date().getTime().toString(),
       });
-      console.log("res", res);
-      console.log("copylist", copylist);
+      console.log("copylist", copylist.value.length, copylist.value);
     }
   });
 });
@@ -51,11 +50,14 @@ const filteredClips = computed(() =>
 <template>
   <main>
     <SearchBar></SearchBar>
-    <section class="flex h-96 border-b" v-if="copylist.length > 0">
+    <section
+      class="flex h-96 border-b"
+      v-if="copylistStore.copylist.length > 0"
+    >
       <div
         class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
       >
-        <Listbox :data="filteredClips"></Listbox>
+        <Listbox :data="copylistStore.copylist"></Listbox>
       </div>
       <div class="flex-none overflow-y-auto">
         <!-- <Preview></Preview> -->

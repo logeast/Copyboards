@@ -25,7 +25,8 @@ export const useCopylistStore = defineStore("pannel-store", () => {
       return { id, ...dbItem };
     });
 
-    updatedCopylist();
+    // updatedCopylist();
+    copylist.value.push(item);
     return item;
   }
 
@@ -63,7 +64,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
   function updatedCopylist() {
     if (!emitQueeued.value) {
       getAll()
-        .then((data) => (copylist.value = [...data]))
+        .then((data) => null)
         .catch((e) => console.error("Failed emitting update", e))
         .finally(() => (emitQueeued.value = false));
       emitQueeued.value = true;
