@@ -3,26 +3,27 @@ export type CopylistItemTypeType = "text" | "html" | "image" | "rtf";
 
 export type CopylistItemExtendTypeType = CopylistItemTypeType | "color";
 
-/** Listbox item text info props for clipboard contennt. */
+/** Copylist item text info props for clipboard contennt. */
 export interface IAPICopylistItemTextInfo {
   metadata?: string;
   /** If the clipboard contennt is a color text, take out it along. */
   color?: string;
 }
 
-/** Listbox item image info props for clipboard contennt. */
+/** Copylist item image info props for clipboard contennt. */
 export interface IAPICopylistItemImageInfo {
   /** data:image/png:base64 */
   metadata?: string;
 }
 
-/** Listbox item props for clipboard contennt. */
+/** Copylist item props for clipboard contennt. */
 export interface IAPICopylistItem {
-  /** The unique identify for clipboard contennt. */
-  id: number;
-
-  /** The icon of the app where the clipboard contennt comes from. */
-  icon?: HTMLElement;
+  /**
+   * The unique identify for clipboard contennt.
+   *
+   * ⚠️ It will increment automatic. Please do not pass in manually.
+   */
+  id?: number;
 
   /**
    * The type of clipboard contennt.
@@ -30,10 +31,16 @@ export interface IAPICopylistItem {
    */
   type: CopylistItemExtendTypeType;
 
-  /** Listbox item text info props for clipboard contennt. */
+  /** The origin clipboard content */
+  context: string;
+
+  /** The icon of the app where the clipboard contennt comes from. */
+  icon?: HTMLElement;
+
+  /** Copylist item text info props for clipboard contennt. */
   textInfo?: IAPICopylistItemTextInfo;
 
-  /** Listbox item image info props for clipboard contennt. */
+  /** Copylist item image info props for clipboard contennt. */
   imageInfo?: IAPICopylistItemImageInfo;
 
   /** Whether the clipboard contennt is active? */
