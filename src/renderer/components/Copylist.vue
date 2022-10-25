@@ -1,19 +1,24 @@
 <script setup lang="ts">
+import { IAPICopylistItem } from "../../lib/api";
 import { List, ListOptions, ListOption } from "../../lib/headless/list";
-import { useCopylistStore } from "../../lib/stores/copylist-store";
 
-const copylistStore = useCopylistStore();
+const props = defineProps<{
+  selected?: IAPICopylistItem;
+  data: IAPICopylistItem[];
+}>();
 
-console.log("copylistStore.copylist", copylistStore.copylist);
+// withDefaults(props, {
+//   selected: props.data[0],
+// });
 </script>
 
 <template>
-  <div class="px-3 py-2">
-    <List as="div" v-model="copylistStore.selectedItem">
+  <section>
+    <List as="div" v-model="selected">
       <ListOptions>
         <ListOption
           v-slot="{ selected }"
-          v-for="item in copylistStore.copylist"
+          v-for="item in data"
           :key="item.id"
           :value="item"
         >
@@ -36,5 +41,5 @@ console.log("copylistStore.copylist", copylistStore.copylist);
         </ListOption>
       </ListOptions>
     </List>
-  </div>
+  </section>
 </template>

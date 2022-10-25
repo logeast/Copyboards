@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Panel from "/@/widgets/Panel.vue";
+import Panel from "./pages/Panel.vue";
 </script>
 
 <template>

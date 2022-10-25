@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useDay } from "/@/hooks/use-day";
-import { useCopylistStore } from "../stores/copylist-store";
+import { useDay } from "../../lib/hooks/use-day";
+import { useCopylistStore } from "../../lib/stores/copylist-store";
 
 const copylistStore = useCopylistStore();
 </script>

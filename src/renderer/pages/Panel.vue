@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, computed, watchEffect } from "vue";
+import { useClipboard } from "../../lib/electron-hooks/use-clipboard";
 
-import SearchBar from "/@/components/SearchBar.vue";
-import Preview from "/@/components/Preview.vue";
-import { useClipboard } from "/@/hooks/@electron/use-clipboard";
-import Listbox from "/@/components/Listbox.vue";
+import SearchBar from "../components/SearchBar.vue";
+import Preview from "../components/Preview.vue";
+import PanelLayout from "../components/PanelLayout.vue";
+import Copylist from "../components/Copylist.vue";
 
-import { useClipboardListener } from "/@/hooks/@electron/use-clipboard-listener";
+import { useClipboardListener } from "../../lib/electron-hooks/use-clipboard-listener";
 import { useCopylistStore } from "../../lib/stores/copylist-store";
-import { useValidateColor } from "../hooks/use-validate-color";
+import { useValidateColor } from "../../lib/hooks/use-validate-color";
 import { storeToRefs } from "pinia";
 
 const clipboardListener = useClipboardListener();
@@ -48,28 +49,19 @@ const filteredClips = computed(() =>
 </script>
 
 <template>
-  <main>
-    <SearchBar></SearchBar>
-    {{JSON.stringify(copylistStore.copylist)}}
-    <section
-      class="flex h-96 border-b"
-      v-if="copylistStore.copylist.length > 0"
-    >
-      <div
-        class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
-      >
-        <Listbox></Listbox>
-      </div>
-      <div class="flex-none overflow-y-auto">
-        <!-- <Preview></Preview> -->
-      </div>
-    </section>
-    <section
-      class="flex h-96 border-b flex-col gap-1 items-center justify-center"
-      v-else
-    >
-      <img src="../assets/empty-box.png" class="w-48" alt="" />
-      <p class="text-gray-400">It is empty here.</p>
-    </section>
-  </main>
+  qqq
+      <SearchBar></SearchBar>
+  <!-- <PanelLayout>
+    <template #header>
+      <SearchBar></SearchBar>
+    </template>
+
+    <template #copylist>
+      <Copylist :data="copylistStore.copylist"></Copylist>
+    </template>
+
+    <template #preview>
+      <Preview></Preview>
+    </template>
+  </PanelLayout> -->
 </template>
