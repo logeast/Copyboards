@@ -8,8 +8,8 @@ import {
   UnwrapNestedRefs,
 } from "vue";
 import { ListContext, ListOptionData, StateDefinition } from "./type";
-import { useControllable } from "/@/hooks/use-controllable";
-import { omit } from "../utils/render";
+import { useControllable } from "../../hooks/use-controllable";
+import { omit } from "../../utils/render";
 
 function defaultComparator<T>(a: T, z: T): boolean {
   return a === z;

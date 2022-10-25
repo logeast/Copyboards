@@ -3,6 +3,8 @@ import { List, ListOptions, ListOption } from "./@headless/list";
 import { useCopylistStore } from "../../lib/stores/copylist-store";
 
 const copylistStore = useCopylistStore();
+
+console.log("copylistStore.copylist", copylistStore.copylist);
 </script>
 
 <template>

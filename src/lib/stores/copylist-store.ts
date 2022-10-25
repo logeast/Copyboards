@@ -4,10 +4,10 @@ import { ref } from "vue";
 import { IAPICopylistItem } from "../api";
 import { CopylistDatabase } from "../databases";
 
-export const useCopylistStore = defineStore("pannel-store", () => {
-  /** Initial database */
-  const db = new CopylistDatabase("CopylistDatabase");
+/** Initial database */
+const db = new CopylistDatabase("CopylistDatabase");
 
+export const useCopylistStore = defineStore("pannel-store", () => {
   const emitQueeued = ref(false);
 
   const copylist = ref<IAPICopylistItem[]>([]);
@@ -31,7 +31,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
   }
 
   /**
-   * Get al the local copylist items.
+   * Get all the local copylist items.
    */
   function getAll(): Promise<ReadonlyArray<IAPICopylistItem>> {
     return db.transaction("r", db.copylistTable, async () => {

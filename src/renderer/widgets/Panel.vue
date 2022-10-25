@@ -50,6 +50,7 @@ const filteredClips = computed(() =>
 <template>
   <main>
     <SearchBar></SearchBar>
+    {{JSON.stringify(copylistStore.copylist)}}
     <section
       class="flex h-96 border-b"
       v-if="copylistStore.copylist.length > 0"
@@ -57,7 +58,7 @@ const filteredClips = computed(() =>
       <div
         class="flex-1 overflow-y-auto scrollbar scrollbar-xs scrollbar-thumb-blue-400 scrollbar-rounded-2"
       >
-        <Listbox :data="copylistStore.copylist"></Listbox>
+        <Listbox></Listbox>
       </div>
       <div class="flex-none overflow-y-auto">
         <!-- <Preview></Preview> -->
