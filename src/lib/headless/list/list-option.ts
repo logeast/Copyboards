@@ -8,7 +8,7 @@ import {
   watch,
 } from "vue";
 import { ListOptionData, useListContext } from "./type";
-import { useId } from "/@/hooks/use-id";
+import { useId } from "../../hooks/use-id";
 import { omit } from "../../utils/render";
 
 /**

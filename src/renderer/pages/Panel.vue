@@ -49,9 +49,10 @@ const filteredClips = computed(() =>
 </script>
 
 <template>
-  qqq
-      <SearchBar></SearchBar>
-  <!-- <PanelLayout>
+  <PanelLayout
+    :empty="!copylistStore.copylist"
+    :preview="!!copylistStore.copylist"
+  >
     <template #header>
       <SearchBar></SearchBar>
     </template>
@@ -61,7 +62,7 @@ const filteredClips = computed(() =>
     </template>
 
     <template #preview>
-      <Preview></Preview>
+      <Preview :data="copylistStore.selectedItem"></Preview>
     </template>
-  </PanelLayout> -->
+  </PanelLayout>
 </template>

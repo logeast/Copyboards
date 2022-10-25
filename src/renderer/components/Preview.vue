@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { IAPICopylistItem } from "../../lib/api";
 import { useDay } from "../../lib/hooks/use-day";
-import { useCopylistStore } from "../../lib/stores/copylist-store";
 
-const copylistStore = useCopylistStore();
+const props = defineProps<{
+  data?: IAPICopylistItem;
+}>();
+console.log("selected data", props.data);
 </script>
 
 <template>
@@ -10,37 +13,34 @@ const copylistStore = useCopylistStore();
     <div class="flex-1">
       <article
         class="w-full h-full overflow-y-auto p-4 break-all"
-        v-if="copylistStore.selectedItem.type === 'text'"
+        v-if="data?.type === 'text'"
       >
-        {{ copylistStore.selectedItem.textInfo?.metadata }}
+        {{ data?.textInfo?.metadata }}
       </article>
 
       <figure
         class="w-full h-full p-4 overflow-hidden flex flex-col gap-2"
-        v-if="copylistStore.selectedItem.type === 'image'"
+        v-if="data?.type === 'image'"
       >
         <p class="flex-none truncate">
-          {{ copylistStore.selectedItem.textInfo?.metadata }}
+          {{ data?.textInfo?.metadata }}
         </p>
         <figure class="flex items-center justify-center flex-1 overflow-hidden">
-          <img
-            class="max-w-full max-h-full"
-            :src="copylistStore.selectedItem.imageInfo?.metadata"
-          />
+          <img class="max-w-full max-h-full" :src="data?.imageInfo?.metadata" />
         </figure>
       </figure>
 
       <div
         class="w-full h-full p-4 overflow-hidden flex flex-col gap-2"
-        v-if="copylistStore.selectedItem.type === 'color'"
+        v-if="data?.type === 'color'"
       >
         <p class="flex-none truncate">
-          {{ copylistStore.selectedItem.textInfo?.metadata }}
+          {{ data?.textInfo?.metadata }}
         </p>
         <div
           class="flex items-center justify-center flex-1 overflow-hidden"
           :style="{
-            'background-color': copylistStore.selectedItem.textInfo?.color,
+            'background-color': data?.textInfo?.color,
           }"
         ></div>
       </div>
@@ -50,15 +50,13 @@ const copylistStore = useCopylistStore();
       class="sticky bottom-0 p-2 border-t z-10 bg-gray-100/90 backdrop-blur-xl flex-none flex flex-col items-center justify-center gap-1"
     >
       <p class="text-xs text-gray-500">
-        {{
-          copylistStore.selectedItem.textInfo?.metadata?.split(" ").length || 0
-        }}
+        {{ data?.textInfo?.metadata?.split(" ").length || 0 }}
         words;
-        {{ copylistStore.selectedItem.textInfo?.metadata?.length || 0 }} chars
+        {{ data?.textInfo?.metadata?.length || 0 }} chars
       </p>
       <p class="text-xs text-gray-500">
-        Copied {{ useDay(copylistStore.selectedItem.datetime || "").date }} at
-        {{ useDay(copylistStore.selectedItem.datetime || "").time }}
+        Copied {{ useDay(data?.createdAt || "").date }} at
+        {{ useDay(data?.createdAt || "").time }}
       </p>
     </footer>
   </section>

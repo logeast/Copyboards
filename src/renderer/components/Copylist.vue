@@ -1,20 +1,25 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import { IAPICopylistItem } from "../../lib/api";
 import { List, ListOptions, ListOption } from "../../lib/headless/list";
 
+import { useCopylistStore } from "../../lib/stores/copylist-store";
+
+const copylistStore = useCopylistStore();
+
 const props = defineProps<{
-  selected?: IAPICopylistItem;
+  defaultValue?: IAPICopylistItem;
   data: IAPICopylistItem[];
 }>();
 
-// withDefaults(props, {
-//   selected: props.data[0],
-// });
+const controlledValue = ref(props.defaultValue);
+
+copylistStore.selectedItem = controlledValue.value;
 </script>
 
 <template>
   <section>
-    <List as="div" v-model="selected">
+    <List as="div" v-model="controlledValue">
       <ListOptions>
         <ListOption
           v-slot="{ selected }"
@@ -24,7 +29,7 @@ const props = defineProps<{
         >
           <li
             :class="[
-              { 'text-white bg-blue-500': selected },
+              { 'text-white bg-indigo-500': selected },
               'flex items-center justify-between px-2 gap-2 h-9 rounded-lg cursor-default',
             ]"
           >

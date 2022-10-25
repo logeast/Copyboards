@@ -12,7 +12,7 @@ withDefaults(defineProps<SearchBarProps>(), {
 
 <template>
   <section
-    class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-100/90 backdrop-blur-xl"
+    class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-100"
     style="height: 56px"
   >
     <span class="text-gray-600">

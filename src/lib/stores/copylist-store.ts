@@ -26,7 +26,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
     });
 
     // updatedCopylist();
-    copylist.value.push(item);
+    copylist.value.unshift(item);
     return item;
   }
 

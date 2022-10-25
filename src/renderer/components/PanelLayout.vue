@@ -9,13 +9,13 @@ defineProps({
 </script>
 
 <template>
-  <div class="h-96">
+  <div class="flex flex-col h-screen">
     <header class="sticky top-0 z-40">
       <slot name="header"></slot>
     </header>
 
-    <main class="flex" v-if="!empty">
-      <section class="flex-auto overflow-y-auto">
+    <main class="flex flex-1 overflow-hidden" v-if="!empty">
+      <section class="flex-auto overflow-y-auto p-2">
         <slot name="copylist"></slot>
       </section>
 
