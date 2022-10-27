@@ -9,7 +9,7 @@ console.log("selected data", props.data);
 </script>
 
 <template>
-  <section class="relative flex flex-col border-l h-full" style="width: 390px">
+  <section class="relative flex flex-col border-l h-full">
     <div class="flex-1">
       <article
         class="w-full h-full overflow-y-auto p-4 break-all"

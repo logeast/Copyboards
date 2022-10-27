@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 
 import { IAPICopylistItem } from "../api";
 import { CopylistDatabase } from "../databases";
@@ -13,6 +13,9 @@ export const useCopylistStore = defineStore("pannel-store", () => {
   const copylist = ref<IAPICopylistItem[]>([]);
   const selectedItem = ref<IAPICopylistItem>();
 
+  watchEffect(async () => {
+    copylist.value = [...(await getLatestN(120))];
+  });
   /**
    * Add a new copylist item into coyplist database.
    */
@@ -31,7 +34,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
   }
 
   /**
-   * Get all the local copylist items.
+   * Get all records.
    */
   function getAll(): Promise<ReadonlyArray<IAPICopylistItem>> {
     return db.transaction("r", db.copylistTable, async () => {
@@ -41,6 +44,24 @@ export const useCopylistStore = defineStore("pannel-store", () => {
         result.push(dbItem);
       }
 
+      return result;
+    });
+  }
+
+  /**
+   * Get latest n records.
+   */
+  function getLatestN(n: number): Promise<ReadonlyArray<IAPICopylistItem>> {
+    return db.transaction("r", db.copylistTable, async () => {
+      const result: IAPICopylistItem[] = [];
+
+      for (const dbItem of await db.copylistTable
+        .reverse()
+        // .toCollection()
+        .limit(n)
+        .toArray()) {
+        result.push(dbItem);
+      }
       return result;
     });
   }
@@ -77,6 +98,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
 
     addCopylistItem,
     getAll,
+    getLatestN,
     findCopylistItemByContent,
     upsertCopylistItem,
   };
