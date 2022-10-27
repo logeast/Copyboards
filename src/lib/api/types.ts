@@ -47,5 +47,5 @@ export interface IAPICopylistItem {
   active?: boolean;
 
   /** The clipboard contennt created time. */
-  createdAt?: string;
+  createdAt?: string | number | Date;
 }

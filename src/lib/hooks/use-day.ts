@@ -2,7 +2,7 @@
  * Parse and displays dates and time.
  */
 
-export function useDay(date: string) {
+export function useDay(date: string | number | Date) {
   const now = new Date();
   const datetime = new Date(date || now);
 
@@ -10,6 +10,8 @@ export function useDay(date: string) {
 
   return {
     date: today ? "Today" : datetime.toDateString(),
-    time: `${datetime.getHours()}:${datetime.getMinutes()}`,
+    time: `${datetime.getHours() < 10 ? 0 : ""}${datetime.getHours()}:${
+      datetime.getMinutes() < 10 ? 0 : ""
+    }${datetime.getMinutes()}`,
   };
 }

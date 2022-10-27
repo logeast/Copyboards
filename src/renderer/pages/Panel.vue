@@ -31,7 +31,7 @@ watchEffect(() => {
           metadata: context,
           color: useValidateColor(context).color,
         },
-        createdAt: new Date().getTime().toString(),
+        createdAt: new Date().toString(),
       });
       console.log("copylist", copylist.value.length, copylist.value);
     }
