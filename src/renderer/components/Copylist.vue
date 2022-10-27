@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { IAPICopylistItem } from "../../lib/api";
 import { List, ListOptions, ListOption } from "../../lib/headless/list";
 
@@ -14,7 +14,9 @@ const props = defineProps<{
 
 const controlledValue = ref(props.defaultValue);
 
-copylistStore.selectedItem = controlledValue.value;
+watch([controlledValue], () => {
+  copylistStore.selectedItem = controlledValue.value;
+});
 </script>
 
 <template>

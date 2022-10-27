@@ -3,7 +3,7 @@ import { Ref, ComputedRef, inject, InjectionKey } from "vue";
 /**
  * Define list option data's types.
  */
-export type ListOptionData = {
+export type IListOptionData = {
   textValue: string;
   value: unknown;
   domRef: Ref<HTMLElement | null>;
@@ -12,7 +12,7 @@ export type ListOptionData = {
 /**
  * Define list component's global api.
  */
-export type StateDefinition = {
+export type IStateDefinition = {
   /**
    * The reactive value of current selected option.
    */
@@ -31,7 +31,7 @@ export type StateDefinition = {
   /**
    * List options with id and datas.
    */
-  options: Ref<{ id: string; dataRef: ComputedRef<ListOptionData> }[]>;
+  options: Ref<{ id: string; dataRef: ComputedRef<IListOptionData> }[]>;
 
   /**
    * Current selected option index.
@@ -49,7 +49,7 @@ export type StateDefinition = {
   /**
    * Register option's id and data.
    */
-  registerOption(id: string, dataRef: ComputedRef<ListOptionData>): void;
+  registerOption(id: string, dataRef: ComputedRef<IListOptionData>): void;
 
   /**
    * Select the specific value.
@@ -64,7 +64,7 @@ export type StateDefinition = {
  */
 export const ListContext = Symbol(
   "ListContext"
-) as InjectionKey<StateDefinition>;
+) as InjectionKey<IStateDefinition>;
 
 /**
  * Inject the list context in the descendent compoents.

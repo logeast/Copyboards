@@ -7,7 +7,7 @@ import {
   ref,
   UnwrapNestedRefs,
 } from "vue";
-import { ListContext, ListOptionData, StateDefinition } from "./type";
+import { ListContext, IListOptionData, IStateDefinition } from "./type";
 import { useControllable } from "../../hooks/use-controllable";
 import { omit } from "../../utils/render";
 
@@ -50,10 +50,10 @@ export const List = defineComponent({
     },
   },
   setup(props, { slots, emit }) {
-    const optionsRef = ref<StateDefinition["optionsRef"]["value"]>(null);
-    const options = ref<StateDefinition["options"]["value"]>([]);
+    const optionsRef = ref<IStateDefinition["optionsRef"]["value"]>(null);
+    const options = ref<IStateDefinition["options"]["value"]>([]);
     const selectedOptionIndex =
-      ref<StateDefinition["selectedOptionIndex"]["value"]>(null);
+      ref<IStateDefinition["selectedOptionIndex"]["value"]>(null);
 
     const [value, theirOnChange] = useControllable(
       computed(() => props.modelValue),
@@ -75,8 +75,8 @@ export const List = defineComponent({
      */
     function adjustOrderedState(
       adjustment: (
-        options: UnwrapNestedRefs<StateDefinition["options"]["value"]>
-      ) => UnwrapNestedRefs<StateDefinition["options"]["value"]> = (i) => i
+        options: UnwrapNestedRefs<IStateDefinition["options"]["value"]>
+      ) => UnwrapNestedRefs<IStateDefinition["options"]["value"]> = (i) => i
     ) {
       const currentSelectedOption =
         selectedOptionIndex.value !== null
@@ -108,7 +108,7 @@ export const List = defineComponent({
       options.value = adjustedState.options;
     }
 
-    function registerOption(id: string, dataRef: ComputedRef<ListOptionData>) {
+    function registerOption(id: string, dataRef: ComputedRef<IListOptionData>) {
       const adjustedState = adjustOrderedState((options) => {
         return [...options, { id, dataRef }];
       });
