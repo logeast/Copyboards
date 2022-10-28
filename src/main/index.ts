@@ -1,37 +1,32 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, globalShortcut } from "electron";
 import "./dialog";
-import { Logger } from "./logger";
-import { initialize } from "./services";
-import createBaseWorker from "./workers/index?worker";
 import indexPreload from "/@preload/index";
 import indexHtmlUrl from "/@renderer/index.html";
 import logoUrl from "/@static/logo.png";
 
+/**
+ * The main progress of the application.
+ */
 async function main() {
-  const logger = new Logger();
-  logger.initialize(app.getPath("userData"));
-  initialize(logger);
-  app.whenReady().then(() => {
-    createWindow();
-    // const [x, y] = main.getPosition();
-    // const side = createSecondWindow();
-    // side.setPosition(x + 800 + 5, y);
-  });
-  // thread_worker example
-  createBaseWorker({ workerData: "worker world" })
-    .on("message", (message) => {
-      logger.log(`Message from worker: ${message}`);
+  app
+    .whenReady()
+    .then(() => {
+      globalShortcut.register("option+Space", () => {
+        console.log("good");
+      });
     })
-    .postMessage("");
+    .then(() => {
+      createWindow();
+    });
 }
 
+/**
+ * Create the browser window.
+ */
 function createWindow() {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     height: 480,
     width: 680,
-    // height: 800,
-    // width: 1000,
     frame: false,
     transparent: true,
     webPreferences: {
@@ -46,14 +41,28 @@ function createWindow() {
   return mainWindow;
 }
 
-// ensure app start as single instance
+/**
+ * Ensure app start as single instance.
+ */
 if (!app.requestSingleInstanceLock()) {
   app.quit();
 }
 
+/**
+ * Quit the application when the last window is closed.
+ */
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
+  }
+});
+
+/**
+ * When activate if window.
+ */
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
   }
 });
 
