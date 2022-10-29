@@ -2,21 +2,17 @@
   "name": "copyboards",
   "version": "0.0.0",
   "private": true,
-  "description": "",
+  "description": "A Searchable Clipboard History Application for Copy and Paste.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/logeast/copyboards.git"
+    "url": "https://github.com/logeast/copyboards"
   },
+  "main": "dist-electron/main/index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build && electron-builder",
     "dev:docs": "node scripts/dev.docs.js",
-    "dev": "node scripts/dev.js",
-    "build": "node scripts/build.js",
-    "build:dir": "cross-env BUILD_TARGET=dir node scripts/build.js",
-    "build:lite": "cross-env BUILD_TARGET=lite node scripts/build.js",
-    "build:production": "cross-env BUILD_TARGET=production node scripts/build.js",
-    "lint": "eslint --ext .ts,.vue,.js src scripts",
-    "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node ./scripts/dev.install.js"
+    "lint": "eslint --ext .ts,.vue,.js src scripts"
   },
   "author": {
     "email": "logeast@outlook.com",
@@ -25,55 +21,27 @@
   "license": "MIT",
   "dependencies": {
     "dexie": "^3.2.2",
-    "electron-updater": "^4.3.5",
     "mitt": "^3.0.0",
     "pinia": "^2.0.23",
-    "tailwind-scrollbar": "^1.3.1",
-    "validate-color": "^2.2.1",
-    "vue": "^3.0.6",
-    "vue-router": "^4.0.10"
+    "validate-color": "^2.2.1"
   },
-  "external": [
-    "electron-updater",
-    "fs-extra"
-  ],
+  "external": [],
   "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.2",
-    "@rollup/plugin-commonjs": "^19.0.0",
-    "@rollup/plugin-json": "^4.1.0",
-    "@rollup/plugin-node-resolve": "^13.0.0",
-    "@rollup/plugin-typescript": "^8.2.1",
-    "@types/fs-extra": "^9.0.13",
     "@vitejs/plugin-vue": "^1.2.3",
-    "@vue/compiler-sfc": "^3.0.8",
-    "autoprefixer": "^10.4.7",
-    "builtin-modules": "^3.1.0",
-    "chalk": "^4.1.0",
-    "cross-env": "^7.0.2",
+    "autoprefixer": "^10.4.13",
     "electron": "^13.1.2",
     "electron-builder": "^22.11.7",
-    "esbuild": "^0.12.8",
-    "extract-zip": "^1.7.0",
-    "fs-extra": "^9.0.1",
-    "got": "^9.6.0",
-    "magic-string": "^0.25.7",
+    "esbuild": "^0.15.12",
     "postcss": "^8.4.14",
-    "rollup": "^2.38.5",
     "tailwindcss": "^3.1.4",
-    "tslib": "^1.14.1",
     "typescript": "^4.1.2",
-    "vite": "^2.3.7"
+    "vite": "^2.3.7",
+    "vite-electron-plugin": "^0.4.7",
+    "vue": "^3.0.6"
   },
   "optionalDependencies": {
     "@types/node": "^14.14.7",
-    "@typescript-eslint/eslint-plugin": "^4.7.0",
-    "@typescript-eslint/parser": "^4.7.0",
     "eslint": "^7.13.0",
-    "eslint-config-standard": "^14.1.1",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.2",
     "eslint-plugin-vue": "^7.1.0"
   }
 }

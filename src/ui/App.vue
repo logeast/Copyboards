@@ -4,4 +4,5 @@ import Panel from "./pages/Panel.vue";
 
 <template>
   <Panel></Panel>
+  good
 </template>
