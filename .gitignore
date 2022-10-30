@@ -8,12 +8,14 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-build
 dist
+dist-ssr
 dist-electron
 *.local
 
 # Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo
@@ -21,9 +23,3 @@ dist-electron
 *.njsproj
 *.sln
 *.sw?
-
-release
-.vscode/.debug.env
-package-lock.json
-pnpm-lock.yaml
-yarn.lock

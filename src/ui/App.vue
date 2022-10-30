@@ -3,6 +3,6 @@ import Panel from "./pages/Panel.vue";
 </script>
 
 <template>
-  <Panel></Panel>
+  <!-- <Panel></Panel> -->
   good
 </template>
