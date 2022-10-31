@@ -19,7 +19,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "dexie": "^3.2.2",
     "mitt": "^3.0.0",
     "pinia": "^2.0.23",
     "validate-color": "^2.2.1"
@@ -28,6 +27,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.2.0",
     "autoprefixer": "^10.4.13",
+    "dexie": "^3.2.2",
     "electron": "^13.6.9",
     "electron-builder": "^22.14.13",
     "esbuild": "^0.15.12",
