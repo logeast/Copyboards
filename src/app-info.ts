@@ -23,5 +23,11 @@ export const Replacements = {
   "process.env.TEST_ENV": s(process.env.TEST_ENV),
 };
 
-export const { __DARWIN__, __WIN32__, __LINUX__, __APP_VERSION__, __DEV__ } =
-  Replacements;
+export const {
+  __DARWIN__,
+  __WIN32__,
+  __LINUX__,
+  __APP_NAME__,
+  __APP_VERSION__,
+  __DEV__,
+} = Replacements;
