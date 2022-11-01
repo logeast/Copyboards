@@ -1,14 +1,21 @@
 import { app, BrowserWindow } from "electron";
+import { __DEV__ } from "../app-info";
 
 import { AppWindow } from "./app-window";
 
 async function createWindow() {
-  const win = new BrowserWindow({});
+  const window = new AppWindow();
+
+  if (__DEV__) {
+    // install electron devtools
+  }
+
+  window.onClosed();
 
   if (app.isPackaged) {
-    win.loadFile("your-build-output-index.html");
+    window.loadFile("your-build-output-index.html");
   } else {
-    win.loadURL(process.env.VITE_DEV_SERVER_URL);
+    window.loadURL(process.env.VITE_DEV_SERVER_URL);
   }
 }
 
