@@ -19,6 +19,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "electron-window-state": "^5.0.3",
     "mitt": "^3.0.0",
     "validate-color": "^2.2.1"
   },

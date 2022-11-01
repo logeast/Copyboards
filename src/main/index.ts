@@ -1,5 +1,7 @@
 import { app, BrowserWindow } from "electron";
 
+import { AppWindow } from "./app-window";
+
 async function createWindow() {
   const win = new BrowserWindow({});
 

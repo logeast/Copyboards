@@ -8,6 +8,7 @@ specifiers:
   dexie: ^3.2.2
   electron: ^13.6.9
   electron-builder: ^22.14.13
+  electron-window-state: ^5.0.3
   esbuild: ^0.15.12
   eslint: ^7.32.0
   eslint-plugin-vue: ^7.20.0
@@ -24,6 +25,7 @@ specifiers:
   vue-tsc: ^1.0.9
 
 dependencies:
+  electron-window-state: 5.0.3
   mitt: 3.0.0
   validate-color: 2.2.1
 
@@ -1549,6 +1551,14 @@ packages:
     resolution: {integrity: sha512-M8WEXFuKXMYMVr45fo8mq0wUrrJHheiKZf6BArTKk9ZBYCKJEOU5H8cdWgDT+qCVZf7Na4lVUaZsA+h6uA9+PA==}
     dev: true
 
+  /electron-window-state/5.0.3:
+    resolution: {integrity: sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      jsonfile: 4.0.0
+      mkdirp: 0.5.6
+    dev: false
+
   /electron/13.6.9:
     resolution: {integrity: sha512-Es/sBy85NIuqsO9MW41PUCpwIkeinlTQ7g0ainfnmRAM2rmog3GBxVCaoV5dzEjwTF7TKG1Yr/E7Z3qHmlfWAg==}
     engines: {node: '>= 8.6'}
@@ -3056,10 +3066,9 @@ packages:
     dev: true
 
   /jsonfile/4.0.0:
-    resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
+    resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
     optionalDependencies:
       graceful-fs: 4.2.10
-    dev: true
 
   /jsonfile/6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
@@ -3260,7 +3269,6 @@ packages:
     hasBin: true
     dependencies:
       minimist: 1.2.7
-    dev: true
 
   /ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
