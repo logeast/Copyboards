@@ -1,5 +1,7 @@
 import type Electron from "electron";
 
+console.log("electron", window.electron);
+
 const { clipboard } = (window as any).electron as typeof Electron;
 
 /**

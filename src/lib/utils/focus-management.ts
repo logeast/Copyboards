@@ -1,7 +1,7 @@
 export function sortByDomNode<T>(
   nodes: T[],
   resolveKey: (item: T) => HTMLElement | null = (i) =>
-    i as unknown as HTMLElement | null
+    i as unknown as HTMLElement | null,
 ): T[] {
   return nodes.slice().sort((aItem, zItem) => {
     const a = resolveKey(aItem);

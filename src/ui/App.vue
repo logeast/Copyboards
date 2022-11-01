@@ -1,8 +1,7 @@
 <script setup lang="ts">
-// import Panel from "./pages/Panel.vue";
+import Panel from "./pages/Panel.vue";
 </script>
 
 <template>
-  <!-- <Panel></Panel> -->
-  goodssss
+  <Panel></Panel>
 </template>

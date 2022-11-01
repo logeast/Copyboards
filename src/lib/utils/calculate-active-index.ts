@@ -32,7 +32,7 @@ export function calculateActiveIndex<TItem>(
     resolveActiveIndex(): number | null;
     resolveId(item: TItem): string;
     resolveDisabled(item: TItem): boolean;
-  }
+  },
 ) {
   const items = resovlers.resolveItems();
   if (items.length <= 0) {
@@ -81,7 +81,7 @@ export function calculateActiveIndex<TItem>(
 
       case Focus.Specific:
         return items.findIndex(
-          (item) => resovlers.resolveId(item) === action.id
+          (item) => resovlers.resolveId(item) === action.id,
         );
 
       case Focus.Nothing:

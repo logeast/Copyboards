@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InputHTMLAttributes } from "vue";
+import { InputHTMLAttributes, withDefaults, defineProps } from "vue";
 
 interface SearchBarProps {
   placeholder?: InputHTMLAttributes["placeholder"];

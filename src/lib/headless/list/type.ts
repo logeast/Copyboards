@@ -63,7 +63,7 @@ export type IStateDefinition = {
  * @see https://vuejs.org/guide/components/provide-inject.html
  */
 export const ListContext = Symbol(
-  "ListContext"
+  "ListContext",
 ) as InjectionKey<IStateDefinition>;
 
 /**
@@ -76,7 +76,7 @@ export function useListContext(component: string) {
 
   if (context === null) {
     const err = new Error(
-      `<${component} /> is missing a parent <List /> component.`
+      `<${component} /> is missing a parent <List /> component.`,
     );
     throw err;
   }

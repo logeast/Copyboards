@@ -35,7 +35,7 @@ export abstract class BaseDatabase extends Dexie {
   protected async conditionalVersion(
     version: number,
     schema: { [key: string]: string | null },
-    upgrade?: (t: Transaction) => Promise<void>
+    upgrade?: (t: Transaction) => Promise<void>,
   ) {
     if (this.schemaVersion != null && this.schemaVersion < version) {
       return null;

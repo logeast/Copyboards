@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { defineProps } from "vue";
 import { IAPICopylistItem } from "../../lib/api";
 import { useDay } from "../../lib/hooks/use-day";
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, defineProps } from "vue";
 import { IAPICopylistItem } from "../../lib/api";
 import { List, ListOptions, ListOption } from "../../lib/headless/list";
 

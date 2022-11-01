@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { defineProps } from "vue";
 import Empty from "./Empty.vue";
 
 defineProps({
@@ -11,21 +12,21 @@ defineProps({
 <template>
   <div class="flex flex-col h-screen">
     <header class="sticky top-0 z-40">
-      <slot name="header"></slot>
+      <slot name="header" />
     </header>
 
-    <main class="flex flex-1 overflow-hidden" v-if="!empty">
+    <main v-if="!empty" class="flex flex-1 overflow-hidden">
       <section class="flex-auto overflow-y-auto p-2">
-        <slot name="copylist"></slot>
+        <slot name="copylist" />
       </section>
 
       <section v-if="preview" class="min-w-[50%] overflow-y-auto">
-        <slot name="preview"></slot>
+        <slot name="preview" />
       </section>
     </main>
 
     <main v-else>
-      <Empty></Empty>
+      <Empty />
     </main>
   </div>
 </template>

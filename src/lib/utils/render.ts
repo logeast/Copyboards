@@ -89,7 +89,7 @@ function mergeProps(...listOfProps: Record<any, any>[]) {
 
 export function omit<T extends Record<any, any>, Keys extends keyof T>(
   object: T,
-  keysToOmit: readonly Keys[] = []
+  keysToOmit: readonly Keys[] = [],
 ) {
   const clone = Object.assign({}, object);
   for (const key of keysToOmit) {

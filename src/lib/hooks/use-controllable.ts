@@ -8,14 +8,14 @@ import { computed, ComputedRef, UnwrapRef, ref } from "vue";
 export function useControllable<T>(
   controlledValue: ComputedRef<T | undefined>,
   onChange?: (value: T) => void,
-  defaultValue?: ComputedRef<T>
+  defaultValue?: ComputedRef<T>,
 ) {
   const internalValue = ref(defaultValue?.value);
   const isControlled = computed(() => controlledValue.value !== undefined);
 
   return [
     computed(() =>
-      isControlled.value ? controlledValue.value : internalValue.value
+      isControlled.value ? controlledValue.value : internalValue.value,
     ),
     function (value: unknown) {
       if (isControlled.value) {

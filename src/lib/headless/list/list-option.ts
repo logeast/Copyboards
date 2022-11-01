@@ -38,7 +38,7 @@ export const ListOption = defineComponent({
     expose({ el: internalOptionRef, $el: internalOptionRef });
 
     const selected = computed(() =>
-      api.compare(toRaw(api.value.value), toRaw(props.value))
+      api.compare(toRaw(api.value.value), toRaw(props.value)),
     );
 
     const dataRef = computed<ListOptionData>(() => ({

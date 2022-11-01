@@ -14,10 +14,6 @@ module.exports = {
     __preloads: true,
     __workers: true,
     NodeJS: true,
-    defineProps: "readonly",
-    defineEmits: "readonly",
-    defineExpose: "readonly",
-    withDefaults: "readonly",
   },
   parserOptions: {
     ecmaVersion: 12,
@@ -29,14 +25,9 @@ module.exports = {
     "space-before-function-paren": 0,
     "vue/no-multiple-template-root": 0,
     "import/no-absolute-path": 0,
-    semi: [2, "always"],
-    "comma-dangle": ["error", {
-      arrays: "always-multiline",
-      objects: "always-multiline",
-      imports: "always-multiline",
-      exports: "always-multiline",
-    }],
     quotes: ["error", "double"],
+    "comma-dangle": ["error", "always-multiline"],
+    semi: ["error", "always"],
   },
   ignorePatterns: ["node_modules/**", "dist/**"],
 };

@@ -26,7 +26,7 @@ watchEffect(() => {
     if (context != null) {
       await copylistStore.addCopylistItem({
         type: useValidateColor(context).isColor ? "color" : "text",
-        context: context,
+        context,
         textInfo: {
           metadata: context,
           color: useValidateColor(context).color,
@@ -42,9 +42,9 @@ const filteredClips = computed(() =>
   copylist.value.filter(({ id, textInfo, createdAt }) => {
     const metadata = textInfo?.metadata;
     [id, metadata, createdAt].some((val) =>
-      val?.toString().toLocaleLowerCase().includes(search.value)
+      val?.toString().toLocaleLowerCase().includes(search.value),
     );
-  })
+  }),
 );
 </script>
 
@@ -54,15 +54,15 @@ const filteredClips = computed(() =>
     :preview="!!copylistStore.copylist"
   >
     <template #header>
-      <SearchBar></SearchBar>
+      <SearchBar />
     </template>
 
     <template #copylist>
-      <Copylist :data="copylistStore.copylist"></Copylist>
+      <Copylist :data="copylistStore.copylist" />
     </template>
 
     <template #preview>
-      <Preview :data="copylistStore.selectedItem"></Preview>
+      <Preview :data="copylistStore.selectedItem" />
     </template>
   </PanelLayout>
 </template>

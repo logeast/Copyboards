@@ -58,7 +58,7 @@ export const List = defineComponent({
     const [value, theirOnChange] = useControllable(
       computed(() => props.modelValue),
       (value: unknown) => emit("update:modelValue", value),
-      computed(() => props.defaultValue)
+      computed(() => props.defaultValue),
     );
 
     function compare(a: any, z: any) {
@@ -76,7 +76,7 @@ export const List = defineComponent({
     function adjustOrderedState(
       adjustment: (
         options: UnwrapNestedRefs<IStateDefinition["options"]["value"]>
-      ) => UnwrapNestedRefs<IStateDefinition["options"]["value"]> = (i) => i
+      ) => UnwrapNestedRefs<IStateDefinition["options"]["value"]> = (i) => i,
     ) {
       const currentSelectedOption =
         selectedOptionIndex.value !== null

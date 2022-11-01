@@ -1,7 +1,7 @@
 import { ComponentPublicInstance, Ref } from "vue";
 
 export function dom<T extends Element | ComponentPublicInstance>(
-  ref?: Ref<T | null>
+  ref?: Ref<T | null>,
 ): T | null {
   if (ref == null) {
     return null;

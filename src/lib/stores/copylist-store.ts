@@ -20,7 +20,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
    * Add a new copylist item into coyplist database.
    */
   async function addCopylistItem(
-    apiCopylistItem: IAPICopylistItem
+    apiCopylistItem: IAPICopylistItem,
   ): Promise<IAPICopylistItem> {
     const item = await db.transaction("rw", db.copylistTable, async () => {
       const dbItem: IAPICopylistItem = { ...apiCopylistItem };
@@ -78,7 +78,7 @@ export const useCopylistStore = defineStore("pannel-store", () => {
     const _upsertCopylistItem = async (apiCopylistItem: IAPICopylistItem) => {};
 
     return db.transaction("rw", db.copylistTable, () =>
-      _upsertCopylistItem(apiCopylistItem)
+      _upsertCopylistItem(apiCopylistItem),
     );
   }
 

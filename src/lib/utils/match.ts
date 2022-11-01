@@ -15,10 +15,10 @@ export function match<
 
   const error = new Error(
     `Tried to handle "${value}" but there is no handler defined. Only defined handlers are ${Object.keys(
-      lookup
+      lookup,
     )
       .map((key) => `"${key}"`)
-      .join(", ")}.`
+      .join(", ")}.`,
   );
   if (Error.captureStackTrace) {
     Error.captureStackTrace(error, match);
