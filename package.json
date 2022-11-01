@@ -1,11 +1,12 @@
 {
   "name": "copyboards",
+  "productName": "Copyboards",
+  "bundleID": "",
   "version": "0.0.0",
-  "private": true,
   "description": "A Searchable Clipboard History Application for Copy and Paste.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/logeast/copyboards"
+    "url": "https://github.com/logeast/copyboards.git"
   },
   "main": "dist-electron/main/index.js",
   "scripts": {

@@ -1,5 +1,5 @@
 import path from "path";
-import { version } from "../package.json";
+import { version, productName } from "../package.json";
 
 /** The Copybords' root path. */
 const projectRoot = path.dirname(__dirname);
@@ -15,6 +15,7 @@ export const Replacements = {
   __DARWIN__: process.platform === "darwin",
   __WIN32__: process.platform === "win32",
   __LINUX__: process.platform === "linux",
+  __APP_NAME__: s(productName),
   __APP_VERSION__: s(version),
   __DEV__: process.env.NODE_ENV === "development",
   "process.platform": s(process.platform),
