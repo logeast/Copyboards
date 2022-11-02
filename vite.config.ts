@@ -7,7 +7,7 @@ export default defineConfig({
   plugins: [
     vue(),
     electron({
-      include: ["src/main"],
+      include: ["electron"],
     }),
   ],
 });
