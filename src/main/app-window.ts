@@ -60,7 +60,13 @@ export class AppWindow {
   }
 
   public load() {
-    this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+    console.log(
+      "process.env.VITE_DEV_SERVER_URL",
+      process.env.VITE_DEV_SERVER_URL
+    );
+
+    // this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+    this.window.loadURL(encodePathAsUrl(__dirname, "index.html"));
   }
 
   /** Whether the window is currently visible to the user. */
