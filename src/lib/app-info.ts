@@ -1,5 +1,5 @@
 import path from "path";
-import { version, productName } from "../package.json";
+import { version, productName } from "../../package.json";
 
 /** The Copybords' root path. */
 const projectRoot = path.dirname(__dirname);

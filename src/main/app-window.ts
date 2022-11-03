@@ -2,7 +2,8 @@ import type Electron from "electron";
 import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
 import path from "path";
-import { __DARWIN__, __LINUX__, __WIN32__ } from "../app-info";
+import { __DARWIN__, __LINUX__, __WIN32__ } from "../lib/app-info";
+import { encodePathAsUrl } from "../lib/utils/resolve-path";
 
 export class AppWindow {
   private window: Electron.BrowserWindow;
@@ -58,7 +59,9 @@ export class AppWindow {
     });
   }
 
-  public load() {}
+  public load() {
+    this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+  }
 
   /** Whether the window is currently visible to the user. */
   public isVisible() {

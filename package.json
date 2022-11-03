@@ -8,7 +8,7 @@
     "type": "git",
     "url": "https://github.com/logeast/copyboards.git"
   },
-  "main": "dist-electron/main/index.js",
+  "main": "dist-electron/src/main/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build && electron-builder",
