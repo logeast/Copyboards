@@ -4,7 +4,6 @@ import windowStateKeeper from "electron-window-state";
 import path from "path";
 import { __DARWIN__, __LINUX__, __WIN32__ } from "../lib/app-info";
 import { encodePathAsUrl } from "../lib/utils/resolve-path";
-// import mainPreload from "../preload/index";
 
 export class AppWindow {
   private window: Electron.BrowserWindow;
@@ -26,11 +25,13 @@ export class AppWindow {
       height: savedWindowState.height,
       minWidth: this.minWidth,
       minHeight: this.minHeight,
-      // webPreferences: {
-      //   preload: mainPreload,
-      // },
+      webPreferences: {
+        preload: path.join(__dirname, "../preload/index.js"),
+      },
       // show: false,
     };
+
+    console.log("__dirname", __dirname);
 
     if (__DARWIN__) {
       windowOptions.titleBarStyle = "hidden";
@@ -69,8 +70,8 @@ export class AppWindow {
       process.env.VITE_DEV_SERVER_URL
     );
 
-    // this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
-    this.window.loadURL(encodePathAsUrl(__dirname, "index.html"));
+    this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+    // this.window.loadURL(encodePathAsUrl(__dirname, "index.html"));
   }
 
   /** Whether the window is currently visible to the user. */

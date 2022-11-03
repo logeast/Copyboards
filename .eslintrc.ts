@@ -27,7 +27,7 @@ module.exports = {
     "import/no-absolute-path": 0,
     quotes: ["error", "double"],
     "comma-dangle": ["error", "always-multiline"],
-    semi: ["error", "always"],
+    // semi: ["error", "always"],
   },
   ignorePatterns: ["node_modules/**", "dist/**"],
 };
