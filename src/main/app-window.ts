@@ -4,6 +4,7 @@ import windowStateKeeper from "electron-window-state";
 import path from "path";
 import { __DARWIN__, __LINUX__, __WIN32__ } from "../lib/app-info";
 import { encodePathAsUrl } from "../lib/utils/resolve-path";
+// import mainPreload from "../preload/index";
 
 export class AppWindow {
   private window: Electron.BrowserWindow;
@@ -25,7 +26,10 @@ export class AppWindow {
       height: savedWindowState.height,
       minWidth: this.minWidth,
       minHeight: this.minHeight,
-      show: false,
+      // webPreferences: {
+      //   preload: mainPreload,
+      // },
+      // show: false,
     };
 
     if (__DARWIN__) {
