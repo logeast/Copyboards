@@ -2,14 +2,14 @@ import type Electron from "electron";
 import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
 import path from "path";
-import { __DARWIN__, __LINUX__, __WIN32__ } from "../lib/app-info";
+import { __DARWIN__, __DEV__, __LINUX__, __WIN32__ } from "../lib/app-info";
 import { encodePathAsUrl } from "../lib/utils/resolve-path";
 
 export class AppWindow {
   private window: Electron.BrowserWindow;
 
-  private minWidth = 680;
-  private minHeight = 420;
+  private minWidth = __DEV__ ? 800 : 640;
+  private minHeight = __DEV__ ? 640 : 400;
 
   public constructor() {
     const savedWindowState = windowStateKeeper({
@@ -19,8 +19,8 @@ export class AppWindow {
     });
 
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
-      x: savedWindowState.x,
-      y: savedWindowState.y,
+      x: __DEV__ ? 100 : savedWindowState.x,
+      y: __DEV__ ? 240 : savedWindowState.y,
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,
@@ -30,8 +30,6 @@ export class AppWindow {
       },
       // show: false,
     };
-
-    console.log("__dirname", __dirname);
 
     if (__DARWIN__) {
       windowOptions.titleBarStyle = "hidden";
@@ -65,13 +63,23 @@ export class AppWindow {
   }
 
   public load() {
-    console.log(
-      "process.env.VITE_DEV_SERVER_URL",
-      process.env.VITE_DEV_SERVER_URL
-    );
+    if (__DEV__) {
+      /**
+       * @see https://github.com/electron-vite/vite-electron-plugin
+       */
+      this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+      console.log(
+        "process.env.VITE_DEV_SERVER_URL",
+        process.env.VITE_DEV_SERVER_URL
+      );
 
-    this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
-    // this.window.loadURL(encodePathAsUrl(__dirname, "index.html"));
+      /**
+       * @See https://www.electronjs.org/docs/latest/api/web-contents#contentsopendevtoolsoptions
+       */
+      this.window.webContents.openDevTools({ mode: "bottom" });
+    } else {
+      this.window.loadURL(encodePathAsUrl(__dirname, "./index.html"));
+    }
   }
 
   /** Whether the window is currently visible to the user. */

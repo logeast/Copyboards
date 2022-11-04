@@ -7,9 +7,6 @@ let mainWindow: AppWindow | null = null;
 
 function createWindow() {
   const window = new AppWindow();
-  // const window = new BrowserWindow();
-
-  console.log("window", window, mainWindow);
 
   if (__DEV__) {
     // install electron devtools

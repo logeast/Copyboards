@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/renderer/**/*.{vue,js,ts,jsx,tsx}"],
+  content: ["./src/ui/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     extend: {},
   },
