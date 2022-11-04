@@ -7,7 +7,13 @@ export default defineConfig({
   plugins: [
     vue(),
     electron({
-      include: ["src/main", "src/lib", "src/preload", "package.json"],
+      include: [
+        "src/main",
+        "src/lib",
+        "src/preload",
+        "src/assets",
+        "package.json",
+      ],
     }),
   ],
 });
