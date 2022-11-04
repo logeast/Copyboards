@@ -5,8 +5,6 @@ import {
   NativeImage,
 } from "electron";
 
-console.log("hello world 1st preload!");
-
 /**
  * Wrapper of Nodejs process versions.
  */

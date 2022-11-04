@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from "vue";
+import { watchEffect } from "vue";
 import { useClipboard } from "../../lib/electron-hooks/use-clipboard";
 
 import SearchBar from "../components/SearchBar.vue";
@@ -18,7 +18,7 @@ const clipboard = useClipboard();
 
 const { copylist } = storeToRefs(copylistStore);
 
-const search = ref("");
+// const search = ref("");
 
 watchEffect(() => {
   clipboardListener.startListening().on("text", async () => {
@@ -38,14 +38,14 @@ watchEffect(() => {
   });
 });
 
-const filteredClips = computed(() =>
-  copylist.value.filter(({ id, textInfo, createdAt }) => {
-    const metadata = textInfo?.metadata;
-    [id, metadata, createdAt].some((val) =>
-      val?.toString().toLocaleLowerCase().includes(search.value),
-    );
-  }),
-);
+// const filteredClips = computed(() =>
+//   copylist.value.filter(({ id, textInfo, createdAt }) => {
+//     const metadata = textInfo?.metadata;
+//     [id, metadata, createdAt].some((val) =>
+//       val?.toString().toLocaleLowerCase().includes(search.value),
+//     );
+//   }),
+// );
 </script>
 
 <template>

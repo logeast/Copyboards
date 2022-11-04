@@ -3,10 +3,9 @@ import { defineProps } from "vue";
 import { IAPICopylistItem } from "../../lib/api";
 import { useDay } from "../../lib/hooks/use-day";
 
-const props = defineProps<{
+defineProps<{
   data?: IAPICopylistItem;
 }>();
-console.log("selected data", props.data);
 </script>
 
 <template>

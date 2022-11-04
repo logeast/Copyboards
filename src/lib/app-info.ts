@@ -2,7 +2,7 @@ import path from "path";
 import { version, productName } from "../../package.json";
 
 /** The Copybords' root path. */
-const projectRoot = path.dirname(__dirname);
+export const projectRoot = path.dirname(__dirname);
 
 const s = JSON.stringify;
 

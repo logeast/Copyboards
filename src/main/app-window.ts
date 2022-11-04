@@ -3,7 +3,6 @@ import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
 import path from "path";
 import { __DARWIN__, __DEV__, __LINUX__, __WIN32__ } from "../lib/app-info";
-import { encodePathAsUrl } from "../lib/utils/resolve-path";
 
 export class AppWindow {
   private window: Electron.BrowserWindow;
@@ -70,7 +69,7 @@ export class AppWindow {
       this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
       console.log(
         "process.env.VITE_DEV_SERVER_URL",
-        process.env.VITE_DEV_SERVER_URL
+        process.env.VITE_DEV_SERVER_URL,
       );
 
       /**
@@ -78,7 +77,8 @@ export class AppWindow {
        */
       this.window.webContents.openDevTools({ mode: "bottom" });
     } else {
-      this.window.loadURL(encodePathAsUrl(__dirname, "./index.html"));
+      // this.window.loadURL(encodePathAsUrl(__dirname, "./index.html"));
+      this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
     }
   }
 

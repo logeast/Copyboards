@@ -8,7 +8,7 @@ import { CopylistDatabase } from "../databases";
 const db = new CopylistDatabase("CopylistDatabase");
 
 export const useCopylistStore = defineStore("pannel-store", () => {
-  const emitQueeued = ref(false);
+  // const emitQueeued = ref(false);
 
   const copylist = ref<IAPICopylistItem[]>([]);
   const selectedItem = ref<IAPICopylistItem>();
@@ -82,15 +82,15 @@ export const useCopylistStore = defineStore("pannel-store", () => {
     );
   }
 
-  function updatedCopylist() {
-    if (!emitQueeued.value) {
-      getAll()
-        .then((data) => null)
-        .catch((e) => console.error("Failed emitting update", e))
-        .finally(() => (emitQueeued.value = false));
-      emitQueeued.value = true;
-    }
-  }
+  // function updatedCopylist() {
+  //   if (!emitQueeued.value) {
+  //     getAll()
+  //       .then((data) => null)
+  //       .catch((e) => console.error("Failed emitting update", e))
+  //       .finally(() => (emitQueeued.value = false));
+  //     emitQueeued.value = true;
+  //   }
+  // }
 
   return {
     copylist,

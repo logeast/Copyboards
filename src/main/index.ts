@@ -14,6 +14,8 @@ function createWindow() {
 
   window.load();
   mainWindow = window;
+
+  console.log("mainWindow", mainWindow);
 }
 
 app.on("ready", () => {

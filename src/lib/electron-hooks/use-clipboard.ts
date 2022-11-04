@@ -1,8 +1,5 @@
-import type Electron from "electron";
-
-console.log("electron", window.electron);
-
-const { clipboard } = (window as any).electron as typeof Electron;
+// const { clipboard } = (window as any).electron as typeof Electron;
+const { clipboard } = window.electron;
 
 /**
  * Perform copy and paste operations on the system clipbaord.

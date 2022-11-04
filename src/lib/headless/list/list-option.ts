@@ -7,7 +7,7 @@ import {
   toRaw,
   watch,
 } from "vue";
-import { ListOptionData, useListContext } from "./type";
+import { IListOptionData, useListContext } from "./type";
 import { useId } from "../../hooks/use-id";
 import { omit } from "../../utils/render";
 
@@ -41,7 +41,7 @@ export const ListOption = defineComponent({
       api.compare(toRaw(api.value.value), toRaw(props.value)),
     );
 
-    const dataRef = computed<ListOptionData>(() => ({
+    const dataRef = computed<IListOptionData>(() => ({
       textValue: "",
       value: props.value,
       domRef: internalOptionRef,
