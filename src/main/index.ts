@@ -9,7 +9,11 @@ let mainWindow: AppWindow | null = null;
 
 function createTray() {
   let tray: Tray | null = null;
-  const icon = nativeImage.createFromPath(path.join(__dirname, "../assets/trayicon.png"));
+  const icon = nativeImage.createFromPath(
+    path.join(__dirname, "../assets/trayicon.png")
+  );
+
+  console.log("trayicon", path.join(__dirname, "../assets/trayicon.png"));
 
   tray = new Tray(icon);
 

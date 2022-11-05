@@ -69,7 +69,7 @@ export class AppWindow {
       this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
       console.log(
         "process.env.VITE_DEV_SERVER_URL",
-        process.env.VITE_DEV_SERVER_URL,
+        process.env.VITE_DEV_SERVER_URL
       );
 
       /**

@@ -26,7 +26,7 @@ module.exports = {
     "vue/no-multiple-template-root": 0,
     "import/no-absolute-path": 0,
     quotes: ["error", "double"],
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", { objects: "always-multiline" }],
     semi: ["error", "always"],
   },
   ignorePatterns: ["node_modules/**", "dist/**"],
