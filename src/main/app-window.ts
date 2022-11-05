@@ -27,7 +27,7 @@ export class AppWindow {
       webPreferences: {
         preload: path.join(__dirname, "../preload/index.js"),
       },
-      // show: false,
+      show: false,
     };
 
     if (__DARWIN__) {

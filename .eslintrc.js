@@ -28,6 +28,11 @@ module.exports = {
     quotes: ["error", "double"],
     "comma-dangle": ["error", "always-multiline"],
     semi: ["error", "always"],
+    /**
+     * @see https://typescript-eslint.io/rules/no-redeclare/
+     */
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": "warn",
   },
   ignorePatterns: ["node_modules/**", "dist/**"],
 };
