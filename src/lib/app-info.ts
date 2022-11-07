@@ -12,11 +12,23 @@ const s = JSON.stringify;
  * @see https://github.com/desktop/desktop/blob/development/app/app-info.ts
  */
 export const Replacements = {
+  /**
+   * The current platform is macOS.
+   */
   __DARWIN__: process.platform === "darwin",
+  /**
+   * The current platform is Windows.
+   */
   __WIN32__: process.platform === "win32",
+  /**
+   * The current platform is Linux.
+   */
   __LINUX__: process.platform === "linux",
   __APP_NAME__: s(productName),
   __APP_VERSION__: s(version),
+  /**
+   * The current envrionment is development.
+   */
   __DEV__: process.env.NODE_ENV === "development",
   "process.platform": s(process.platform),
   "process.env.NODE_ENV": s(process.env.NODE_ENV || "development"),

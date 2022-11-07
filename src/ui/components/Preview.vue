@@ -47,7 +47,7 @@ defineProps<{
     </div>
 
     <footer
-      class="sticky bottom-0 p-2 border-t z-10 bg-gray-100/90 backdrop-blur-xl flex-none flex flex-col items-center justify-center gap-1"
+      class="sticky bottom-0 p-1 border-t z-10 bg-gray-100/90 backdrop-blur-xl flex-none flex flex-col items-center justify-center font-light"
     >
       <p class="text-xs text-gray-500">
         {{ data?.textInfo?.metadata?.split(" ").length || 0 }}

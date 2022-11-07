@@ -8,12 +8,20 @@ interface SearchBarProps {
 withDefaults(defineProps<SearchBarProps>(), {
   placeholder: "Copyboards Search ",
 });
+
+/**
+ * This Component is dragable, use  `-webkit-app-region: drag` css propority.
+ *
+ * With Developer Tools open, maybe -webkit-app-region: drag does not work.
+ *
+ * @see https://github.com/electron/electron/issues/3647
+ */
 </script>
 
 <template>
   <section
     class="flex items-center justify-between border-b px-3 gap-2 rounded-t-2xl bg-gray-100"
-    style="height: 56px"
+    style="height: 56px; -webkit-app-region: drag"
   >
     <span class="text-gray-600">
       <svg

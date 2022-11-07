@@ -7,8 +7,8 @@ import { __DARWIN__, __DEV__, __LINUX__, __WIN32__ } from "../lib/app-info";
 export class AppWindow {
   private window: Electron.BrowserWindow;
 
-  private minWidth = __DEV__ ? 800 : 640;
-  private minHeight = __DEV__ ? 640 : 400;
+  private minWidth = 640;
+  private minHeight = 400;
 
   public constructor() {
     const savedWindowState = windowStateKeeper({
@@ -18,8 +18,8 @@ export class AppWindow {
     });
 
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
-      x: __DEV__ ? 100 : savedWindowState.x,
-      y: __DEV__ ? 240 : savedWindowState.y,
+      x: savedWindowState.x,
+      y: 10, // savedWindowState.y,
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,
@@ -27,7 +27,7 @@ export class AppWindow {
       webPreferences: {
         preload: path.join(__dirname, "../preload/index.js"),
       },
-      // show: false,
+      show: false,
     };
 
     if (__DARWIN__) {
@@ -39,6 +39,8 @@ export class AppWindow {
     }
 
     this.window = new BrowserWindow(windowOptions);
+
+    this.window.setWindowButtonVisibility(false);
 
     let quitting = false;
     app.on("before-quit", () => {
@@ -61,16 +63,15 @@ export class AppWindow {
     });
   }
 
+  /**
+   * Load the window.
+   */
   public load() {
     if (__DEV__) {
       /**
        * @see https://github.com/electron-vite/vite-electron-plugin
        */
       this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
-      console.log(
-        "process.env.VITE_DEV_SERVER_URL",
-        process.env.VITE_DEV_SERVER_URL,
-      );
 
       /**
        * @See https://www.electronjs.org/docs/latest/api/web-contents#contentsopendevtoolsoptions
@@ -80,10 +81,30 @@ export class AppWindow {
       // this.window.loadURL(encodePathAsUrl(__dirname, "./index.html"));
       this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
     }
+
+    this.window.on("blur", () => {
+      this.hide();
+    });
   }
 
-  /** Whether the window is currently visible to the user. */
+  /**
+   * Is the window currently visible?
+   * */
   public isVisible() {
     return this.window.isVisible();
+  }
+
+  /**
+   * Show the window.
+   */
+  public show() {
+    this.window.show();
+  }
+
+  /**
+   * Hide the window.
+   */
+  public hide() {
+    this.window.hide();
   }
 }

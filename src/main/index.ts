@@ -17,9 +17,8 @@ let tray: Tray | null = null;
 
 function createTray() {
   const icon = nativeImage.createFromPath(
-    path.join(__dirname, "../assets/trayicon.png"),
+    path.join(projectRoot, "assets", "trayicon.png")
   );
-
   /**
    * Adapt tray icon color when macOS theme or wallpaper changed.
    *
@@ -36,12 +35,21 @@ function createTray() {
     { label: "item4", type: "radio" },
   ]);
 
-  tray.setContextMenu(contextMenu);
+  tray.on("click", () => {
+    if (mainWindow?.isVisible()) {
+      return mainWindow?.hide();
+    } else {
+      return mainWindow?.show();
+    }
+  });
+
+  tray.on("right-click", () => {
+    tray?.setContextMenu(contextMenu);
+  });
 }
 
 function createWindow() {
   const window = new AppWindow();
-  console.log("projectRoot", __dirname, projectRoot);
 
   if (__DEV__) {
     // install electron devtools
