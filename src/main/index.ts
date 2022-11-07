@@ -7,13 +7,25 @@ import { AppWindow } from "./app-window";
 
 let mainWindow: AppWindow | null = null;
 
+/**
+ * Global variables are created to avoid consrants bee collected when the next
+ * collection cycle of GC(Garbage Collection) comes.
+ *
+ * @see https://www.electronjs.org/docs/latest/faq#my-apps-tray-disappeared-after-a-few-minutes
+ */
+let tray: Tray | null = null;
+
 function createTray() {
-  let tray: Tray | null = null;
   const icon = nativeImage.createFromPath(
     path.join(__dirname, "../assets/trayicon.png"),
   );
 
-  console.log("trayicon", path.join(__dirname, "../assets/trayicon.png"));
+  /**
+   * Adapt tray icon color when macOS theme or wallpaper changed.
+   *
+   * @see https://github.com/electron/electron/issues/25478
+   */
+  icon.setTemplateImage(true);
 
   tray = new Tray(icon);
 
