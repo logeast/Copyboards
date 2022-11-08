@@ -4,15 +4,18 @@ import path from "path";
 import { projectRoot, __DEV__ } from "../lib/app-info";
 
 import { AppWindow } from "./app-window";
+import { buildDefaultMenu } from "./menu/build-default-menu";
+
+import { useIpcRenderer } from "../lib/electron-hooks/use-ipc-renderer";
 
 let mainWindow: AppWindow | null = null;
+const ipcRenderer = useIpcRenderer();
 
 /**
  * Global variables are created to avoid consrants bee collected when the next
  * collection cycle of GC(Garbage Collection) comes.
  *
- * @see
- * https://www.electronjs.org/docs/latest/faq#my-apps-tray-disappeared-after-a-few-minutes
+ * @see https://www.electronjs.org/docs/latest/faq#my-apps-tray-disappeared-after-a-few-minutes
  */
 let tray: Tray | null = null;
 
@@ -37,6 +40,9 @@ function createTray() {
   });
 }
 
+/**
+ * Create main window.
+ */
 function createWindow() {
   const window = new AppWindow();
 
@@ -48,10 +54,10 @@ function createWindow() {
   mainWindow = window;
 
   createTray();
-
-  console.log("mainWindow", mainWindow);
 }
 
 app.on("ready", () => {
   createWindow();
+
+  Menu.setApplicationMenu(buildDefaultMenu({}));
 });

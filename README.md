@@ -45,4 +45,4 @@ If you like this project, please consider fund me to help the maintenance.
 
 ## License
 
-[MIT License](./LICENSE) Copyright (c) 2022 Logeast.
+[MIT License](./LICENSE) Copyright (c) 2022 [Logeast](https://github.com/logeast). All rights reserved.

@@ -1,5 +1,6 @@
-import type { Clipboard } from "electron";
+import type { Clipboard, IpcRenderer } from "electron";
 
 export interface IAPIElectron {
   clipboard: Clipboard;
+  ipcRenderer: IpcRenderer;
 }
