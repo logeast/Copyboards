@@ -3,9 +3,8 @@ import { app, BrowserWindow } from "electron";
 import windowStateKeeper from "electron-window-state";
 import path from "path";
 import { __DARWIN__, __DEV__, __LINUX__, __WIN32__ } from "../lib/app-info";
-import { encodePathAsUrl } from "../lib/utils/resolve-path";
 
-export class AppWindow {
+export class SettingsWindow {
   private window: Electron.BrowserWindow;
 
   private minWidth = 640;
@@ -19,8 +18,8 @@ export class AppWindow {
     });
 
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
-      x: savedWindowState.x,
-      y: 10, // savedWindowState.y,
+      x: 100, // savedWindowState.x,
+      y: savedWindowState.y,
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,
@@ -28,7 +27,7 @@ export class AppWindow {
       webPreferences: {
         preload: path.join(__dirname, "../preload/index.js"),
       },
-      show: false,
+      // show: false,
     };
 
     if (__DARWIN__) {
@@ -40,8 +39,6 @@ export class AppWindow {
     }
 
     this.window = new BrowserWindow(windowOptions);
-
-    this.window.setWindowButtonVisibility(false);
 
     let quitting = false;
     app.on("before-quit", () => {
@@ -65,14 +62,14 @@ export class AppWindow {
   }
 
   /**
-   * Load the app window.
+   * Load the settings window.
    */
   public load() {
     if (__DEV__) {
       /**
        * @see https://github.com/electron-vite/vite-electron-plugin
        */
-      this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+      this.window.loadURL(`${process.env.VITE_DEV_SERVER_URL}/settings.html`);
 
       /**
        * @See https://www.electronjs.org/docs/latest/api/web-contents#contentsopendevtoolsoptions

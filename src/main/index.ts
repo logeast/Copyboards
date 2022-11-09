@@ -1,14 +1,16 @@
 import { app, nativeImage, Tray, Menu } from "electron";
 import path from "path";
 
-import { projectRoot, __DEV__ } from "../lib/app-info";
+import { __PROJECT_ROOT__, __DEV__ } from "../lib/app-info";
 
 import { AppWindow } from "./app-window";
+import { SettingsWindow } from "./settings-window";
 import { buildDefaultMenu } from "./menu/build-default-menu";
 
 import { useIpcRenderer } from "../lib/electron-hooks/use-ipc-renderer";
 
 let mainWindow: AppWindow | null = null;
+let settingsWindow: SettingsWindow | null = null;
 // const ipcRenderer = useIpcRenderer();
 
 /**
@@ -20,7 +22,7 @@ let mainWindow: AppWindow | null = null;
 let tray: Tray | null = null;
 
 function createTray() {
-  const iconPath = path.join(projectRoot, "assets", "trayicon.png");
+  const iconPath = path.join(__PROJECT_ROOT__, "assets", "trayicon.png");
   const icon = nativeImage.createFromPath(iconPath);
   /**
    * Adapt tray icon color when macOS theme or wallpaper changed.
@@ -44,14 +46,18 @@ function createTray() {
  * Create main window.
  */
 function createWindow() {
-  const window = new AppWindow();
+  const _mainwindow = new AppWindow();
+  const _settingswindow = new SettingsWindow();
 
   if (__DEV__) {
     // install electron devtools
   }
 
-  window.load();
-  mainWindow = window;
+  _mainwindow.load();
+  mainWindow = _mainwindow;
+
+  _settingswindow.load();
+  settingsWindow = _settingswindow;
 
   createTray();
 }

@@ -28,6 +28,8 @@ export function useIpcRenderer(ipcRenderer?: IpcRenderer): IUseIpcRenderer {
 
   if (!ipcRenderer) {
     /**
+     * ⚠️ Enabling nodeIntegration should not be recommended.
+     *
      * @see https://www.electronjs.org/docs/latest/api/webview-tag#nodeintegration
      */
     throw new Error("provide IpcRenderer module or enable nodeIntegration");
