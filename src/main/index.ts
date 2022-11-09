@@ -9,7 +9,7 @@ import { buildDefaultMenu } from "./menu/build-default-menu";
 import { useIpcRenderer } from "../lib/electron-hooks/use-ipc-renderer";
 
 let mainWindow: AppWindow | null = null;
-const ipcRenderer = useIpcRenderer();
+// const ipcRenderer = useIpcRenderer();
 
 /**
  * Global variables are created to avoid consrants bee collected when the next
@@ -59,5 +59,5 @@ function createWindow() {
 app.on("ready", () => {
   createWindow();
 
-  Menu.setApplicationMenu(buildDefaultMenu({}));
+  // Menu.setApplicationMenu(buildDefaultMenu({}));
 });
