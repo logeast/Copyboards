@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { watchEffect } from "vue";
-import { useClipboard } from "../../lib/electron-hooks/use-clipboard";
+import { useClipboard } from "../lib/electron-hooks/use-clipboard";
 
-import SearchBar from "../components/SearchBar.vue";
-import Preview from "../components/Preview.vue";
-import PanelLayout from "../components/PanelLayout.vue";
-import Copylist from "../components/Copylist.vue";
+import SearchBar from "../renderer/components/SearchBar.vue";
+import Preview from "../renderer/components/Preview.vue";
+import PanelLayout from "../renderer/components/PanelLayout.vue";
+import Copylist from "../renderer/components/Copylist.vue";
 
-import { useClipboardListener } from "../../lib/electron-hooks/use-clipboard-listener";
-import { useCopylistStore } from "../../lib/stores/copylist-store";
-import { useValidateColor } from "../../lib/hooks/use-validate-color";
+import { useClipboardListener } from "../lib/electron-hooks/use-clipboard-listener";
+import { useCopylistStore } from "../lib/stores/copylist-store";
+import { useValidateColor } from "../lib/hooks/use-validate-color";
 import { storeToRefs } from "pinia";
 
 const clipboardListener = useClipboardListener();

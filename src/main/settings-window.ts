@@ -19,7 +19,7 @@ export class SettingsWindow {
 
     const windowOptions: Electron.BrowserWindowConstructorOptions = {
       x: 100, // savedWindowState.x,
-      y: savedWindowState.y,
+      y: 200, // savedWindowState.y,
       width: savedWindowState.width,
       height: savedWindowState.height,
       minWidth: this.minWidth,
@@ -31,7 +31,7 @@ export class SettingsWindow {
     };
 
     if (__DARWIN__) {
-      windowOptions.titleBarStyle = "hidden";
+      // windowOptions.titleBarStyle = "hidden";
     } else if (__WIN32__) {
       windowOptions.frame = false;
     } else if (__LINUX__) {
@@ -81,7 +81,7 @@ export class SettingsWindow {
     }
 
     this.window.on("blur", () => {
-      this.hide();
+      // this.hide();
     });
   }
 
