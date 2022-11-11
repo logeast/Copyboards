@@ -21,7 +21,8 @@ Download the official installer for your operating system:
 - Windows
 - Windows machine-wide install
 
-You can install this alongside
+If you are a designer and interested in the Copyboards' desgin assets. You can find it from [this figma file](https://www.figma.com/file/FQ91Yef5UzSedNVS2rYjQ0/%F0%9F%8C%88-Copyboards---A-Searchable-Clipboard-History-for-Copy-and-Paste?node-id=247%3A4751).
+
 
 ## What's Next
 
