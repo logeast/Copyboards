@@ -76,8 +76,8 @@ export class SettingsWindow {
        */
       this.window.webContents.openDevTools({ mode: "bottom" });
     } else {
-      // this.window.loadURL(encodePathAsUrl(__dirname, "./index.html"));
-      this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
+      this.window.loadURL(`${process.env.VITE_DEV_SERVER_URL}/settings.html`);
+      // this.window.loadURL(process.env.VITE_DEV_SERVER_URL);
     }
 
     this.window.on("blur", () => {
