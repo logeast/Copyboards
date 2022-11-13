@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@headlessui/vue': ^1.7.4
+  '@heroicons/vue': ^2.0.13
   '@typescript-eslint/eslint-plugin': ^5.42.1
   '@typescript-eslint/parser': ^5.42.1
   '@vitejs/plugin-vue': ^3.2.0
@@ -27,6 +28,7 @@ specifiers:
 
 dependencies:
   '@headlessui/vue': 1.7.4_vue@3.2.44
+  '@heroicons/vue': 2.0.13_vue@3.2.44
   electron-window-state: 5.0.3
   mitt: 3.0.0
   validate-color: 2.2.1
@@ -198,6 +200,14 @@ packages:
     engines: {node: '>=10'}
     peerDependencies:
       vue: ^3.2.0
+    dependencies:
+      vue: 3.2.44
+    dev: false
+
+  /@heroicons/vue/2.0.13_vue@3.2.44:
+    resolution: {integrity: sha512-vVCVF02+rNKXEmanVNnmktJlxCbOn0qVFP1gfZPn4bcBIwPX3h9AVHGCkwly+IWDEME8w5oooG0KRd2hhSe/HQ==}
+    peerDependencies:
+      vue: '>= 3'
     dependencies:
       vue: 3.2.44
     dev: false
