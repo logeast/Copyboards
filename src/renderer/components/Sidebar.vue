@@ -55,9 +55,9 @@ const categories = ref({
 </script>
 
 <template>
-  <div class="flex px-2 py-16 sm:px-0">
+  <div class="flex h-full">
     <TabGroup vertical>
-      <TabList class="flex flex-col space-x-1 rounded-xl bg-blue-900/20 p-1">
+      <TabList class="flex flex-col h-full bg-gray-100 p-1">
         <Tab
           v-for="category in Object.keys(categories)"
           as="template"
