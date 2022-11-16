@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { TabGroup, TabList, Tab, TabPanels, TabPanel } from "@headlessui/vue";
 
 const categories = ref({
-  Recent: [
+  Generals: [
     {
       id: 1,
       title: "Does drinking coffee make you smarter?",
@@ -19,7 +19,7 @@ const categories = ref({
       shareCount: 2,
     },
   ],
-  Popular: [
+  Themes: [
     {
       id: 1,
       title: "Is tech making coffee better or worse?",
@@ -35,7 +35,23 @@ const categories = ref({
       shareCount: 12,
     },
   ],
-  Trending: [
+  Connections: [
+    {
+      id: 1,
+      title: "Ask Me Anything: 10 answers to your questions about coffee",
+      date: "2d ago",
+      commentCount: 9,
+      shareCount: 5,
+    },
+    {
+      id: 2,
+      title: "The worst advice we've ever heard about coffee",
+      date: "4d ago",
+      commentCount: 1,
+      shareCount: 2,
+    },
+  ],
+  Upgrade: [
     {
       id: 1,
       title: "Ask Me Anything: 10 answers to your questions about coffee",
