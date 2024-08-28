@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { invoke } from '@tauri-apps/api/tauri'
+import { listen, UnlistenFn } from '@tauri-apps/api/event'
 
 export interface ClipboardItem {
   id: number;
@@ -46,5 +47,35 @@ export const useClipboardStore = defineStore('clipboard', () => {
     }
   }
 
-  return { history, searchQuery, limit, filteredHistory, fetchHistory, addToClipboard, searchClipboard }
+  let unlistenFn: UnlistenFn | null = null;
+
+  async function setupClipboardListener() {
+    unlistenFn = await listen('clipboard-changed', (event: any) => {
+      console.log('Clipboard content changed:', event.payload);
+      fetchHistory(); // 更新剪贴板历史
+    });
+  }
+
+  // 在组件挂载时设置监听器
+  onMounted(() => {
+    setupClipboardListener();
+  });
+
+  // 在组件卸载时移除监听器
+  onUnmounted(() => {
+    if (unlistenFn) {
+      unlistenFn();
+    }
+  });
+
+  return { 
+    history, 
+    searchQuery, 
+    limit, 
+    filteredHistory, 
+    fetchHistory, 
+    addToClipboard, 
+    searchClipboard,
+    setupClipboardListener 
+  }
 })
