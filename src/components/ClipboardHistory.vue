@@ -24,7 +24,7 @@ onMounted(async () => {
   await clipboardStore.fetchHistory();
 });
 
-const copyToClipboard = async (content: string) => {
+const copyToClipboard = async (content: string | { Image: string }) => {
   await clipboardStore.addToClipboard(content);
 };
 </script>

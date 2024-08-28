@@ -5,6 +5,10 @@
       <label for="historyLimit">历史记录限制:</label>
       <input id="historyLimit" v-model.number="clipboardStore.limit" type="number" min="1" @change="updateSettings">
     </div>
+    <div class="setting-item">
+      <label for="showImages">显示图片:</label>
+      <input id="showImages" v-model="clipboardStore.showImages" type="checkbox" @change="updateSettings">
+    </div>
   </div>
 </template>
 

@@ -430,6 +430,7 @@ name = "copyboards"
 version = "0.1.0"
 dependencies = [
  "arboard",
+ "base64 0.13.1",
  "chrono",
  "rusqlite",
  "serde",
