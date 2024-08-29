@@ -1,5 +1,6 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod clipboard_manager;
 
 use clipboard_manager::{ClipboardManager, ClipboardItem, ClipboardContent};
@@ -11,7 +12,6 @@ use arboard::Clipboard;
 use std::time::Duration;
 use std::sync::Arc;
 use std::thread;
-use base64::encode;
 
 struct AppState {
     clipboard_manager: Arc<Mutex<ClipboardManager>>,
@@ -44,17 +44,17 @@ fn search_clipboard(state: State<AppState>, query: String, limit: i64) -> Result
         .map_err(|e| e.to_string())
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     tauri::Builder::default()
         .setup(|app| {
+            let app_dir = app.path_resolver().app_data_dir().expect("Failed to get app data dir");
             let clipboard_manager = Arc::new(Mutex::new(
-                ClipboardManager::new().expect("Failed to initialize clipboard manager")
+                ClipboardManager::new(&app_dir).expect("Failed to initialize clipboard manager")
             ));
-            
+
             let app_handle = app.handle();
             let clipboard_manager_clone = Arc::clone(&clipboard_manager);
 
-            // Spawn a background task to monitor clipboard changes
             spawn(async move {
                 let mut clipboard = Clipboard::new().unwrap();
                 let mut last_content = ClipboardContent::Text(String::new());
@@ -63,18 +63,20 @@ fn main() {
                     let current_content = if let Ok(text) = clipboard.get_text() {
                         ClipboardContent::Text(text)
                     } else if let Ok(image) = clipboard.get_image() {
-                        ClipboardContent::Image(encode(&image.bytes))
+                        let manager = clipboard_manager_clone.lock().unwrap();
+                        match manager.save_image(&image.bytes) {
+                            Ok(path) => ClipboardContent::Image(path),
+                            Err(_) => ClipboardContent::Unknown,
+                        }
                     } else {
                         ClipboardContent::Unknown
                     };
 
                     if current_content != last_content {
-                        // Clipboard content has changed
                         clipboard_manager_clone.lock().unwrap()
                             .add_item(current_content.clone(), None)
                             .expect("Failed to add item to clipboard history");
 
-                        // Notify the frontend about the change
                         app_handle.emit_all("clipboard-changed", &current_content).unwrap();
 
                         last_content = current_content;
@@ -89,6 +91,7 @@ fn main() {
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![get_clipboard_history, add_to_clipboard, search_clipboard])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .run(tauri::generate_context!())?;
+
+    Ok(())
 }
