@@ -15,7 +15,7 @@ impl ClipboardManager {
     pub fn new(data_dir: &PathBuf) -> Result<Self, Box<dyn std::error::Error>> {
         let image_dir = data_dir.join("images");
         std::fs::create_dir_all(&image_dir)?;
-        let db = Database::new(data_dir.join("clipboard_history.db"))?;
+        let db = Database::new(data_dir.join("copyboards.db"))?;
         Ok(Self { db, image_dir })
     }
 

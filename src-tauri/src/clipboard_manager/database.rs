@@ -53,7 +53,7 @@ impl Database {
         &self,
         content: ClipboardContent,
         category: Option<&str>,
-        image_dir: &PathBuf,
+        _image_dir: &PathBuf,
     ) -> Result<(), Box<dyn std::error::Error>> {
         let timestamp = Utc::now();
         let (content_type, content_id) = match content {
@@ -95,6 +95,7 @@ impl Database {
             Ok(ClipboardItem {
                 id: row.get(0)?,
                 content,
+                content_id,
                 timestamp: DateTime::parse_from_rfc3339(&row.get::<_, String>(3)?)
                     .unwrap()
                     .with_timezone(&Utc),
@@ -126,6 +127,7 @@ impl Database {
             Ok(ClipboardItem {
                 id: row.get(0)?,
                 content,
+                content_id,
                 timestamp: DateTime::parse_from_rfc3339(&row.get::<_, String>(3)?)
                     .unwrap()
                     .with_timezone(&Utc),

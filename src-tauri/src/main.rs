@@ -56,9 +56,10 @@ fn main() {
             let app_dir = app
                 .path_resolver()
                 .app_data_dir()
-                .expect("Failed to get app data dir");
+                .expect("[✗]Failed to get app data dir");
+            println!("[✦]App data directory: {:?}", app_dir);
             let clipboard_manager = Arc::new(Mutex::new(
-                ClipboardManager::new(&app_dir).expect("Failed to initialize clipboard manager"),
+                ClipboardManager::new(&app_dir).expect("[✗]Failed to initialize clipboard manager"),
             ));
 
             let app_handle = app.handle();
@@ -99,5 +100,5 @@ fn main() {
             search_clipboard
         ])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("[✗]error while running tauri application");
 }
