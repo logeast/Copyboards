@@ -46,7 +46,14 @@ export const useClipboardStore = defineStore("clipboard", () => {
     category?: string
   ) {
     try {
-      await invoke("add_to_clipboard", { content, category });
+      if (typeof content === "string") {
+        await invoke("add_to_clipboard", {
+          content: { Text: content },
+          category,
+        });
+      } else {
+        await invoke("add_to_clipboard", { content, category });
+      }
       await fetchHistory(); // Refetch the history after adding a new item
     } catch (error) {
       console.error("Failed to add item to clipboard:", error);

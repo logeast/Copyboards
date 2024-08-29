@@ -1,25 +1,21 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use copyboards::clipboard_manager::{models::ClipboardItem, ClipboardManager};
+use copyboards::content::ClipboardContent;
+use copyboards::utils;
 
-mod clipboard_manager;
-
-use clipboard_manager::{ClipboardManager, ClipboardItem, ClipboardContent};
-use tauri::State;
+use std::sync::{Arc, Mutex};
 use tauri::Manager;
-use std::sync::Mutex;
-use tauri::async_runtime::spawn;
-use arboard::Clipboard;
-use std::time::Duration;
-use std::sync::Arc;
-use std::thread;
 
 struct AppState {
     clipboard_manager: Arc<Mutex<ClipboardManager>>,
 }
 
 #[tauri::command]
-fn get_clipboard_history(state: State<AppState>, limit: i64) -> Result<Vec<ClipboardItem>, String> {
-    state.clipboard_manager
+fn get_clipboard_history(
+    state: tauri::State<AppState>,
+    limit: i64,
+) -> Result<Vec<ClipboardItem>, String> {
+    state
+        .clipboard_manager
         .lock()
         .unwrap()
         .get_history(limit)
@@ -27,8 +23,13 @@ fn get_clipboard_history(state: State<AppState>, limit: i64) -> Result<Vec<Clipb
 }
 
 #[tauri::command]
-fn add_to_clipboard(state: State<AppState>, content: ClipboardContent, category: Option<String>) -> Result<(), String> {
-    state.clipboard_manager
+fn add_to_clipboard(
+    state: tauri::State<AppState>,
+    content: ClipboardContent,
+    category: Option<String>,
+) -> Result<(), String> {
+    state
+        .clipboard_manager
         .lock()
         .unwrap()
         .add_item(content, category.as_deref())
@@ -36,62 +37,67 @@ fn add_to_clipboard(state: State<AppState>, content: ClipboardContent, category:
 }
 
 #[tauri::command]
-fn search_clipboard(state: State<AppState>, query: String, limit: i64) -> Result<Vec<ClipboardItem>, String> {
-    state.clipboard_manager
+fn search_clipboard(
+    state: tauri::State<AppState>,
+    query: String,
+    limit: i64,
+) -> Result<Vec<ClipboardItem>, String> {
+    state
+        .clipboard_manager
         .lock()
         .unwrap()
         .search(&query, limit)
         .map_err(|e| e.to_string())
 }
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     tauri::Builder::default()
         .setup(|app| {
-            let app_dir = app.path_resolver().app_data_dir().expect("Failed to get app data dir");
+            let app_dir = app
+                .path_resolver()
+                .app_data_dir()
+                .expect("Failed to get app data dir");
             let clipboard_manager = Arc::new(Mutex::new(
-                ClipboardManager::new(&app_dir).expect("Failed to initialize clipboard manager")
+                ClipboardManager::new(&app_dir).expect("Failed to initialize clipboard manager"),
             ));
 
             let app_handle = app.handle();
             let clipboard_manager_clone = Arc::clone(&clipboard_manager);
 
-            spawn(async move {
-                let mut clipboard = Clipboard::new().unwrap();
+            std::thread::spawn(move || {
+                let mut clipboard = arboard::Clipboard::new().unwrap();
                 let mut last_content = ClipboardContent::Text(String::new());
 
                 loop {
-                    let current_content = if let Ok(text) = clipboard.get_text() {
-                        ClipboardContent::Text(text)
-                    } else if let Ok(image) = clipboard.get_image() {
-                        let manager = clipboard_manager_clone.lock().unwrap();
-                        match manager.save_image(&image.bytes) {
-                            Ok(path) => ClipboardContent::Image(path),
-                            Err(_) => ClipboardContent::Unknown,
-                        }
-                    } else {
-                        ClipboardContent::Unknown
-                    };
+                    let current_content = utils::get_clipboard_content(&mut clipboard);
 
                     if current_content != last_content {
-                        clipboard_manager_clone.lock().unwrap()
+                        if let Err(e) = clipboard_manager_clone
+                            .lock()
+                            .unwrap()
                             .add_item(current_content.clone(), None)
-                            .expect("Failed to add item to clipboard history");
-
-                        app_handle.emit_all("clipboard-changed", &current_content).unwrap();
+                        {
+                            eprintln!("Failed to add item to clipboard history: {}", e);
+                        } else {
+                            app_handle
+                                .emit_all("clipboard-changed", &current_content)
+                                .unwrap();
+                        }
 
                         last_content = current_content;
                     }
-                    thread::sleep(Duration::from_millis(500));
+                    std::thread::sleep(std::time::Duration::from_millis(500));
                 }
             });
 
-            app.manage(AppState {
-                clipboard_manager,
-            });
+            app.manage(AppState { clipboard_manager });
             Ok(())
         })
-        .invoke_handler(tauri::generate_handler![get_clipboard_history, add_to_clipboard, search_clipboard])
-        .run(tauri::generate_context!())?;
-
-    Ok(())
+        .invoke_handler(tauri::generate_handler![
+            get_clipboard_history,
+            add_to_clipboard,
+            search_clipboard
+        ])
+        .run(tauri::generate_context!())
+        .expect("error while running tauri application");
 }
