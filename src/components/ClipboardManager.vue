@@ -1,8 +1,8 @@
 <template>
   <main
-    class="flex flex-col h-screen overflow-hidden bg-transparent text-gray-900"
+    class="flex flex-col h-screen overflow-hidden bg-gray-100 text-gray-900"
   >
-    <section class="flex-none border-b border-gray-100 sticky z-10 py-1.5">
+    <section class="flex-none border-b border-gray-200 sticky z-10 py-1.5">
       <IconSearch class="absolute left-4 top-0 bottom-0 m-auto" />
       <input
         v-model="searchQuery"
@@ -13,7 +13,7 @@
     </section>
 
     <section class="flex flex-1 overflow-y-auto">
-      <div class="w-1/2 px-2 py-2 overflow-y-auto" @scroll="handleScroll">
+      <div class="w-1/2 px-3 py-2 overflow-y-auto" @scroll="handleScroll">
         <ul>
           <li
             v-for="(item, index) in clipboardStore.filteredHistory"
@@ -45,19 +45,17 @@
         </ul>
       </div>
 
-      <div class="w-1/2 p-4 bg-gray-50">
-        <div v-if="activeItem" class="bg-white p-4 rounded shadow">
-          <h3 class="text-xl font-semibold mb-2">Selected Item</h3>
-          <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap">{{
-            activeItem.content.Text || activeItem.content.Image
-          }}</pre>
-          <div class="mt-4">
-            <button
-              @click="copyToClipboard(activeItem.content)"
-              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              Copy to Clipboard
-            </button>
+      <div class="w-1/2 px-3 py-4 bg-white">
+        <div v-if="activeItem" class="flex flex-col h-full">
+          <div class="flex-1 overflow-y-auto text-sm">
+            <pre class="rounded whitespace-pre-wrap">{{
+              activeItem.content.Text || activeItem.content.Image
+            }}</pre>
+          </div>
+          <div
+            class="flex-none flex items-center justify-center text-xs text-gray-400 py-2"
+          >
+            Copied at 当前时间
           </div>
         </div>
         <div v-else class="text-gray-500">
