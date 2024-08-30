@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Copyboards</h1>
-    <ClipboardHistory />
+    <ClipboardManager />
     <Settings />
   </div>
 </template>
 
 <script lang="ts" setup>
-import ClipboardHistory from './components/ClipboardHistory.vue';
+import ClipboardManager from './components/ClipboardManager.vue';
 import Settings from './components/Settings.vue';
 </script>

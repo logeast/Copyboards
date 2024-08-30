@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed } from "vue";
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen, UnlistenFn } from "@tauri-apps/api/event";
 
@@ -18,6 +18,7 @@ export const useClipboardStore = defineStore("clipboard", () => {
   const history = ref<ClipboardItem[]>([]);
   const searchQuery = ref("");
   const limit = ref(50);
+  const showImages = ref(true);
 
   const filteredHistory = computed(() => {
     if (!searchQuery.value) return history.value;
@@ -27,7 +28,7 @@ export const useClipboardStore = defineStore("clipboard", () => {
           searchQuery.value.toLowerCase()
         );
       }
-      return false; // Exclude image items from text search
+      return false;
     });
   });
 
@@ -46,17 +47,13 @@ export const useClipboardStore = defineStore("clipboard", () => {
     category?: string
   ) {
     try {
-      if (typeof content === "string") {
-        await invoke("add_to_clipboard", {
-          content: { Text: content },
-          category,
-        });
-      } else {
-        await invoke("add_to_clipboard", { content, category });
-      }
-      await fetchHistory(); // Refetch the history after adding a new item
+      await invoke("add_to_clipboard", {
+        content: typeof content === "string" ? { Text: content } : content,
+        category,
+      });
+      await fetchHistory();
     } catch (error) {
-      console.error("Failed to add item to clipboard:", error);
+      console.error("Failed to add to clipboard:", error);
     }
   }
 
@@ -76,30 +73,26 @@ export const useClipboardStore = defineStore("clipboard", () => {
   async function setupClipboardListener() {
     unlistenFn = await listen("clipboard-changed", (event: any) => {
       console.log("Clipboard content changed:", event.payload);
-      fetchHistory(); // 更新剪贴板历史
+      fetchHistory();
     });
   }
 
-  // 在组件挂载时设置监听器
-  onMounted(() => {
-    setupClipboardListener();
-  });
-
-  // 在组件卸载时移除监听器
-  onUnmounted(() => {
+  function cleanup() {
     if (unlistenFn) {
       unlistenFn();
     }
-  });
+  }
 
   return {
     history,
     searchQuery,
     limit,
+    showImages,
     filteredHistory,
     fetchHistory,
     addToClipboard,
     searchClipboard,
     setupClipboardListener,
+    cleanup,
   };
 });

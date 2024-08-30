@@ -8,19 +8,21 @@
         @input="searchClipboard"
         placeholder="Search snippets..."
         class="w-full p-2 mb-4 border rounded"
-      >
+      />
       <ul>
         <li
           v-for="(item, index) in clipboardStore.filteredHistory"
           :key="item.id"
-          @click="copyToClipboard(item.content)"
-          @mouseover="selectItem(item)"
+          @click="selectItem(item)"
+          @mouseover="hoverItem = item"
+          @mouseleave="hoverItem = null"
           @keydown.enter="copyToClipboard(item.content)"
           @keydown.arrow-up.prevent="navigateItems('up')"
           @keydown.arrow-down.prevent="navigateItems('down')"
           class="cursor-pointer hover:bg-gray-100 p-2 rounded"
           :class="{
-            'bg-blue-100': selectedItem === item
+            'bg-blue-100': selectedItem === item,
+            'bg-yellow-100': hoverItem === item,
           }"
           tabindex="0"
         >
@@ -36,7 +38,9 @@
     <div class="w-2/3 p-4 bg-gray-50">
       <div v-if="selectedItem" class="bg-white p-4 rounded shadow">
         <h3 class="text-xl font-semibold mb-2">Selected Item</h3>
-        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap">{{ selectedItem.content.Text || selectedItem.content.Image }}</pre>
+        <pre class="bg-gray-100 p-2 rounded whitespace-pre-wrap">{{
+          selectedItem.content.Text || selectedItem.content.Image
+        }}</pre>
         <div class="mt-4">
           <button
             @click="copyToClipboard(selectedItem.content)"
@@ -54,12 +58,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import { useClipboardStore, type ClipboardItem } from '../store/clipboard';
+import { ref, onMounted, onUnmounted } from "vue";
+import { useClipboardStore, type ClipboardItem } from "../store/clipboard";
 
 const clipboardStore = useClipboardStore();
 const selectedItem = ref<ClipboardItem | null>(null);
-const searchQuery = ref('');
+const hoverItem = ref<ClipboardItem | null>(null);
+const searchQuery = ref("");
 
 const selectItem = (item: ClipboardItem) => {
   selectedItem.value = item;
@@ -67,9 +72,11 @@ const selectItem = (item: ClipboardItem) => {
 
 const truncateContent = (content: any) => {
   if (content.Text) {
-    return content.Text.length > 30 ? content.Text.slice(0, 30) + '...' : content.Text;
+    return content.Text.length > 30
+      ? content.Text.slice(0, 30) + "..."
+      : content.Text;
   }
-  return content.Image ? '[Image]' : '[Unknown]';
+  return content.Image ? "[Image]" : "[Unknown]";
 };
 
 const copyToClipboard = async (content: any) => {
@@ -78,13 +85,11 @@ const copyToClipboard = async (content: any) => {
   } else if (content.Image) {
     await navigator.clipboard.writeText(content.Image);
   }
-  // Show a brief notification or toast message
-  alert('Copied to clipboard!');
 };
 
 const handleShortcut = (event: KeyboardEvent, index: number) => {
   const key = event.key;
-  if (key >= '1' && key <= '9') {
+  if (key >= "1" && key <= "9") {
     event.preventDefault();
     const item = clipboardStore.filteredHistory[index];
     if (item) {
@@ -99,26 +104,34 @@ const searchClipboard = () => {
   clipboardStore.searchClipboard();
 };
 
-const navigateItems = (direction: 'up' | 'down') => {
-  const currentIndex = clipboardStore.filteredHistory.findIndex(item => item === selectedItem.value);
+const navigateItems = (direction: "up" | "down") => {
+  const currentIndex = clipboardStore.filteredHistory.findIndex(
+    (item) => item === selectedItem.value
+  );
   let newIndex;
-  
-  if (direction === 'up') {
-    newIndex = currentIndex > 0 ? currentIndex - 1 : clipboardStore.filteredHistory.length - 1;
+
+  if (direction === "up") {
+    newIndex =
+      currentIndex > 0
+        ? currentIndex - 1
+        : clipboardStore.filteredHistory.length - 1;
   } else {
-    newIndex = currentIndex < clipboardStore.filteredHistory.length - 1 ? currentIndex + 1 : 0;
+    newIndex =
+      currentIndex < clipboardStore.filteredHistory.length - 1
+        ? currentIndex + 1
+        : 0;
   }
-  
+
   selectItem(clipboardStore.filteredHistory[newIndex]);
 };
 
 onMounted(async () => {
   await clipboardStore.fetchHistory();
-  window.addEventListener('keydown', handleGlobalShortcut);
+  window.addEventListener("keydown", handleGlobalShortcut);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleGlobalShortcut);
+  window.removeEventListener("keydown", handleGlobalShortcut);
 });
 
 const handleGlobalShortcut = (event: KeyboardEvent) => {
