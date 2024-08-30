@@ -1,16 +1,19 @@
 <template>
-  <main class="flex flex-col h-screen bg-transparent text-gray-900">
-    <section class="relative border-b border-gray-100">
+  <main
+    class="flex flex-col h-screen overflow-hidden bg-transparent text-gray-900"
+  >
+    <section class="flex-none border-b border-gray-100 sticky z-10 py-1.5">
       <IconSearch class="absolute left-4 top-0 bottom-0 m-auto" />
       <input
         v-model="searchQuery"
         @input="searchClipboard"
         placeholder="Copyboards Search"
-        class="w-full bg-transparent text-lg placeholder:text-gray-400 border h-12 pl-12 outline-none"
+        class="w-full bg-transparent text-lg placeholder:text-gray-400 h-9 pl-12 border-none outline-none"
       />
     </section>
-    <section class="flex">
-      <div class="w-1/2 px-2 py-2 overflow-y-auto">
+
+    <section class="flex flex-1 overflow-y-auto">
+      <div class="w-1/2 px-2 py-2 overflow-y-auto" @scroll="handleScroll">
         <ul>
           <li
             v-for="(item, index) in clipboardStore.filteredHistory"
@@ -73,6 +76,7 @@ import IconSearch from "./IconSearch.vue";
 const clipboardStore = useClipboardStore();
 const activeItem = ref<ClipboardItem | null>(null);
 const searchQuery = ref("");
+const currentScrollIndex = ref(0);
 
 const setActiveItem = (item: ClipboardItem) => {
   activeItem.value = item;
@@ -93,11 +97,13 @@ const copyToClipboard = async (content: any) => {
   }
 };
 
-const handleShortcut = (event: KeyboardEvent, index: number) => {
+const handleShortcut = (event: KeyboardEvent) => {
   const key = event.key;
   if (key >= "1" && key <= "9") {
     event.preventDefault();
-    const item = clipboardStore.filteredHistory[index];
+    const index = parseInt(key) - 1;
+    const item =
+      clipboardStore.filteredHistory[currentScrollIndex.value + index];
     if (item) {
       setActiveItem(item);
       copyToClipboard(item.content);
@@ -131,6 +137,13 @@ const navigateItems = (direction: "up" | "down") => {
   setActiveItem(clipboardStore.filteredHistory[newIndex]);
 };
 
+const handleScroll = (event: Event) => {
+  const element = event.target as HTMLElement;
+  const scrollTop = element.scrollTop;
+  const itemHeight = 36; // Assuming each item has a height of 36px
+  currentScrollIndex.value = Math.floor(scrollTop / itemHeight);
+};
+
 onMounted(async () => {
   await clipboardStore.fetchHistory();
   window.addEventListener("keydown", handleGlobalShortcut);
@@ -142,7 +155,7 @@ onUnmounted(() => {
 
 const handleGlobalShortcut = (event: KeyboardEvent) => {
   if (event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey) {
-    handleShortcut(event, parseInt(event.key) - 1);
+    handleShortcut(event);
   }
 };
 </script>
