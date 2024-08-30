@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>Copyboards</h1>
     <ClipboardManager />
     <Settings />
   </div>
