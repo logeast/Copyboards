@@ -144,6 +144,7 @@ const handleScroll = (event: Event) => {
 
 onMounted(async () => {
   await clipboardStore.fetchHistory();
+  await clipboardStore.setupClipboardListener();
   window.addEventListener("keydown", handleGlobalShortcut);
 });
 
