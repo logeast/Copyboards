@@ -58,6 +58,10 @@ fn main() {
                 .app_data_dir()
                 .expect("[✗]Failed to get app data dir");
             println!("[✦]App data directory: {:?}", app_dir);
+
+            let image_dir = app_dir.join("images");
+            std::fs::create_dir_all(&image_dir).expect("[✗]Failed to create images directory");
+
             let clipboard_manager = Arc::new(Mutex::new(
                 ClipboardManager::new(&app_dir).expect("[✗]Failed to initialize clipboard manager"),
             ));
@@ -70,7 +74,7 @@ fn main() {
                 let mut last_content = ClipboardContent::Text(String::new());
 
                 loop {
-                    let current_content = utils::get_clipboard_content(&mut clipboard);
+                    let current_content = utils::get_clipboard_content(&mut clipboard, &image_dir);
 
                     if current_content != last_content {
                         if let Err(e) = clipboard_manager_clone
