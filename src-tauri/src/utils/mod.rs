@@ -1,30 +1,41 @@
 use crate::content::ClipboardContent;
 use arboard::Clipboard;
 use image::{ImageBuffer, ImageOutputFormat, Rgba};
+use regex::Regex;
+use sha2::{Digest, Sha256};
 use std::fs::File;
 use std::io::BufWriter;
 use std::path::PathBuf;
 use uuid::Uuid;
 
-pub fn get_clipboard_content(clipboard: &mut Clipboard, image_dir: &PathBuf) -> ClipboardContent {
+pub fn get_clipboard_content(
+    clipboard: &mut Clipboard,
+    images_dir: &PathBuf,
+) -> (ClipboardContent, Vec<u8>) {
     if let Ok(text) = clipboard.get_text() {
-        ClipboardContent::Text(text)
+        if is_color(&text) {
+            (ClipboardContent::Color(text.clone()), text.into_bytes())
+        } else {
+            (ClipboardContent::Text(text.clone()), text.into_bytes())
+        }
     } else if let Ok(image) = clipboard.get_image() {
-        println!(
-            "Image data (first 10 bytes): {:?}",
-            &image.bytes[..10.min(image.bytes.len())]
-        );
-
-        match save_image(image_dir, &image) {
-            Ok(path) => ClipboardContent::Image(path),
+        let hash = calculate_image_hash(&image.bytes);
+        match save_image(images_dir, &image) {
+            Ok(path) => (ClipboardContent::Image(path), hash),
             Err(e) => {
                 eprintln!("Failed to save image: {}", e);
-                ClipboardContent::Unknown
+                (ClipboardContent::Unknown, hash)
             }
         }
     } else {
-        ClipboardContent::Unknown
+        (ClipboardContent::Unknown, Vec::new())
     }
+}
+
+fn calculate_image_hash(image_data: &[u8]) -> Vec<u8> {
+    let mut hasher = Sha256::new();
+    hasher.update(image_data);
+    hasher.finalize().to_vec()
 }
 
 fn save_image(image_dir: &PathBuf, image: &arboard::ImageData) -> std::io::Result<PathBuf> {
@@ -51,4 +62,12 @@ fn save_image(image_dir: &PathBuf, image: &arboard::ImageData) -> std::io::Resul
         .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
 
     Ok(file_path)
+}
+
+fn is_color(text: &str) -> bool {
+    let hex_color_regex = Regex::new(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$").unwrap();
+    let rgb_color_regex =
+        Regex::new(r"^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$").unwrap();
+
+    hex_color_regex.is_match(text) || rgb_color_regex.is_match(text)
 }

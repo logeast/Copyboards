@@ -11,5 +11,6 @@ use std::path::PathBuf;
 pub enum ClipboardContent {
     Text(String),
     Image(PathBuf),
+    Color(String),
     Unknown,
 }

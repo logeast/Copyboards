@@ -1,12 +1,10 @@
 use crate::content::ClipboardContent;
-use chrono::{DateTime, Utc};
-use serde::{Deserialize, Serialize};
+use serde::{Serialize, Deserialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ClipboardItem {
     pub id: i64,
-    pub content_id: i64,
     pub content: ClipboardContent,
-    pub timestamp: DateTime<Utc>,
     pub category: Option<String>,
+    pub created_at: String,
 }

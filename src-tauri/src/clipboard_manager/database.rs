@@ -1,8 +1,6 @@
-use super::models::ClipboardItem;
-use crate::content::{ClipboardContent, ClipboardImage};
-use chrono::{DateTime, Utc};
-use image::GenericImageView;
-use rusqlite::{params, Connection, Result as SqliteResult};
+use crate::clipboard_manager::models::ClipboardItem;
+use crate::content::ClipboardContent;
+use rusqlite::{params, Connection, Result};
 use std::path::PathBuf;
 
 pub struct Database {
@@ -10,67 +8,41 @@ pub struct Database {
 }
 
 impl Database {
-    pub fn new(db_path: PathBuf) -> Result<Self, rusqlite::Error> {
+    pub fn new(db_path: PathBuf) -> Result<Self, Box<dyn std::error::Error>> {
         let conn = Connection::open(db_path)?;
-        Self::init_tables(&conn)?;
-        Ok(Self { conn })
-    }
-
-    fn init_tables(conn: &Connection) -> SqliteResult<()> {
+        // Initialize database schema
         conn.execute(
-            "CREATE TABLE IF NOT EXISTS clipboard_history (
+            "CREATE TABLE IF NOT EXISTS clipboard_items (
                 id INTEGER PRIMARY KEY,
                 content_type TEXT NOT NULL,
-                content_id INTEGER NOT NULL,
-                timestamp TEXT NOT NULL,
-                category TEXT
+                content TEXT NOT NULL,
+                category TEXT,
+                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
             )",
             [],
         )?;
-
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS text_content (
-                id INTEGER PRIMARY KEY,
-                text TEXT NOT NULL
-            )",
-            [],
-        )?;
-
-        conn.execute(
-            "CREATE TABLE IF NOT EXISTS image_content (
-                id INTEGER PRIMARY KEY,
-                path TEXT NOT NULL,
-                size INTEGER NOT NULL,
-                dimensions TEXT NOT NULL
-            )",
-            [],
-        )?;
-
-        Ok(())
+        Ok(Self { conn })
     }
 
     pub fn add_item(
         &self,
         content: ClipboardContent,
         category: Option<&str>,
-        _image_dir: &PathBuf,
+        image_dir: &PathBuf,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let timestamp = Utc::now();
-        let (content_type, content_id) = match content {
-            ClipboardContent::Text(text) => {
-                let id = self.add_text_content(&text)?;
-                ("text", id)
-            }
+        let (content_type, content_value) = match content {
+            ClipboardContent::Text(text) => ("text", text),
             ClipboardContent::Image(path) => {
-                let id = self.add_image_content(&path)?;
-                ("image", id)
+                let relative_path = path.strip_prefix(image_dir)?.to_str().unwrap().to_string();
+                ("image", relative_path)
             }
-            ClipboardContent::Unknown => ("unknown", 0),
+            ClipboardContent::Color(color) => ("color", color),
+            ClipboardContent::Unknown => return Ok(()), // Skip unknown content
         };
 
         self.conn.execute(
-            "INSERT INTO clipboard_history (content_type, content_id, timestamp, category) VALUES (?1, ?2, ?3, ?4)",
-            params![content_type, content_id, timestamp.to_rfc3339(), category],
+            "INSERT INTO clipboard_items (content_type, content, category) VALUES (?, ?, ?)",
+            params![content_type, content_value, category],
         )?;
 
         Ok(())
@@ -81,28 +53,24 @@ impl Database {
         limit: i64,
     ) -> Result<Vec<ClipboardItem>, Box<dyn std::error::Error>> {
         let mut stmt = self.conn.prepare(
-            "SELECT id, content_type, content_id, timestamp, category FROM clipboard_history 
-             ORDER BY timestamp DESC LIMIT ?",
+            "SELECT id, content_type, content, category, created_at FROM clipboard_items 
+             ORDER BY created_at DESC LIMIT ?",
         )?;
         let items = stmt.query_map([limit], |row| {
-            let content_type: String = row.get(1)?;
-            let content_id: i64 = row.get(2)?;
-            let content = match content_type.as_str() {
-                "text" => ClipboardContent::Text(self.get_text_content(content_id)?),
-                "image" => ClipboardContent::Image(self.get_image_content(content_id)?.path),
-                _ => ClipboardContent::Unknown,
-            };
             Ok(ClipboardItem {
                 id: row.get(0)?,
-                content,
-                content_id,
-                timestamp: DateTime::parse_from_rfc3339(&row.get::<_, String>(3)?)
-                    .unwrap()
-                    .with_timezone(&Utc),
-                category: row.get(4)?,
+                content: match row.get::<_, String>(1)?.as_str() {
+                    "text" => ClipboardContent::Text(row.get(2)?),
+                    "image" => ClipboardContent::Image(PathBuf::from(row.get::<_, String>(2)?)),
+                    "color" => ClipboardContent::Color(row.get(2)?),
+                    _ => ClipboardContent::Unknown,
+                },
+                category: row.get(3)?,
+                created_at: row.get(4)?,
             })
         })?;
-        items.collect::<Result<Vec<_>, _>>().map_err(|e| e.into())
+
+        items.collect::<Result<Vec<_>, _>>().map_err(Into::into)
     }
 
     pub fn search(
@@ -111,73 +79,23 @@ impl Database {
         limit: i64,
     ) -> Result<Vec<ClipboardItem>, Box<dyn std::error::Error>> {
         let mut stmt = self.conn.prepare(
-            "SELECT id, content_type, content_id, timestamp, category FROM clipboard_history 
-             WHERE content_id IN (
-                 SELECT id FROM text_content WHERE text LIKE ?
-             ) ORDER BY timestamp DESC LIMIT ?",
+            "SELECT id, content_type, content, category, created_at FROM clipboard_items 
+             WHERE content LIKE ? ORDER BY created_at DESC LIMIT ?",
         )?;
         let items = stmt.query_map([format!("%{}%", query), limit.to_string()], |row| {
-            let content_type: String = row.get(1)?;
-            let content_id: i64 = row.get(2)?;
-            let content = match content_type.as_str() {
-                "text" => ClipboardContent::Text(self.get_text_content(content_id)?),
-                "image" => ClipboardContent::Image(self.get_image_content(content_id)?.path),
-                _ => ClipboardContent::Unknown,
-            };
             Ok(ClipboardItem {
                 id: row.get(0)?,
-                content,
-                content_id,
-                timestamp: DateTime::parse_from_rfc3339(&row.get::<_, String>(3)?)
-                    .unwrap()
-                    .with_timezone(&Utc),
-                category: row.get(4)?,
+                content: match row.get::<_, String>(1)?.as_str() {
+                    "text" => ClipboardContent::Text(row.get(2)?),
+                    "image" => ClipboardContent::Image(PathBuf::from(row.get::<_, String>(2)?)),
+                    "color" => ClipboardContent::Color(row.get(2)?),
+                    _ => ClipboardContent::Unknown,
+                },
+                category: row.get(3)?,
+                created_at: row.get(4)?,
             })
         })?;
-        items.collect::<Result<Vec<_>, _>>().map_err(|e| e.into())
-    }
 
-    fn add_text_content(&self, text: &str) -> SqliteResult<i64> {
-        self.conn
-            .execute("INSERT INTO text_content (text) VALUES (?1)", params![text])?;
-        Ok(self.conn.last_insert_rowid())
-    }
-
-    fn get_text_content(&self, id: i64) -> SqliteResult<String> {
-        self.conn.query_row(
-            "SELECT text FROM text_content WHERE id = ?1",
-            params![id],
-            |row| row.get(0),
-        )
-    }
-
-    fn add_image_content(&self, path: &PathBuf) -> Result<i64, Box<dyn std::error::Error>> {
-        let metadata = std::fs::metadata(path)?;
-        let size = metadata.len();
-        let img = image::open(path)?;
-        let dimensions = img.dimensions();
-        self.conn.execute(
-            "INSERT INTO image_content (path, size, dimensions) VALUES (?1, ?2, ?3)",
-            params![
-                path.to_string_lossy(),
-                size,
-                format!("{}x{}", dimensions.0, dimensions.1)
-            ],
-        )?;
-        Ok(self.conn.last_insert_rowid())
-    }
-
-    fn get_image_content(&self, id: i64) -> SqliteResult<ClipboardImage> {
-        self.conn.query_row(
-            "SELECT path, size, dimensions FROM image_content WHERE id = ?1",
-            params![id],
-            |row| {
-                Ok(ClipboardImage {
-                    path: PathBuf::from(row.get::<_, String>(0)?),
-                    size: row.get(1)?,
-                    dimensions: row.get(2)?,
-                })
-            },
-        )
+        items.collect::<Result<Vec<_>, _>>().map_err(Into::into)
     }
 }
