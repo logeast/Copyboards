@@ -2,13 +2,11 @@ use copyboards::clipboard_manager::{models::ClipboardItem, ClipboardManager};
 use copyboards::content::ClipboardContent;
 use copyboards::utils;
 
-use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use tauri::Manager;
 
 struct AppState {
     clipboard_manager: Arc<Mutex<ClipboardManager>>,
-    images_dir: PathBuf,
 }
 
 #[tauri::command]
@@ -71,21 +69,20 @@ fn main() {
 
             let app_handle = app.handle();
             let clipboard_manager_clone = Arc::clone(&clipboard_manager);
-            let images_dir_clone = images_dir.clone();
 
             std::thread::spawn(move || {
                 let mut clipboard = arboard::Clipboard::new().unwrap();
                 let mut last_content = None;
+                let mut last_hash = None;
 
                 loop {
-                    let (current_content, _) =
-                        utils::get_clipboard_content(&mut clipboard, &images_dir_clone);
+                    let (current_content, current_hash) =
+                        utils::get_clipboard_content(&mut clipboard, &images_dir);
 
                     let should_update = match (&last_content, &current_content) {
-                        (
-                            Some(ClipboardContent::Image(last_path)),
-                            ClipboardContent::Image(current_path),
-                        ) => last_path != current_path,
+                        (Some(ClipboardContent::Image(_)), ClipboardContent::Image(_)) => {
+                            last_hash.as_ref() != Some(&current_hash)
+                        }
                         (
                             Some(ClipboardContent::Text(last_text)),
                             ClipboardContent::Text(current_text),
@@ -111,15 +108,13 @@ fn main() {
                         }
 
                         last_content = Some(current_content);
+                        last_hash = Some(current_hash);
                     }
                     std::thread::sleep(std::time::Duration::from_millis(500));
                 }
             });
 
-            app.manage(AppState {
-                clipboard_manager,
-                images_dir,
-            });
+            app.manage(AppState { clipboard_manager });
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
