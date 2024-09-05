@@ -1,7 +1,9 @@
+mod color;
+
 use crate::content::ClipboardContent;
+use crate::utils::color::is_color;
 use arboard::Clipboard;
 use image::{ImageBuffer, ImageOutputFormat, Rgba};
-use regex::Regex;
 use sha2::{Digest, Sha256};
 use std::fs::File;
 use std::io::BufWriter;
@@ -62,12 +64,4 @@ fn save_image(image_dir: &PathBuf, image: &arboard::ImageData) -> std::io::Resul
         .map_err(|e| std::io::Error::new(std::io::ErrorKind::Other, e))?;
 
     Ok(file_path)
-}
-
-fn is_color(text: &str) -> bool {
-    let hex_color_regex = Regex::new(r"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$").unwrap();
-    let rgb_color_regex =
-        Regex::new(r"^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$").unwrap();
-
-    hex_color_regex.is_match(text) || rgb_color_regex.is_match(text)
 }
