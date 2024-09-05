@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use super::Database;
 use crate::clipboard_manager::models::ClipboardItem;
 use crate::content::{ClipboardColor, ClipboardContent, ClipboardImage, ClipboardText};
@@ -9,6 +11,7 @@ impl Database {
         content: ClipboardContent,
         category: Option<&str>,
         source: Option<&str>,
+        image_dir: &PathBuf,
     ) -> Result<(), Box<dyn std::error::Error>> {
         let tx = self.conn.transaction()?;
 

@@ -34,8 +34,13 @@ pub fn start_clipboard_watcher(
 
             if should_update {
                 let content_to_add = if let ClipboardContent::Image(image) = &current_content {
+                    let arboard_image = arboard::ImageData {
+                        width: image.width as usize,
+                        height: image.height as usize,
+                        bytes: image.hash.clone().into(),
+                    };
                     // Save the image and update the path
-                    match utils::save_image(&images_dir, &image.hash, &clipboard) {
+                    match utils::save_image(&images_dir, &arboard_image) {
                         Ok(path) => ClipboardContent::Image(ClipboardImage {
                             path,
                             hash: image.hash.clone(),

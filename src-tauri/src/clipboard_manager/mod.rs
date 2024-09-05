@@ -25,7 +25,7 @@ impl ClipboardManager {
         category: Option<&str>,
         source: Option<&str>,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        self.db.add_item(content, category, source)
+        self.db.add_item(content, category, source, &self.image_dir)
     }
 
     pub fn get_history(

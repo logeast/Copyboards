@@ -1,6 +1,9 @@
 mod app_state;
+mod clipboard_manager;
 mod clipboard_watcher;
 mod commands;
+mod content;
+mod utils;
 
 use app_state::AppState;
 use clipboard_watcher::start_clipboard_watcher;
