@@ -5,6 +5,7 @@ use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
 use tauri::{AppHandle, Manager};
 
+// Determine if the clipboard content needs to be updated
 fn should_update_content(
     last_content: &Option<ClipboardContent>,
     current_content: &ClipboardContent,
@@ -23,6 +24,7 @@ fn should_update_content(
     }
 }
 
+// Process image content, save the image and update clipboard content
 fn process_image_content(content: &ClipboardContent, images_dir: &PathBuf) -> ClipboardContent {
     if let ClipboardContent::Image(image) = content {
         if let Some(data) = &image.data {
@@ -51,6 +53,7 @@ fn process_image_content(content: &ClipboardContent, images_dir: &PathBuf) -> Cl
     }
 }
 
+// Update clipboard history
 fn update_clipboard_history(
     clipboard_manager: &Arc<Mutex<ClipboardManager>>,
     app_handle: &AppHandle,
@@ -67,6 +70,7 @@ fn update_clipboard_history(
     }
 }
 
+// Start the clipboard watcher
 pub fn start_clipboard_watcher(
     clipboard_manager: Arc<Mutex<ClipboardManager>>,
     images_dir: PathBuf,
