@@ -8,4 +8,5 @@ pub struct ClipboardImage {
     pub size: u64,
     pub width: u32,
     pub height: u32,
+    pub data: Option<Vec<u8>>,
 }

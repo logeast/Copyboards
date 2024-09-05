@@ -11,7 +11,7 @@ impl Database {
         content: ClipboardContent,
         category: Option<&str>,
         source: Option<&str>,
-        image_dir: &PathBuf,
+        _image_dir: &PathBuf,
     ) -> Result<(), Box<dyn std::error::Error>> {
         let tx = self.conn.transaction()?;
 
@@ -71,6 +71,7 @@ impl Database {
                     size: row.get(8)?,
                     width: row.get(9)?,
                     height: row.get(10)?,
+                    data: None,
                 }),
                 "text" => ClipboardContent::Text(ClipboardText {
                     text: row.get(11)?,
@@ -125,6 +126,7 @@ impl Database {
                         size: row.get(8)?,
                         width: row.get(9)?,
                         height: row.get(10)?,
+                        data: None,
                     }),
                     "text" => ClipboardContent::Text(ClipboardText {
                         text: row.get(11)?,

@@ -21,6 +21,7 @@ pub fn get_clipboard_content(clipboard: &mut Clipboard) -> ClipboardContent {
             size: image.bytes.len() as u64,
             width: image.width as u32,
             height: image.height as u32,
+            data: Some(image.bytes.to_vec()),
         })
     } else {
         ClipboardContent::Unknown

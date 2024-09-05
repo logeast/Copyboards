@@ -1,5 +1,5 @@
 use crate::clipboard_manager::ClipboardManager;
-use crate::content::{ClipboardContent, ClipboardImage};
+use crate::content::ClipboardContent;
 use crate::utils;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -34,24 +34,27 @@ pub fn start_clipboard_watcher(
 
             if should_update {
                 let content_to_add = if let ClipboardContent::Image(image) = &current_content {
-                    let arboard_image = arboard::ImageData {
-                        width: image.width as usize,
-                        height: image.height as usize,
-                        bytes: image.hash.clone().into(),
-                    };
-                    // Save the image and update the path
-                    match utils::save_image(&images_dir, &arboard_image) {
-                        Ok(path) => ClipboardContent::Image(ClipboardImage {
-                            path,
-                            hash: image.hash.clone(),
-                            size: image.size,
-                            width: image.width,
-                            height: image.height,
-                        }),
-                        Err(e) => {
-                            eprintln!("Failed to save image: {}", e);
-                            current_content.clone()
+                    if let Some(data) = &image.data {
+                        let arboard_image = arboard::ImageData {
+                            width: image.width as usize,
+                            height: image.height as usize,
+                            bytes: std::borrow::Cow::Owned(data.clone()),
+                        };
+                        // Save the image and update the path
+                        match utils::save_image(&images_dir, &arboard_image) {
+                            Ok(path) => {
+                                let mut new_image = image.clone();
+                                new_image.path = path;
+                                new_image.data = None;
+                                ClipboardContent::Image(new_image)
+                            }
+                            Err(e) => {
+                                eprintln!("Failed to save image: {}", e);
+                                current_content.clone()
+                            }
                         }
+                    } else {
+                        current_content.clone()
                     }
                 } else {
                     current_content.clone()

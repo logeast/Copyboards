@@ -23,7 +23,12 @@ pub fn save_image(image_dir: &PathBuf, image: &arboard::ImageData) -> std::io::R
     .ok_or_else(|| {
         std::io::Error::new(
             std::io::ErrorKind::InvalidData,
-            "Failed to create image buffer",
+            format!(
+                "Failed to create image buffer. Width: {}, Height: {}, Bytes length: {}",
+                image.width,
+                image.height,
+                image.bytes.len()
+            ),
         )
     })?;
 
