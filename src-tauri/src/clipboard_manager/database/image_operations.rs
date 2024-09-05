@@ -4,7 +4,6 @@ use rusqlite::{params, Result, Transaction};
 
 impl Database {
     pub(super) fn add_image(
-        &self,
         tx: &Transaction,
         item_id: i64,
         image: &ClipboardImage,

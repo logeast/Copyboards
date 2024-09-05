@@ -3,7 +3,7 @@ use crate::content::{ClipboardContent, ClipboardImage};
 use crate::utils;
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
-use tauri::AppHandle;
+use tauri::{AppHandle, Manager};
 
 pub fn start_clipboard_watcher(
     clipboard_manager: Arc<Mutex<ClipboardManager>>,

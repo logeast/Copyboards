@@ -28,13 +28,13 @@ impl Database {
 
         match content {
             ClipboardContent::Color(color) => {
-                self.add_color(&tx, item_id, &color)?;
+                Self::add_color(&tx, item_id, &color)?;
             }
             ClipboardContent::Image(image) => {
-                self.add_image(&tx, item_id, &image)?;
+                Self::add_image(&tx, item_id, &image)?;
             }
             ClipboardContent::Text(text) => {
-                self.add_text(&tx, item_id, &text)?;
+                Self::add_text(&tx, item_id, &text)?;
             }
             ClipboardContent::Unknown => {}
         }
