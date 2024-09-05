@@ -1,16 +1,17 @@
-mod text;
+mod color;
 mod image;
+mod text;
 
-pub use text::ClipboardText;
+pub use color::ClipboardColor;
 pub use image::ClipboardImage;
+pub use text::ClipboardText;
 
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq)]
 pub enum ClipboardContent {
-    Text(String),
-    Image(PathBuf),
-    Color(String),
+    Color(ClipboardColor),
+    Image(ClipboardImage),
+    Text(ClipboardText),
     Unknown,
 }

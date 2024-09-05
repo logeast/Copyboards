@@ -1,54 +1,13 @@
-use copyboards::clipboard_manager::{models::ClipboardItem, ClipboardManager};
-use copyboards::content::ClipboardContent;
-use copyboards::utils;
+mod app_state;
+mod clipboard_watcher;
+mod commands;
 
+use app_state::AppState;
+use clipboard_watcher::start_clipboard_watcher;
+use commands::{add_to_clipboard, get_clipboard_history, search_clipboard};
+use crate::clipboard_manager::ClipboardManager;
 use std::sync::{Arc, Mutex};
 use tauri::Manager;
-
-struct AppState {
-    clipboard_manager: Arc<Mutex<ClipboardManager>>,
-}
-
-#[tauri::command]
-fn get_clipboard_history(
-    state: tauri::State<AppState>,
-    limit: i64,
-) -> Result<Vec<ClipboardItem>, String> {
-    state
-        .clipboard_manager
-        .lock()
-        .unwrap()
-        .get_history(limit)
-        .map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-fn add_to_clipboard(
-    state: tauri::State<AppState>,
-    content: ClipboardContent,
-    category: Option<String>,
-) -> Result<(), String> {
-    state
-        .clipboard_manager
-        .lock()
-        .unwrap()
-        .add_item(content, category.as_deref())
-        .map_err(|e| e.to_string())
-}
-
-#[tauri::command]
-fn search_clipboard(
-    state: tauri::State<AppState>,
-    query: String,
-    limit: i64,
-) -> Result<Vec<ClipboardItem>, String> {
-    state
-        .clipboard_manager
-        .lock()
-        .unwrap()
-        .search(&query, limit)
-        .map_err(|e| e.to_string())
-}
 
 fn main() {
     tauri::Builder::default()
@@ -68,51 +27,7 @@ fn main() {
             ));
 
             let app_handle = app.handle();
-            let clipboard_manager_clone = Arc::clone(&clipboard_manager);
-
-            std::thread::spawn(move || {
-                let mut clipboard = arboard::Clipboard::new().unwrap();
-                let mut last_content = None;
-                let mut last_hash = None;
-
-                loop {
-                    let (current_content, current_hash) =
-                        utils::get_clipboard_content(&mut clipboard, &images_dir);
-
-                    let should_update = match (&last_content, &current_content) {
-                        (Some(ClipboardContent::Image(_)), ClipboardContent::Image(_)) => {
-                            last_hash.as_ref() != Some(&current_hash)
-                        }
-                        (
-                            Some(ClipboardContent::Text(last_text)),
-                            ClipboardContent::Text(current_text),
-                        ) => last_text != current_text,
-                        (
-                            Some(ClipboardContent::Color(last_color)),
-                            ClipboardContent::Color(current_color),
-                        ) => last_color != current_color,
-                        _ => true,
-                    };
-
-                    if should_update {
-                        if let Err(e) = clipboard_manager_clone
-                            .lock()
-                            .unwrap()
-                            .add_item(current_content.clone(), None)
-                        {
-                            eprintln!("Failed to add item to clipboard history: {}", e);
-                        } else {
-                            app_handle
-                                .emit_all("clipboard-changed", &current_content)
-                                .unwrap();
-                        }
-
-                        last_content = Some(current_content);
-                        last_hash = Some(current_hash);
-                    }
-                    std::thread::sleep(std::time::Duration::from_millis(500));
-                }
-            });
+            start_clipboard_watcher(Arc::clone(&clipboard_manager), images_dir, app_handle);
 
             app.manage(AppState { clipboard_manager });
             Ok(())
@@ -123,5 +38,5 @@ fn main() {
             search_clipboard
         ])
         .run(tauri::generate_context!())
-        .expect("[✗]error while running tauri application");
+        .expect("[✗]Error while running tauri application");
 }
