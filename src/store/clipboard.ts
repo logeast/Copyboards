@@ -6,12 +6,24 @@ import { listen, UnlistenFn } from "@tauri-apps/api/event";
 export interface ClipboardItem {
   id: number;
   content: {
-    Text?: string;
-    Image?: string;
-    Unknown?: null;
+    Color?: { color: string };
+    Image?: {
+      data: null;
+      hash: number[];
+      height: number;
+      path: string;
+      size: number;
+      width: number;
+    };
+    Text?: {
+      text: string;
+      word_count: number;
+      character_count: number;
+    };
   };
-  timestamp: string;
   category?: string;
+  source: string | null;
+  created_at: string;
 }
 
 export const useClipboardStore = defineStore("clipboard", () => {
@@ -24,9 +36,9 @@ export const useClipboardStore = defineStore("clipboard", () => {
     if (!searchQuery.value) return history.value;
     return history.value.filter((item) => {
       if (item.content.Text) {
-        return item.content.Text.toLowerCase().includes(
-          searchQuery.value.toLowerCase()
-        );
+        return item.content.Text.text
+          .toLowerCase()
+          .includes(searchQuery.value.toLowerCase());
       }
       return false;
     });
@@ -48,7 +60,16 @@ export const useClipboardStore = defineStore("clipboard", () => {
   ) {
     try {
       await invoke("add_to_clipboard", {
-        content: typeof content === "string" ? { Text: content } : content,
+        content:
+          typeof content === "string"
+            ? {
+                Text: {
+                  text: content,
+                  word_count: content.split(/\s+/).length,
+                  character_count: content.length,
+                },
+              }
+            : content,
         category,
       });
       await fetchHistory();
