@@ -53,9 +53,9 @@
         </ul>
       </div>
 
-      <div class="w-1/2 px-3 py-4 bg-white">
+      <div class="w-1/2 py-4 bg-white">
         <div v-if="activeItem" class="flex flex-col h-full">
-          <div class="flex-1 overflow-y-auto text-sm">
+          <div class="px-3 flex-1 overflow-y-auto text-sm">
             <pre
               v-if="activeItem.content.Text"
               class="rounded whitespace-pre-wrap"
@@ -67,12 +67,15 @@
               :src="activeItem.content.Image.path"
               class="w-[120px] h-[120px]"
             />
-            <div v-else-if="activeItem.content.Color" class="flex items-center">
+            <div
+              v-else-if="activeItem.content.Color"
+              class="flex flex-col gap-1"
+            >
+              <span>{{ activeItem.content.Color.color }}</span>
               <div
-                class="w-16 h-16 rounded-md mr-2"
+                class="w-full aspect-square rounded-md mr-2"
                 :style="{ backgroundColor: activeItem.content.Color.color }"
               ></div>
-              <span>{{ activeItem.content.Color.color }}</span>
             </div>
             <pre v-else class="rounded whitespace-pre-wrap">{{
               JSON.stringify(activeItem.content, null, 2)
@@ -90,7 +93,7 @@
             </span>
           </div>
         </div>
-        <div v-else class="text-gray-500">
+        <div v-else class="px-3 text-gray-500">
           Select an item from the list to view details
         </div>
       </div>
@@ -127,13 +130,28 @@ const getContentPreview = (content: any) => {
 };
 
 const copyToClipboard = async (content: any) => {
-  if (content.Text) {
-    await navigator.clipboard.writeText(content.Text);
-  } else if (content.Image) {
-    await navigator.clipboard.writeText(content.Image);
+  try {
+    if (content.Text) {
+      await navigator.clipboard.writeText(content.Text.text);
+    } else if (content.Image) {
+      const response = await fetch(content.Image.path);
+      const blob = await response.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+    } else if (content.Color) {
+      await navigator.clipboard.writeText(content.Color.color);
+    } else {
+      console.warn("Unsupported content type:", content);
+      return;
+    }
+    console.log("Content copied to clipboard");
+  } catch (error) {
+    console.error("Failed to copy content:", error);
   }
 };
-
 const formatTimestamp = (timestamp: string) => {
   const now = new Date();
   const copiedTime = new Date(timestamp);
