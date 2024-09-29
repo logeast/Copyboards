@@ -29,8 +29,16 @@
             }"
             tabindex="0"
           >
-            <div class="text-ellipsis overflow-hidden whitespace-nowrap">
-              {{ truncateContent(item.content) }}
+            <div
+              class="flex items-center gap-2 text-ellipsis overflow-hidden whitespace-nowrap"
+            >
+              <span v-if="item.content.Text">📄</span>
+              <span v-else-if="item.content.Image">🖼️</span>
+              <span v-else-if="item.content.Color">🎨</span>
+              <span v-else>❓</span>
+              <div class="text-ellipsis overflow-hidden whitespace-nowrap">
+                {{ getContentPreview(item.content) }}
+              </div>
             </div>
             <span
               class="text-indigo-500"
@@ -45,20 +53,47 @@
         </ul>
       </div>
 
-      <div class="w-1/2 px-3 py-4 bg-white">
+      <div class="w-1/2 py-4 bg-white">
         <div v-if="activeItem" class="flex flex-col h-full">
-          <div class="flex-1 overflow-y-auto text-sm">
+          <div class="px-3 flex-1 overflow-y-auto text-sm">
+            <pre
+              v-if="activeItem.content.Text"
+              class="rounded whitespace-pre-wrap"
+            >
+              {{ activeItem.content.Text.text }}
+            </pre>
+            <img
+              v-else-if="activeItem.content.Image"
+              :src="activeItem.content.Image.path"
+              class="w-[120px] h-[120px]"
+            />
+            <div
+              v-else-if="activeItem.content.Color"
+              class="flex flex-col gap-1"
+            >
+              <span>{{ activeItem.content.Color.color }}</span>
+              <div
+                class="w-full aspect-square rounded-md mr-2"
+                :style="{ backgroundColor: activeItem.content.Color.color }"
+              ></div>
+            </div>
+            <pre v-else class="rounded whitespace-pre-wrap">{{
+              JSON.stringify(activeItem.content, null, 2)
+            }}</pre>
             <pre class="rounded whitespace-pre-wrap">{{
-              activeItem.content.Text || activeItem.content.Image
+              JSON.stringify(activeItem.content, null, 2)
             }}</pre>
           </div>
           <div
             class="flex-none flex items-center justify-center text-xs text-gray-400 py-2"
           >
-            Copied at 当前时间
+            <span>Copied at {{ formatTimestamp(activeItem.created_at) }}</span>
+            <span v-if="activeItem.category">
+              Category: {{ activeItem.category }}
+            </span>
           </div>
         </div>
-        <div v-else class="text-gray-500">
+        <div v-else class="px-3 text-gray-500">
           Select an item from the list to view details
         </div>
       </div>
@@ -70,6 +105,7 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useClipboardStore, type ClipboardItem } from "../store/clipboard";
 import IconSearch from "./IconSearch.vue";
+import { formatDistanceToNow } from "date-fns";
 
 const clipboardStore = useClipboardStore();
 const activeItem = ref<ClipboardItem | null>(null);
@@ -80,18 +116,59 @@ const setActiveItem = (item: ClipboardItem) => {
   activeItem.value = item;
 };
 
-const truncateContent = (content: any) => {
+const getContentPreview = (content: any) => {
   if (content.Text) {
-    return content.Text;
+    return content.Text.text;
   }
-  return content.Image ? "[Image]" : "[Unknown]";
+  if (content.Image) {
+    return "[Image]";
+  }
+  if (content.Color) {
+    return content.Color.color;
+  }
+  return "[Unknown]";
 };
 
 const copyToClipboard = async (content: any) => {
-  if (content.Text) {
-    await navigator.clipboard.writeText(content.Text);
-  } else if (content.Image) {
-    await navigator.clipboard.writeText(content.Image);
+  try {
+    if (content.Text) {
+      await navigator.clipboard.writeText(content.Text.text);
+    } else if (content.Image) {
+      const response = await fetch(content.Image.path);
+      const blob = await response.blob();
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ]);
+    } else if (content.Color) {
+      await navigator.clipboard.writeText(content.Color.color);
+    } else {
+      console.warn("Unsupported content type:", content);
+      return;
+    }
+    console.log("Content copied to clipboard");
+  } catch (error) {
+    console.error("Failed to copy content:", error);
+  }
+};
+const formatTimestamp = (timestamp: string) => {
+  const now = new Date();
+  const copiedTime = new Date(timestamp);
+  const diffInSeconds = Math.floor(
+    (now.getTime() - copiedTime.getTime()) / 1000
+  );
+
+  if (diffInSeconds < 60) {
+    return "just now";
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  } else {
+    return formatDistanceToNow(copiedTime, { addSuffix: true });
   }
 };
 
@@ -146,6 +223,8 @@ onMounted(async () => {
   await clipboardStore.fetchHistory();
   await clipboardStore.setupClipboardListener();
   window.addEventListener("keydown", handleGlobalShortcut);
+
+  console.log("filteredHistory", clipboardStore.filteredHistory);
 });
 
 onUnmounted(() => {
