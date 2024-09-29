@@ -27,7 +27,7 @@ impl Database {
                 content_type TEXT NOT NULL,
                 category TEXT,
                 source TEXT,
-                created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                created_at TEXT NOT NULL
             )",
             [],
         )?;

@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use chrono::Utc;
 
 use super::Database;
 use crate::clipboard_manager::models::ClipboardItem;
@@ -22,9 +23,11 @@ impl Database {
             ClipboardContent::Unknown => return Ok(()),
         };
 
+        let created_at = Utc::now().to_rfc3339();
+
         tx.execute(
-            "INSERT INTO clipboard_items (content_type, category, source) VALUES (?, ?, ?)",
-            params![content_type, category, source],
+            "INSERT INTO clipboard_items (content_type, category, source, created_at) VALUES (?, ?, ?, ?)",
+            params![content_type, category, source, created_at],
         )?;
 
         let item_id = tx.last_insert_rowid();

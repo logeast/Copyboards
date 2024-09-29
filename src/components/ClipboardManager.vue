@@ -87,7 +87,7 @@
           <div
             class="flex-none flex items-center justify-center text-xs text-gray-400 py-2"
           >
-            <span>Copied at {{ formatTimestamp(activeItem.created_at) }}</span>
+            <span>Copied at {{ dayjs(activeItem.created_at).fromNow() }}</span>
             <span v-if="activeItem.category">
               Category: {{ activeItem.category }}
             </span>
@@ -105,7 +105,10 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { useClipboardStore, type ClipboardItem } from "../store/clipboard";
 import IconSearch from "./IconSearch.vue";
-import { formatDistanceToNow } from "date-fns";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 const clipboardStore = useClipboardStore();
 const activeItem = ref<ClipboardItem | null>(null);
@@ -118,7 +121,7 @@ const setActiveItem = (item: ClipboardItem) => {
 
 const getContentPreview = (content: any) => {
   if (content.Text) {
-    return content.Text.text;
+    return content.Text.text.trim();
   }
   if (content.Image) {
     return "[Image]";
@@ -150,25 +153,6 @@ const copyToClipboard = async (content: any) => {
     console.log("Content copied to clipboard");
   } catch (error) {
     console.error("Failed to copy content:", error);
-  }
-};
-const formatTimestamp = (timestamp: string) => {
-  const now = new Date();
-  const copiedTime = new Date(timestamp);
-  const diffInSeconds = Math.floor(
-    (now.getTime() - copiedTime.getTime()) / 1000
-  );
-
-  if (diffInSeconds < 60) {
-    return "just now";
-  } else if (diffInSeconds < 3600) {
-    const minutes = Math.floor(diffInSeconds / 60);
-    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-  } else if (diffInSeconds < 86400) {
-    const hours = Math.floor(diffInSeconds / 3600);
-    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  } else {
-    return formatDistanceToNow(copiedTime, { addSuffix: true });
   }
 };
 

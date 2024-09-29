@@ -16,9 +16,9 @@ With Copyboards, you don't worry about text, images and file links you've copied
 
 Download the official installer for your operating system:
 
-- macOS
-- macOS (Apple silicon)
-- Windows
+- [macOS](https://github.com/logeast/Copyboards/releases)
+- [macOS (Apple silicon)](https://github.com/logeast/Copyboards/releases)
+- [Windows](https://github.com/logeast/Copyboards/releases)
 
 If you are a designer and interested in the Copyboards' desgin assets. You can find it from [this figma file](https://www.figma.com/file/FQ91Yef5UzSedNVS2rYjQ0/%F0%9F%8C%88-Copyboards---A-Searchable-Clipboard-History-for-Copy-and-Paste?node-id=247%3A4751).
 
