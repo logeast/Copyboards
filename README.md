@@ -1,16 +1,49 @@
-# Tauri + Vue + TypeScript
+# Copyboards
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/logeast/Copyboards)
+![GitHub top language](https://img.shields.io/github/languages/top/logeast/Copyboards)
+![GitHub](https://img.shields.io/github/license/logeast/Copyboards)
 
-## Recommended IDE Setup
+![Copyboards Logo](./app-icon.png)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+Copyboards is a searchable clipboard history application for copy and paste. It is written in [Tauri](https://tauri.studio/), [Vue.js 3](https://vuejs.org/) and [tailwindcss](https://tailwindcss.com/).
 
-## Type Support For `.vue` Imports in TS
+With Copyboards, you don't worry about text, images and file links you've copied but forget to paste earlier. It's all there in your searchable history.
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+![Copyboards Sample](./public/copyboards-sample.png)
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## Where can I get it
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+Download the official installer for your operating system:
+
+- macOS
+- macOS (Apple silicon)
+- Windows
+
+If you are a designer and interested in the Copyboards' desgin assets. You can find it from [this figma file](https://www.figma.com/file/FQ91Yef5UzSedNVS2rYjQ0/%F0%9F%8C%88-Copyboards---A-Searchable-Clipboard-History-for-Copy-and-Paste?node-id=247%3A4751).
+
+## What's Next
+
+You can check our [Copyboards TODO](https://github.com/users/logeast/projects/3/views/1) project page to know what's on the plan.
+
+You can alse check [milestones](https://github.com/logeast/copyboards/milestones) to know what's being worked on.
+
+## Community
+
+Welcome to join our [Discussions](https://github.com/logeast/Copyboards/discussions).
+
+## Contributing
+
+Follow our contribution guide to learn how to contribute to Copyboards.
+
+## Sponsors
+
+If you like this project, please consider fund me to help the maintenance.
+
+## License
+
+[MIT License](./LICENSE) Copyright (c) 2022 [Logeast](https://github.com/logeast). All rights reserved.
+
+## Trademark
+
+"Copyboards" and the Copyboards logo are trademarks. See the [TRADEMARK.md](TRADEMARK.md) file for details.
