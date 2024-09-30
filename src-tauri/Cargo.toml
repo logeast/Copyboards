@@ -1,8 +1,8 @@
 [package]
 name = "copyboards"
-version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+version = "0.1.1"
+description = "A Searchable Clipboard History Application for Copy and Paste."
+authors = ["Logeast"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
