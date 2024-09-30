@@ -208,6 +208,10 @@ onMounted(async () => {
   await clipboardStore.setupClipboardListener();
   window.addEventListener("keydown", handleGlobalShortcut);
 
+  if (clipboardStore.filteredHistory.length > 0) {
+    setActiveItem(clipboardStore.filteredHistory[0]);
+  }
+
   console.log("filteredHistory", clipboardStore.filteredHistory);
 });
 
