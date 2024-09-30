@@ -80,17 +80,15 @@
             <pre v-else class="rounded whitespace-pre-wrap">{{
               JSON.stringify(activeItem.content, null, 2)
             }}</pre>
-            <pre class="rounded whitespace-pre-wrap">{{
-              JSON.stringify(activeItem.content, null, 2)
-            }}</pre>
           </div>
           <div
-            class="flex-none flex items-center justify-center text-xs text-gray-400 py-2"
+            class="flex-none flex flex-col gap-1 items-center justify-center text-xs text-gray-400 pt-2"
           >
-            <span>Copied at {{ dayjs(activeItem.created_at).fromNow() }}</span>
-            <span v-if="activeItem.category">
-              Category: {{ activeItem.category }}
+            <span v-if="activeItem.content.Text">
+              {{ activeItem.content.Text.word_count }} words;
+              {{ activeItem.content.Text.character_count }} characters
             </span>
+            <span>Copied at {{ dayjs(activeItem.created_at).fromNow() }}</span>
           </div>
         </div>
         <div v-else class="px-3 text-gray-500">
