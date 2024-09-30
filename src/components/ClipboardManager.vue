@@ -59,9 +59,8 @@
             <pre
               v-if="activeItem.content.Text"
               class="rounded whitespace-pre-wrap"
+              >{{ activeItem.content.Text.text }}</pre
             >
-              {{ activeItem.content.Text.text }}
-            </pre>
             <img
               v-else-if="activeItem.content.Image"
               :src="activeItem.content.Image.path"
