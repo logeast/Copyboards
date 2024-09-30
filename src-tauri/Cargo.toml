@@ -1,6 +1,6 @@
 [package]
 name = "copyboards"
-version = "0.1.1"
+version = "0.1.2"
 description = "A Searchable Clipboard History Application for Copy and Paste."
 authors = ["Logeast"]
 edition = "2021"
